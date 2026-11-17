@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Rede de Prato — Meu impacto</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAEFD9}
+a{color:#1A3A2A}a:hover{color:#2F6B2B}
+button,select{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #1A3A2A;outline-offset:3px;box-shadow:0 0 0 3px #FFF8EA}
+.skip{position:absolute;left:-9999px;top:12px;z-index:50;background:#FFF8EA;color:#1A3A2A;padding:12px 20px;border-radius:999px;font-weight:700;text-decoration:none}
+.skip:focus{left:16px}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 22px;border-radius:999px;font-family:Archivo,Arial,sans-serif;font-weight:900;font-size:15px;letter-spacing:.03em;text-transform:uppercase}
+.navl{color:#FAEFD9;text-decoration:none;font-weight:700;font-size:15px;padding:0 14px;min-height:44px;display:inline-flex;align-items:center;border-radius:999px}
+.stat{background:#FFF8EA;border:3px solid #1A3A2A;border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-family:Archivo,Arial,sans-serif;font-weight:900;font-size:34px;line-height:1}
+.bars{display:flex;align-items:flex-end;gap:12px;height:200px;border-bottom:3px solid #1A3A2A;padding:0 4px}
+.bar{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+</style>
+</helmet>
+<div style="font-family: 'Atkinson Hyperlegible', Arial, sans-serif; color: #1A3A2A; background: #FAEFD9; font-size: 17px; line-height: 1.5; min-height: 100vh">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header style="background: #1A3A2A; color: #FAEFD9">
+<div style="max-width: 1200px; margin: 0 auto; padding: 10px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FAEFD9; min-height: 44px">
+<img src="assets/logo_light.png" alt="" style="height: 36px; width: auto">
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 18px">REDE DE PRATO</span>
+</a>
+<nav aria-label="Menu do parceiro" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px">
+<a class="navl" href="RegistrarLote.dc.html">Registrar sobra</a>
+<a class="navl" href="Retirada.dc.html">Retiradas</a>
+<a class="navl" href="Painel.dc.html" aria-current="page" style="background: #9CCC6C; color: #1A3A2A">Meu impacto</a>
+</nav>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px">Você é:
+<select style="min-height: 44px; max-width: 220px; padding: 0 12px; border-radius: 999px; border: 2px solid #FAEFD9; background: #FFF8EA; color: #1A3A2A; font-size: 15px">
+<option>Banca do Seu Antônio</option><option>Banca da Dona Lúcia</option><option>Hortifrúti do Paraíso</option><option>Mercado Bom Preço</option>
+</select>
+</label>
+</div>
+</header>
+
+<main id="conteudo" tabindex="-1" style="max-width: 1200px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-direction: column; gap: 24px">
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 28px; line-height: 1; color: #2F6B2B">novembro de 2026</p>
+<h1 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(30px, 4vw, 40px); line-height: 1.05; text-transform: uppercase">Meu impacto</h1>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span style="background: #F2C230; border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 15px">Dados de exemplo do protótipo</span>
+<label style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 16px">Mês
+<select style="min-height: 48px; padding: 0 12px; border: 3px solid #1A3A2A; border-radius: 14px; background: #FFF8EA; font-size: 16px"><option>novembro de 2026</option><option>outubro de 2026</option></select>
+</label>
+</div>
+</div>
+
+<section aria-labelledby="total-titulo" style="background: #1A3A2A; color: #FAEFD9; border-radius: 26px; padding: 28px 32px">
+<h2 id="total-titulo" style="margin: 0; font-size: 19px; font-weight: 400">Este mês você salvou do lixo</h2>
+<p style="margin: 4px 0 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(64px, 10vw, 104px); line-height: .9; color: #9CCC6C">32 <span style="font-size: .45em; color: #FAEFD9">kg</span></p>
+<p style="margin: 10px 0 0; font-size: 18px">de fruta, verdura e legume.</p>
+</section>
+
+<section aria-label="Resumo do mês" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div class="stat"><b>28 kg</b><span>viraram <strong>comida</strong></span></div>
+<div class="stat"><b>4 kg</b><span>viraram <strong>adubo</strong></span></div>
+<div class="stat"><b>3</b><span><strong>famílias</strong> e instituições atendidas (69 pessoas)</span></div>
+<div class="stat"><b>4</b><span><strong>lotes</strong> retirados</span></div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch">
+
+<section aria-labelledby="semana-titulo" style="flex: 999 1 480px; min-width: 0; background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 24px; padding: 22px 24px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<h2 id="semana-titulo" style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 20px; text-transform: uppercase">Quilos salvos por semana</h2>
+<div class="bars" role="img" aria-label="Quilos salvos por semana: semana 1, 0 kg; semana 2, 5 kg; semana 3, 21 kg; esta semana, 6 kg.">
+<div class="bar"><strong style="font-family: Archivo, Arial, sans-serif; font-size: 17px">0 kg</strong><div style="width: 100%; height: 4px; background: #9CCC6C; border: 3px solid #1A3A2A; border-bottom: 0; border-radius: 10px 10px 0 0; box-sizing: border-box"></div></div>
+<div class="bar"><strong style="font-family: Archivo, Arial, sans-serif; font-size: 17px">5 kg</strong><div style="width: 100%; height: 38px; background: #9CCC6C; border: 3px solid #1A3A2A; border-bottom: 0; border-radius: 10px 10px 0 0; box-sizing: border-box"></div></div>
+<div class="bar"><strong style="font-family: Archivo, Arial, sans-serif; font-size: 17px">21 kg</strong><div style="width: 100%; height: 150px; background: #9CCC6C; border: 3px solid #1A3A2A; border-bottom: 0; border-radius: 10px 10px 0 0; box-sizing: border-box"></div></div>
+<div class="bar"><strong style="font-family: Archivo, Arial, sans-serif; font-size: 17px">6 kg</strong><div style="width: 100%; height: 45px; background: #2F6B2B; border: 3px solid #1A3A2A; border-bottom: 0; border-radius: 10px 10px 0 0; box-sizing: border-box"></div></div>
+</div>
+<div aria-hidden="true" style="display: flex; gap: 12px; padding: 0 4px; font-weight: 700; font-size: 15px; text-align: center">
+<span style="flex: 1 1 0; min-width: 0">Sem. 1</span><span style="flex: 1 1 0; min-width: 0">Sem. 2</span><span style="flex: 1 1 0; min-width: 0">Sem. 3</span><span style="flex: 1 1 0; min-width: 0">Esta semana</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 17px">Para onde foi</h3>
+<div role="img" aria-label="87,5% virou comida e 12,5% virou adubo." style="display: flex; height: 36px; border-radius: 999px; overflow: hidden; border: 3px solid #1A3A2A">
+<div style="width: 87.5%; background: #2F6B2B; color: #FFF8EA; display: flex; align-items: center; padding-left: 14px; font-weight: 700; font-size: 15px; white-space: nowrap; overflow: hidden">87,5% comida</div>
+<div style="width: 12.5%; background: #8C5C2B"></div>
+</div>
+<p style="margin: 0; font-size: 15px; color: #4A5548">12,5% virou adubo. Nada foi para o lixo comum.</p>
+</div>
+</section>
+
+<section aria-labelledby="selo-titulo" style="flex: 1 1 300px; min-width: 0; background: #9CCC6C; border: 3px solid #1A3A2A; border-radius: 24px; padding: 22px 24px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; box-sizing: border-box">
+<h2 id="selo-titulo" style="margin: 0; font-family: Caveat, cursive; font-size: 28px; font-weight: 700; line-height: 1">você é parceiro</h2>
+<div style="width: 180px; height: 180px; border-radius: 50%; background: #1A3A2A; border: 6px solid #FAEFD9; outline: 3px solid #1A3A2A; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px">
+<img src="assets/logo_light.png" alt="Selo de Parceiro Rede de Prato" style="width: 92px; height: auto">
+<span aria-hidden="true" style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 15px; color: #FAEFD9; letter-spacing: .06em">PARCEIRO</span>
+</div>
+<p style="margin: 0; font-size: 15px">Parceiro desde 07/11/2026</p>
+<p style="margin: 0; background: #FFF8EA; border-radius: 16px; padding: 12px 16px; font-size: 16px; text-align: left">“Este mês, a Banca do Seu Antônio salvou <strong>32 kg</strong> de comida do lixo.”</p>
+<button type="button" class="pill" style="width: 100%; border: 0; background: #1A3A2A; color: #FAEFD9">Mandar no WhatsApp</button>
+<button type="button" class="pill" style="width: 100%; border: 3px solid #1A3A2A; background: #FAEFD9; color: #1A3A2A">Baixar o selo</button>
+</section>
+</div>
+
+<section aria-labelledby="admin-titulo" style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; padding: 18px 20px; border: 3px dashed #1A3A2A; border-radius: 20px">
+<h2 id="admin-titulo" style="margin: 0; flex: 1 1 100%; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 17px; text-transform: uppercase">Administração: conceder selo</h2>
+<label style="display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: 16px; flex: 1 1 240px">Ofertante
+<select style="min-height: 48px; padding: 0 12px; border: 3px solid #1A3A2A; border-radius: 14px; background: #FFF8EA; font-size: 16px"><option>Banca da Dona Lúcia</option><option>Mercado Bom Preço</option></select>
+</label>
+<button type="button" class="pill" style="border: 0; background: #1A3A2A; color: #FAEFD9">Conceder selo</button>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

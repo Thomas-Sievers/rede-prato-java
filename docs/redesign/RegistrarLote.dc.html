@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Rede de Prato — Registrar sobra</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAEFD9}
+a{color:#1A3A2A}a:hover{color:#2F6B2B}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #1A3A2A;outline-offset:3px;box-shadow:0 0 0 3px #FFF8EA}
+.skip{position:absolute;left:-9999px;top:12px;z-index:50;background:#FFF8EA;color:#1A3A2A;padding:12px 20px;border-radius:999px;font-weight:700;text-decoration:none}
+.skip:focus{left:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.big{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border-radius:999px;border:0;font-family:Archivo,Arial,sans-serif;font-weight:900;font-size:17px;letter-spacing:.03em;text-transform:uppercase}
+.step{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-family:Archivo,Arial,sans-serif;font-weight:900;font-size:19px;text-transform:uppercase}
+.num{width:36px;height:36px;border-radius:50%;background:#1A3A2A;color:#FAEFD9;display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.navl{color:#FAEFD9;text-decoration:none;font-weight:700;font-size:15px;padding:0 14px;min-height:44px;display:inline-flex;align-items:center;border-radius:999px}
+</style>
+</helmet>
+<div style="font-family: 'Atkinson Hyperlegible', Arial, sans-serif; color: #1A3A2A; background: #FAEFD9; font-size: 17px; line-height: 1.5; min-height: 100vh">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header style="background: #1A3A2A; color: #FAEFD9">
+<div style="max-width: 1200px; margin: 0 auto; padding: 10px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FAEFD9; min-height: 44px">
+<img src="assets/logo_light.png" alt="" style="height: 36px; width: auto">
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 18px">REDE DE PRATO</span>
+</a>
+<nav aria-label="Menu do parceiro" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px">
+<a class="navl" href="RegistrarLote.dc.html" aria-current="page" style="background: #9CCC6C; color: #1A3A2A">Registrar sobra</a>
+<a class="navl" href="Retirada.dc.html">Retiradas</a>
+<a class="navl" href="Painel.dc.html">Meu impacto</a>
+</nav>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px">Você é:
+<select style="min-height: 44px; max-width: 220px; padding: 0 12px; border-radius: 999px; border: 2px solid #FAEFD9; background: #FFF8EA; color: #1A3A2A; font-size: 15px">
+<option>Banca do Seu Antônio</option><option>Banca da Dona Lúcia</option><option>Hortifrúti do Paraíso</option><option>Mercado Bom Preço</option>
+</select>
+</label>
+</div>
+</header>
+
+<main id="conteudo" tabindex="-1" style="max-width: 1200px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-direction: column; gap: 28px">
+<h1 class="sr">Registrar sobra e avisar xepa</h1>
+
+<section aria-labelledby="xepa-titulo" style="background: #C2410C; color: #FFF8EA; border-radius: 24px; padding: 22px 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 32px">
+<svg width="96" height="76" viewBox="0 0 190 120" aria-hidden="true" style="flex: none"><path d="M14 40 L95 8 L176 40 Z" fill="#F2C230"></path><path d="M40 40 V116 M150 40 V116" stroke="#FFF8EA" stroke-width="6"></path><rect x="24" y="74" width="142" height="18" fill="#B07A3E"></rect><circle cx="56" cy="64" r="12" fill="#D9532B" stroke="#FFF8EA" stroke-width="2"></circle><circle cx="80" cy="64" r="12" fill="#D9532B" stroke="#FFF8EA" stroke-width="2"></circle><circle cx="112" cy="62" r="14" fill="#7DB65A"></circle><circle cx="140" cy="64" r="12" fill="#F29A2E"></circle></svg>
+<div style="flex: 1 1 300px; min-width: 0">
+<h2 id="xepa-titulo" style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 30px; line-height: 1; text-transform: uppercase">Fim de feira?</h2>
+<p style="margin: 6px 0 0; font-size: 18px">Avise a xepa com <strong>um toque</strong>. As famílias perto recebem o aviso na hora.</p>
+</div>
+<div style="flex: 1 1 260px; min-width: 0">
+<sc-if value="{{xepaIdle}}" hint-placeholder-val="{{true}}">
+<button type="button" class="big" onClick="{{sendXepa}}" style="background: #FFF8EA; color: #C2410C; min-height: 60px; font-size: 19px">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg>Avisar xepa agora</button>
+</sc-if>
+<sc-if value="{{xepaSent}}" hint-placeholder-val="{{false}}">
+<div role="status" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; background: #FFF8EA; color: #1A3A2A; border-radius: 22px; padding: 12px 18px">
+<span><strong>Pronto!</strong> Xepa avisada para 3 lotes até as 14h.</span>
+<button type="button" onClick="{{undoXepa}}" style="background: none; border: 0; text-decoration: underline; padding: 0 4px; min-height: 44px; font-weight: 700">Desfazer</button>
+</div>
+</sc-if>
+</div>
+</section>
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 28px; line-height: 1; color: #2F6B2B">ou conte o que sobrou</p>
+<h2 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(28px, 4vw, 38px); line-height: 1.05; text-transform: uppercase">Registrar sobra</h2>
+</div>
+
+<sc-if value="{{formOn}}" hint-placeholder-val="{{true}}">
+<form onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 28px">
+
+<fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+<legend class="step"><span class="num" aria-hidden="true">1</span>O que é?</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.label}}</button>
+</sc-for>
+</div>
+<label style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-weight: 700">Qual alimento? <span style="font-weight: 400; font-size: 15px">(pode falar no microfone do teclado)</span>
+<input type="text" value="Tomate" style="min-height: 52px; padding: 0 16px; border: 3px solid #1A3A2A; border-radius: 14px; background: #FFF8EA; font-size: 18px; box-sizing: border-box; width: 100%">
+</label>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+<legend class="step"><span class="num" aria-hidden="true">2</span>Quanto pesa, mais ou menos?</legend>
+<div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+<button type="button" onClick="{{minus}}" aria-label="Menos 1 quilo" style="width: 56px; height: 56px; border-radius: 50%; border: 3px solid #1A3A2A; background: #FFF8EA; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+<output aria-live="polite" style="min-width: 110px; text-align: center; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 44px; line-height: 1">{{kg}} <span style="font-size: 22px">kg</span></output>
+<button type="button" onClick="{{plus}}" aria-label="Mais 1 quilo" style="width: 56px; height: 56px; border-radius: 50%; border: 0; background: #1A3A2A; color: #FAEFD9; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"></path></svg></button>
+<span style="font-size: 15px; color: #4A5548; flex: 1 1 180px; min-width: 0">Uma caixa de feira cheia tem uns 20 kg.</span>
+</div>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+<legend class="step"><span class="num" aria-hidden="true">3</span>Como está?</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px">
+<sc-for list="{{conds}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}"><span style="display: flex; flex-direction: column"><strong>{{c.label}}</strong><span style="font-size: 15px; font-weight: 400">{{c.sub}}</span></span></button>
+</sc-for>
+</div>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+<legend class="step"><span class="num" aria-hidden="true">4</span>Doar ou vender barato?</legend>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
+<sc-for list="{{mods}}" as="m" hint-placeholder-count="2">
+<button type="button" onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="{{m.style}}"><span style="display: flex; flex-direction: column"><strong style="font-size: 18px">{{m.label}}</strong><span style="font-size: 15px; font-weight: 400">{{m.sub}}</span></span></button>
+</sc-for>
+</div>
+<sc-if value="{{isVenda}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700; flex: 1 1 180px">Preço com desconto (R$)
+<input type="text" inputmode="decimal" value="3,00" style="min-height: 52px; padding: 0 16px; border: 3px solid #1A3A2A; border-radius: 14px; background: #FFF8EA; font-size: 18px">
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700; flex: 1 1 180px">Preço normal (R$)
+<input type="text" inputmode="decimal" value="9,00" style="min-height: 52px; padding: 0 16px; border: 3px solid #1A3A2A; border-radius: 14px; background: #FFF8EA; font-size: 18px">
+</label>
+</div>
+</sc-if>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+<legend class="step"><span class="num" aria-hidden="true">5</span>Até quando pode buscar?</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<sc-for list="{{prazos}}" as="p" hint-placeholder-count="3">
+<button type="button" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">{{p.label}}</button>
+</sc-for>
+</div>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+<legend class="step"><span class="num" aria-hidden="true">6</span>Foto <span style="font-family: 'Atkinson Hyperlegible', Arial, sans-serif; font-weight: 400; font-size: 15px; text-transform: none">(se quiser)</span></legend>
+<label style="display: flex; flex-direction: column; gap: 6px; font-weight: 700">Link da foto (começa com https://)
+<input type="url" placeholder="https://..." style="min-height: 52px; padding: 0 16px; border: 3px solid #1A3A2A; border-radius: 14px; background: #FFF8EA; font-size: 18px; box-sizing: border-box; width: 100%">
+</label>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+<legend class="step"><span class="num" aria-hidden="true">7</span>Confira: assim as famílias vão ver</legend>
+<article style="display: flex; flex-wrap: wrap; background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 22px; overflow: hidden">
+<div style="position: relative; flex: 0 0 180px; min-height: 150px; display: flex; align-items: center; justify-content: center; background: #F8D3C2">
+<svg width="100" height="100" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="58" r="34" fill="#D9532B"></circle><ellipse cx="38" cy="46" rx="8" ry="5" fill="#F08A63"></ellipse><path d="M50 26 L56 18 L58 28 L68 26 L60 33 L50 30 L40 33 L32 26 L42 28 L44 18 Z" fill="#3E7A35"></path></svg>
+<span style="position: absolute; top: 10px; left: 10px; background: #1A3A2A; color: #FAEFD9; border-radius: 999px; padding: 3px 12px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 15px">{{kg}} kg</span>
+</div>
+<div style="flex: 1 1 260px; min-width: 0; padding: 18px 22px; display: flex; flex-direction: column; justify-content: center; gap: 8px">
+<h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 22px; text-transform: uppercase">Tomate</h3>
+<sc-if value="{{isDoacao}}" hint-placeholder-val="{{true}}"><span style="align-self: flex-start; background: #9CCC6C; border-radius: 999px; padding: 2px 14px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 15px">DE GRAÇA</span></sc-if>
+<sc-if value="{{isVenda}}" hint-placeholder-val="{{false}}"><span style="display: flex; align-items: baseline; gap: 8px"><strong style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 20px; color: #C2410C">R$ 3,00</strong><span style="text-decoration: line-through; color: #4A5548; font-size: 15px">era R$ 9,00</span></span></sc-if>
+<span style="font-size: 15px">{{condLabel}} · Banca do Seu Antônio · buscar {{prazoLabel}}</span>
+</div>
+</article>
+<p style="margin: 10px 0 0; font-size: 15px; color: #4A5548">Você pode mudar ou cancelar enquanto ninguém reservar.</p>
+</fieldset>
+
+<button type="submit" class="big" style="background: #2F6B2B; color: #FFF8EA; min-height: 60px; font-size: 19px">Avisar as famílias</button>
+</form>
+</sc-if>
+
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+<section role="status" style="background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 30px; line-height: 1.05; text-transform: uppercase">Obrigado! As famílias foram avisadas.</h3>
+<p style="margin: 0; font-size: 18px">{{kg}} kg de tomate · {{modLabel}} · buscar {{prazoLabel}}.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px">
+<button type="button" onClick="{{again}}" style="min-height: 52px; padding: 0 22px; border-radius: 999px; border: 3px solid #1A3A2A; background: #FAEFD9; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 15px; text-transform: uppercase">Registrar outra sobra</button>
+<a href="Retirada.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 22px; border-radius: 999px; background: #1A3A2A; color: #FAEFD9; text-decoration: none; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 15px; text-transform: uppercase">Ver retiradas</a>
+</div>
+</section>
+</sc-if>
+
+<section aria-labelledby="meus-titulo" style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 26px; line-height: 1; color: #2F6B2B">o que você já registrou</p>
+<h2 id="meus-titulo" style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 28px; text-transform: uppercase">Meus lotes</h2>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<li style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 18px; padding: 12px 18px">
+<div style="flex: 1 1 240px; min-width: 0"><h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 17px; text-transform: uppercase">Alface crespa · 3 kg</h3><p style="margin: 0; font-size: 15px">buscar até hoje, 14h · <strong>Disponível</strong></p></div>
+<button type="button" aria-label="Mudar Alface crespa" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 3px solid #1A3A2A; background: #FFF8EA; font-weight: 700">Mudar</button>
+<button type="button" aria-label="Cancelar Alface crespa" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 3px solid #A52D1A; background: #FFF8EA; color: #A52D1A; font-weight: 700">Cancelar</button>
+</li>
+<li style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: #F3EBD9; border: 3px solid #8A8170; border-radius: 18px; padding: 12px 18px">
+<div style="flex: 1 1 240px; min-width: 0"><h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 17px; text-transform: uppercase">Bananas · 6 kg</h3><p style="margin: 0; font-size: 15px">buscar até hoje, 18h · <strong>Reservado</strong> (não dá mais para mudar)</p></div>
+</li>
+</ul>
+</section>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2050}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { cat: 'legumes', kg: 3, cond: 'madura', mod: 'doar', prazo: 'h18', sent: false, xepa: false };
+}
+renderVals() {
+const s = this.state;
+const tile = (on) => 'display: flex; align-items: center; justify-content: center; min-height: 64px; padding: 10px; border-radius: 18px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 15px; text-transform: uppercase; ' + (on ? 'border: 4px solid #2F6B2B; background: #DCEFC7;' : 'border: 3px solid #1A3A2A; background: #FFF8EA;');
+const row = (on) => 'display: flex; align-items: center; min-height: 64px; padding: 10px 16px; border-radius: 18px; text-align: left; ' + (on ? 'border: 4px solid #2F6B2B; background: #DCEFC7;' : 'border: 3px solid #1A3A2A; background: #FFF8EA;');
+const chip = (on) => 'min-height: 48px; padding: 0 20px; border-radius: 999px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 15px; text-transform: uppercase; border: 3px solid #1A3A2A; ' + (on ? 'background: #1A3A2A; color: #FAEFD9;' : 'background: #FFF8EA; color: #1A3A2A;');
+const cats = [['frutas', 'Frutas'], ['verduras', 'Verduras'], ['legumes', 'Legumes'], ['padaria', 'Padaria'], ['laticinios', 'Laticínios'], ['outros', 'Outros']].map(([id, label]) => ({ label, on: s.cat === id ? 'true' : 'false', style: tile(s.cat === id), pick: () => this.setState({ cat: id }) }));
+const CONDS = [['boa', 'Boa', 'Bonita e firme'], ['madura', 'Madura', 'Comer logo'], ['feia', 'Feia, mas boa', 'Machucada por fora']];
+const conds = CONDS.map(([id, label, sub]) => ({ label, sub, on: s.cond === id ? 'true' : 'false', style: row(s.cond === id), pick: () => this.setState({ cond: id }) }));
+const mods = [['doar', 'Doar', 'Vai para a ONG e para as famílias'], ['vender', 'Vender barato', 'Você recupera uma parte']].map(([id, label, sub]) => ({ label, sub, on: s.mod === id ? 'true' : 'false', style: row(s.mod === id), pick: () => this.setState({ mod: id }) }));
+const PRAZOS = [['h14', 'Hoje até 14h', 'até hoje, 14h'], ['h18', 'Hoje até 18h', 'até hoje, 18h'], ['amanha', 'Amanhã cedo', 'até amanhã, 10h']];
+const prazos = PRAZOS.map(([id, label]) => ({ label, on: s.prazo === id ? 'true' : 'false', style: chip(s.prazo === id), pick: () => this.setState({ prazo: id }) }));
+const c = CONDS.find((x) => x[0] === s.cond);
+return {
+cats, conds, mods, prazos, kg: s.kg,
+condLabel: c[1] + ' · ' + c[2].toLowerCase(),
+prazoLabel: PRAZOS.find((p) => p[0] === s.prazo)[2],
+modLabel: s.mod === 'doar' ? 'doação' : 'venda com desconto',
+isVenda: s.mod === 'vender', isDoacao: s.mod === 'doar',
+minus: () => this.setState({ kg: Math.max(1, s.kg - 1) }),
+plus: () => this.setState({ kg: s.kg + 1 }),
+submit: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sent: true }); },
+again: () => this.setState({ sent: false }),
+formOn: !s.sent, sent: s.sent,
+xepaIdle: !s.xepa, xepaSent: s.xepa,
+sendXepa: () => this.setState({ xepa: true }),
+undoXepa: () => this.setState({ xepa: false })
+};
+}
+}
+</script>
+</body>
+</html>
