@@ -3,14 +3,15 @@
 1. Copiar o arquivo dela, sem alterar, para `db/ddl.sql` (e `db/dml.sql` se houver). Atualizar só `db/README.md`.
 2. Comparar o DDL com a tabela abaixo (nome da tabela, coluna, tipo, NULL/NOT NULL). Se algo for diferente, **a entidade muda para seguir o DDL** (`docs/decisoes.md`) — anotar cada diferença em `DECISIONS.md`.
 3. Rodar o DDL no schema Oracle (SQL Developer).
-4. Localmente: `export ORACLE_URL=... ORACLE_USERNAME=... ORACLE_PASSWORD=... SPRING_PROFILES_ACTIVE=oracle` e `./mvnw spring-boot:run`.
+4. Localmente: `export ORACLE_URL=... ORACLE_USERNAME=... ORACLE_PASSWORD=...` e `./mvnw spring-boot:run`. Desde a D-16, o perfil `oracle` é o padrão, então não precisa de `SPRING_PROFILES_ACTIVE`.
 5. Se o Hibernate acusar `Schema-validation: missing column / wrong column type`, corrigir o `@Column(columnDefinition=...)` da entidade indicada e repetir.
    - Se o DDL usar `NUMBER(10)` nas PKs/FKs em vez de `NUMBER`, trocar `columnDefinition = "NUMBER"` pelo tipo do DDL.
    - Se o DDL não usar IDENTITY (usar sequence + trigger), trocar `@GeneratedValue(strategy = IDENTITY)` por `@GeneratedValue(strategy = SEQUENCE, generator = ...)` + `@SequenceGenerator(sequenceName = "<SEQ_DO_DDL>", allocationSize = 1)`.
    - Se algum CHECK de enum tiver valores diferentes, ajustar o enum Java (os nomes precisam ser idênticos).
 6. Testar no navegador: reservar um lote duas vezes deve dar 409 (índice `UX_RP_RESERVA_ATIVA_LOTE` + regra no BO).
-7. No Render, criar/confirmar `ORACLE_URL`, `ORACLE_USERNAME`, `ORACLE_PASSWORD` e só então `SPRING_PROFILES_ACTIVE=oracle`. Conferir `/api/health` → `"profile":"oracle"`.
-8. Com o Oracle vazio, as telas ficam sem dados: carregar o DML da Mariana (mínimo 5 linhas por tabela) ou cadastrar pela API.
+7. No Render, criar/confirmar `ORACLE_URL`, `ORACLE_USERNAME` e `ORACLE_PASSWORD`. Sem elas, a aplicação não sobe, porque o padrão é Oracle (D-16). Para uma demo só no H2, usar `SPRING_PROFILES_ACTIVE=dev`. Conferir `/api/health` → `"profile":"oracle"`.
+8. Rodar o teste de fumaça contra o Oracle: `java tools/smoke/OracleSmokeTest.java` (ver `docs/run.md`, "Teste com Oracle").
+9. Com o Oracle vazio, as telas ficam sem dados: carregar o DML da Mariana (mínimo 5 linhas por tabela) ou cadastrar pela API.
 
 ## Campo da entidade → coluna esperada
 

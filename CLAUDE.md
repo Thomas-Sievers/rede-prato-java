@@ -16,7 +16,7 @@ You are building this whole repository **alone, overnight, with nobody to answer
 
 ## Quick facts
 
-- Java 21 · Spring Boot 4.x · Maven wrapper (`./mvnw`) · Lombok · Spring Data JPA · H2 (default) · Oracle (`oracle` profile).
+- Java 21 · Spring Boot 4.x · Maven wrapper (`./mvnw`) · Lombok · Spring Data JPA · Oracle (default profile `oracle`, D-16) · H2 (`dev` profile: development and tests only; `./mvnw test` forces it).
 - Base package: `br.com.fiap.redeprato`. Layers: `entity` (Model) · `repository` (DAO layer, `XxxRepository`) · `service` (BO layer, `XxxService`) · `controller` · `dto` · `exception` · `converter` · `config`.
 - Run tests: `./mvnw test`. Build: `./mvnw -B package`.
 - Do not start long-running processes (`spring-boot:run`, `java -jar`) — verify with tests (`@SpringBootTest` + MockMvc) instead.

@@ -45,7 +45,7 @@ Sem login (decisão 5): cada tela tem o seletor **"Você é:"**. Lotes vencidos 
 
 ## Tecnologias
 
-Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate 7) · Lombok · H2 (perfil padrão) · Oracle Database FIAP (perfil `oracle`) · JUnit 5 + Mockito · Maven Wrapper · Docker · Render · Frontend em HTML/CSS/JavaScript puro servido pelo próprio Spring Boot.
+Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate 7) · Lombok · Oracle Database FIAP (perfil padrão `oracle`) · H2 (perfil `dev`, só desenvolvimento e testes) · JUnit 5 + Mockito · Maven Wrapper · Docker · Render · Frontend em HTML/CSS/JavaScript puro servido pelo próprio Spring Boot.
 
 ## Camadas
 
@@ -93,20 +93,20 @@ Protótipos de referência: `docs/prototipo/*.png`.
 
 ## Como rodar
 
-```bash
-./mvnw test                 # 300+ testes (H2, sem rede)
-./mvnw spring-boot:run      # http://localhost:8080  (saúde: /api/health)
-```
-
-No perfil padrão o banco é H2 em memória com **dados simulados** (nomes, telefones e endereços fictícios; nenhum documento).
-
-Com o Oracle da FIAP:
+A aplicação roda no **Oracle da FIAP** por padrão (decisão D-16). Rodar antes `db/ddl.sql` e `db/dml.sql` no schema:
 
 ```bash
 export ORACLE_URL=jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
 export ORACLE_USERNAME=<seu RM>
 export ORACLE_PASSWORD=<sua senha>
-SPRING_PROFILES_ACTIVE=oracle ./mvnw spring-boot:run
+./mvnw spring-boot:run      # http://localhost:8080  (saúde: /api/health → "profile":"oracle")
+```
+
+O H2 em memória fica só para desenvolvimento e testes (perfil `dev`, com **dados simulados**: nomes, telefones e endereços fictícios, nenhum documento):
+
+```bash
+./mvnw test                                      # 300+ testes, sempre no H2 (sem rede, sem Oracle)
+SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run   # app no H2, sem precisar do Oracle
 ```
 
 Passo a passo completo (IntelliJ, Oracle, Render): [`docs/run.md`](docs/run.md).
