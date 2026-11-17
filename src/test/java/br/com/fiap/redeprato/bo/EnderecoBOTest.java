@@ -17,9 +17,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.fiap.redeprato.dao.EnderecoDAO;
+import br.com.fiap.redeprato.dao.OfertanteDAO;
 import br.com.fiap.redeprato.dto.EnderecoDTO;
 import br.com.fiap.redeprato.entity.Endereco;
 import br.com.fiap.redeprato.exception.BusinessRuleException;
+import br.com.fiap.redeprato.exception.ConflictException;
 import br.com.fiap.redeprato.exception.NotFoundException;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +29,9 @@ class EnderecoBOTest {
 
     @Mock
     private EnderecoDAO dao;
+
+    @Mock
+    private OfertanteDAO ofertanteDAO;
 
     @InjectMocks
     private EnderecoBO bo;
@@ -171,6 +176,24 @@ class EnderecoBOTest {
         when(dao.findById(9L)).thenReturn(Optional.empty());
         assertThatThrownBy(() -> bo.atualizar(9L, valido()))
                 .isInstanceOf(NotFoundException.class).hasMessage("Endereço 9 não encontrado.");
+    }
+
+    @Test
+    void br029EnderecoUsadoPorOfertanteNaoPodeSerExcluido() {
+        when(dao.findById(5L)).thenReturn(Optional.of(Endereco.builder().idEndereco(5L).build()));
+        when(ofertanteDAO.existsByEndereco_IdEndereco(5L)).thenReturn(true);
+        assertThatThrownBy(() -> bo.excluir(5L))
+                .isInstanceOf(ConflictException.class)
+                .hasMessage("Não é possível excluir: este endereço está em uso.");
+        verify(dao, never()).delete(any());
+    }
+
+    @Test
+    void excluirEnderecoSemUso() {
+        Endereco e = Endereco.builder().idEndereco(6L).build();
+        when(dao.findById(6L)).thenReturn(Optional.of(e));
+        bo.excluir(6L);
+        verify(dao).delete(e);
     }
 
     @Test

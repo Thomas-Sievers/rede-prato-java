@@ -26,3 +26,8 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** All business validation lives in the BOs (private `checkXxx()` methods called by `validate()`); request records carry no Bean Validation annotations. BOs receive request records and return response records; DTOs are grouped as nested records in `XxxDTO` holder classes (`CategoriaDTO.Request`, `CategoriaDTO.Response`).
 **Why:** One place per rule, unit-testable with Mockito and asserting the exact Portuguese message; duplicating rules in annotations risks two different messages for the same rule. Mapping to response DTOs inside the BO transaction avoids `LazyInitializationException` (relations are LAZY and `open-in-view=false`). The `MethodArgumentNotValidException` mapping stays in the handler for completeness.
 **Alternatives considered:** `@Valid` + annotations on requests; returning entities and mapping in controllers (needs open-in-view or fetch joins everywhere).
+
+## D-6 · 2026-11-17 · feature 03
+**Decision:** Reactivating an ofertante (and later beneficiário/ponto) is done with `PUT /api/<recurso>/{id}` and `"ativo": true` in the body; `ativo` absent/null keeps the current value. `GET` lists default to `ativo=true`; `?ativo=false` lists the inactive ones. Revoking a selo that does not exist is a no-op (204, idempotent).
+**Why:** PLAN BR-03.9 asks for it; keeps the CRUD at four verbs without an extra "reativar" endpoint.
+**Alternatives considered:** `PUT /{id}/reativar`; `?ativo=todos`.

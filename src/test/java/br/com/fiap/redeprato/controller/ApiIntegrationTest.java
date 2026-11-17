@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,6 +58,53 @@ class ApiIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("CEP deve ter 8 dígitos."))
                 .andExpect(jsonPath("$.path").value("/api/enderecos"));
+    }
+
+    private Long postId(String path, String json, String idField) throws Exception {
+        String body = mvc.perform(post(path).contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString(java.nio.charset.StandardCharsets.UTF_8);
+        return ((Number) com.jayway.jsonpath.JsonPath.read(body, "$." + idField)).longValue();
+    }
+
+    private Long novoEndereco() throws Exception {
+        return postId("/api/enderecos", "{\"logradouro\":\"Rua Teste\",\"numero\":\"1\",\"bairro\":\"Paraíso\","
+                + "\"cidade\":\"São Paulo\",\"uf\":\"SP\",\"cep\":\"04001-000\"}", "idEndereco");
+    }
+
+    @Test
+    void ofertanteFlowComSeloEExclusaoLogica() throws Exception {
+        Long idEnd = novoEndereco();
+        Long id = postId("/api/ofertantes", "{\"nome\":\"Banca Integração\",\"tipo\":\"FEIRANTE\","
+                + "\"telefone\":\"(11) 90000-0099\",\"idEndereco\":" + idEnd + "}", "idOfertante");
+
+        mvc.perform(put("/api/ofertantes/" + id + "/selo"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.possuiSelo").value(true))
+                .andExpect(jsonPath("$.dataSelo").isNotEmpty());
+        mvc.perform(put("/api/ofertantes/" + id + "/selo")).andExpect(status().isConflict());
+
+        mvc.perform(delete("/api/enderecos/" + idEnd))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Não é possível excluir: este endereço está em uso."));
+
+        mvc.perform(delete("/api/ofertantes/" + id)).andExpect(status().isNoContent());
+        mvc.perform(delete("/api/ofertantes/" + id)).andExpect(status().isNoContent());
+        mvc.perform(get("/api/ofertantes/" + id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ativo").value(false))
+                .andExpect(jsonPath("$.bairro").value("Paraíso"));
+        mvc.perform(get("/api/ofertantes").param("ativo", "false").param("tipo", "FEIRANTE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.idOfertante == " + id + ")]").exists());
+        mvc.perform(get("/api/ofertantes").param("tipo", "PADARIA")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void enumInvalidoNoCorpoDa400() throws Exception {
+        mvc.perform(post("/api/ofertantes").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"nome\":\"X\",\"tipo\":\"PADARIA\",\"telefone\":\"11900000001\",\"idEndereco\":1}"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
