@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.fiap.redeprato.dao.BeneficiarioDAO;
 import br.com.fiap.redeprato.dao.EnderecoDAO;
 import br.com.fiap.redeprato.dao.OfertanteDAO;
+import br.com.fiap.redeprato.dao.PontoDistribuicaoDAO;
 import br.com.fiap.redeprato.dto.EnderecoDTO;
 import br.com.fiap.redeprato.entity.Endereco;
 import br.com.fiap.redeprato.exception.BusinessRuleException;
@@ -26,11 +27,14 @@ public class EnderecoBO {
     private final EnderecoDAO dao;
     private final OfertanteDAO ofertanteDAO;
     private final BeneficiarioDAO beneficiarioDAO;
+    private final PontoDistribuicaoDAO pontoDAO;
 
-    public EnderecoBO(EnderecoDAO dao, OfertanteDAO ofertanteDAO, BeneficiarioDAO beneficiarioDAO) {
+    public EnderecoBO(EnderecoDAO dao, OfertanteDAO ofertanteDAO, BeneficiarioDAO beneficiarioDAO,
+                      PontoDistribuicaoDAO pontoDAO) {
         this.dao = dao;
         this.ofertanteDAO = ofertanteDAO;
         this.beneficiarioDAO = beneficiarioDAO;
+        this.pontoDAO = pontoDAO;
     }
 
     @Transactional(readOnly = true)
@@ -132,7 +136,8 @@ public class EnderecoBO {
     // BR-02.9 (ofertante: feature 03; beneficiário: 05; ponto: 06)
     private void checkSemUso(Endereco e) {
         Long id = e.getIdEndereco();
-        if (ofertanteDAO.existsByEndereco_IdEndereco(id) || beneficiarioDAO.existsByEndereco_IdEndereco(id)) {
+        if (ofertanteDAO.existsByEndereco_IdEndereco(id) || beneficiarioDAO.existsByEndereco_IdEndereco(id)
+                || pontoDAO.existsByEndereco_IdEndereco(id)) {
             throw new ConflictException(MSG_EM_USO);
         }
     }
