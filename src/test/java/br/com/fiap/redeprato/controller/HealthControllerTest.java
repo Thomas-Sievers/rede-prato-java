@@ -29,6 +29,16 @@ class HealthControllerTest {
     }
 
     @Test
+    void healthShowsDefaultProfileWhenNoneIsActive() throws Exception {
+        // D-16: no SPRING_PROFILES_ACTIVE -> spring.profiles.default=oracle is in use
+        MockEnvironment env = new MockEnvironment();
+        env.setDefaultProfiles("oracle");
+        MockMvc mvc = MockMvcBuilders.standaloneSetup(new HealthController(env, clock)).build();
+        mvc.perform(get("/api/health"))
+                .andExpect(jsonPath("$.profile").value("oracle"));
+    }
+
+    @Test
     void healthShowsActiveProfile() throws Exception {
         MockEnvironment env = new MockEnvironment();
         env.setActiveProfiles("oracle");
