@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.fiap.redeprato.dao.CategoriaAlimentoDAO;
+import br.com.fiap.redeprato.dao.LoteDAO;
 import br.com.fiap.redeprato.dto.CategoriaDTO;
 import br.com.fiap.redeprato.entity.CategoriaAlimento;
 import br.com.fiap.redeprato.exception.BusinessRuleException;
@@ -17,9 +18,11 @@ import br.com.fiap.redeprato.exception.NotFoundException;
 public class CategoriaAlimentoBO {
 
     private final CategoriaAlimentoDAO dao;
+    private final LoteDAO loteDAO;
 
-    public CategoriaAlimentoBO(CategoriaAlimentoDAO dao) {
+    public CategoriaAlimentoBO(CategoriaAlimentoDAO dao, LoteDAO loteDAO) {
         this.dao = dao;
+        this.loteDAO = loteDAO;
     }
 
     @Transactional(readOnly = true)
@@ -97,8 +100,10 @@ public class CategoriaAlimentoBO {
         }
     }
 
-    // BR-02.4 (wired in feature 04, when Lote exists)
+    // BR-02.4
     private void checkSemLotes(CategoriaAlimento c) {
-        // no dependent table yet
+        if (loteDAO.existsByCategoria_IdCategoria(c.getIdCategoria())) {
+            throw new ConflictException("Não é possível excluir: existem lotes nesta categoria.");
+        }
     }
 }
