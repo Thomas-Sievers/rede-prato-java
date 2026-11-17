@@ -51,9 +51,17 @@ class FrontendPagesTest {
                 .andExpect(content().string(containsString("/js/lotes.js")));
     }
 
+    @Test
+    void telaDeRegistrarServida() throws Exception {
+        mvc.perform(get("/registrar.html"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Registrar sobra")))
+                .andExpect(content().string(containsString("Fim de feira?")));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"/css/app.css", "/js/api.js", "/js/persona.js", "/js/ui.js", "/js/lotes.js",
-        "/img/logo.png"})
+        "/js/registrar.js", "/img/logo.png"})
     void assetsServidos(String path) throws Exception {
         mvc.perform(get(path)).andExpect(status().isOk());
     }
