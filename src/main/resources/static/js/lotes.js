@@ -87,12 +87,13 @@
     return '<article class="card lote-card">' +
       '<div class="tile ' + RP.tileClass(l.idLote) + '"><span class="pill-kg">' + esc(RP.fmtKg(l.pesoKg)) + '</span>' +
       RP.illustrationFor(l.nomeCategoria, l.descricao) + '</div>' +
-      '<h3>' + esc(l.descricao) + '</h3>' +
+      '<h2 class="card-title">' + esc(l.descricao) + '</h2>' +
       '<div>' + valorLinha(l) + '</div>' +
       '<p class="line">' + RP.icon('pin') + esc(l.nomeOfertante) + ' · ' + esc(l.bairro || '') + '</p>' +
       '<p class="line">' + RP.icon('clock') + 'Buscar ' + esc(RP.fmtPrazo(l.dataLimiteRetirada)) + '</p>' +
-      '<button type="button" class="btn btn-dark btn-block" data-reservar="' + l.idLote + '">Reservar' +
-      '<span class="sr-only"> ' + esc(l.descricao) + '</span></button>' +
+      // A9: each button gets a unique accessible name
+      '<button type="button" class="btn btn-dark btn-block" data-reservar="' + l.idLote + '" aria-label="' +
+      esc('Reservar ' + l.descricao + ', ' + RP.fmtKg(l.pesoKg)) + '">Reservar</button>' +
       '</article>';
   }
 

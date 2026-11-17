@@ -10,26 +10,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
   <style>
-    .xepa-box { background: var(--laranja-xepa); color: #fff; border-radius: 32px; padding: 28px 32px; display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center; }
-    .xepa-box h2 { color: #fff; }
-    @media (max-width: 800px) { .xepa-box { grid-template-columns: 1fr; } }
-    fieldset { border: 0; padding: 0; margin: 36px 0 0; }
-    legend { display: flex; align-items: center; gap: 14px; font-family: var(--font-title); font-weight: 900; text-transform: uppercase; font-size: 26px; margin-bottom: 16px; padding: 0; }
-    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+    .xepa-box { background: var(--laranja-xepa); color: var(--creme-claro); border-radius: 24px; padding: 22px 26px; display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; }
+    .xepa-box > svg { flex: none; }
+    .xepa-box .txt { flex: 1 1 300px; min-width: 0; }
+    .xepa-box .acao { flex: 1 1 260px; min-width: 0; }
+    .xepa-box h2 { color: var(--creme-claro); font-size: 30px; line-height: 1; }
+    .xepa-box p { font-size: 18px; }
+    fieldset { border: 0; padding: 0; margin: 28px 0 0; min-width: 0; }
+    legend { display: flex; align-items: center; gap: 12px; font-family: var(--font-title); font-weight: 900; text-transform: uppercase; font-size: 19px; margin-bottom: 12px; padding: 0; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
     .tiles .option { align-items: center; text-align: center; }
-    .tiles .option svg { width: 54px; height: 54px; }
-    .preview { display: grid; grid-template-columns: 220px 1fr; overflow: hidden; padding: 0; }
-    .preview .tile { aspect-ratio: auto; border-radius: 0; min-height: 160px; }
-    .preview .body { padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; }
-    @media (max-width: 640px) { .preview { grid-template-columns: 1fr; } }
-    .meus { display: flex; flex-direction: column; gap: 12px; }
-    .meu { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+    .tiles .option strong { font-size: var(--fs-small); }
+    .tiles .option svg { width: 44px; height: 44px; }
+    .opts-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 12px; }
+    .opts-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 12px; }
+    .preview { display: flex; flex-wrap: wrap; overflow: hidden; padding: 0; }
+    .preview .tile { flex: 0 0 180px; max-width: 100%; aspect-ratio: auto; border-radius: 0; min-height: 150px; }
+    .preview .body { flex: 1 1 260px; min-width: 0; padding: 18px 22px; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+    @media (max-width: 480px) { .preview .tile { flex-basis: 100%; } }
+    .meus { display: flex; flex-direction: column; gap: 10px; }
+    .meu { display: flex; gap: 10px 16px; align-items: center; flex-wrap: wrap; justify-content: space-between; padding: 12px 18px; border-radius: 18px; }
+    .meu > div:first-child { flex: 1 1 240px; min-width: 0; }
+    .meu h3 { font-size: 17px; }
   </style>
 </head>
 <body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"> REDE DE PRATO</a>
+    <a class="brand" href="/"><img src="/img/logo_light.png" alt="" width="45" height="36"> REDE DE PRATO</a>
     <nav class="nav-pills" aria-label="Ofertante">
       <a href="/registrar.html" aria-current="page" data-keep-persona>Registrar sobra</a>
       <a href="/retiradas.html" data-keep-persona>Retiradas</a>
@@ -39,27 +48,30 @@
   </div>
 </header>
 
-<main class="wrap">
+<main id="conteudo" tabindex="-1" class="wrap">
+  <h1 class="sr-only">Registrar sobra e avisar xepa</h1>
   <section class="xepa-box" id="xepa" hidden aria-labelledby="xepa-title">
-    <svg viewBox="0 0 80 60" width="110" aria-hidden="true"><path d="M6 20 l8 -14 h52 l8 14 z" fill="#F2C230"/><rect x="10" y="30" width="60" height="8" fill="#B97A3E"/><circle cx="24" cy="26" r="6" fill="#fff" stroke="#D9452B" stroke-width="2"/><circle cx="40" cy="26" r="6" fill="#9CCC6C"/><circle cx="56" cy="26" r="6" fill="#F29A2B"/><path d="M14 38 v20 M66 38 v20" stroke="#FFF8EA" stroke-width="3"/></svg>
-    <div>
+    <svg viewBox="0 0 80 60" width="96" aria-hidden="true"><path d="M6 20 l8 -14 h52 l8 14 z" fill="#F2C230"/><rect x="10" y="30" width="60" height="8" fill="#B97A3E"/><circle cx="24" cy="26" r="6" fill="#fff" stroke="#D9452B" stroke-width="2"/><circle cx="40" cy="26" r="6" fill="#9CCC6C"/><circle cx="56" cy="26" r="6" fill="#F29A2B"/><path d="M14 38 v20 M66 38 v20" stroke="#FFF8EA" stroke-width="3"/></svg>
+    <div class="txt">
       <h2 id="xepa-title">Fim de feira?</h2>
       <p style="margin:6px 0 0">Avise a xepa com <strong>um toque</strong>. As famílias perto recebem o aviso na hora.</p>
       <div id="xepa-msg" role="status" style="margin-top:10px"></div>
     </div>
-    <button type="button" class="btn btn-xepa" id="btn-xepa"><span class="icon-slot" data-icon="bell"></span>Avisar xepa agora</button>
+    <div class="acao">
+      <button type="button" class="btn btn-xepa btn-big btn-block" id="btn-xepa"><span class="icon-slot" data-icon="bell"></span>Avisar xepa agora</button>
+    </div>
   </section>
 
-  <form id="form" novalidate style="margin-top:36px">
+  <form id="form" novalidate style="margin-top:28px">
     <span class="hand">ou conte o que sobrou</span>
-    <h1 id="form-title">Registrar sobra</h1>
+    <h2 id="form-title">Registrar sobra</h2>
     <p id="edit-info" class="notice" hidden></p>
 
     <fieldset>
       <legend><span class="num">1</span>O que é?</legend>
       <div class="tiles" id="tiles-cat" role="group" aria-label="Tipo de alimento"></div>
       <label class="field" style="margin-top:18px">Qual alimento?
-        <span class="muted" style="font-weight:400;font-size:17px">(pode falar no microfone do teclado)</span>
+        <span class="muted" style="font-weight:400">(pode falar no microfone do teclado)</span>
         <input type="text" id="descricao" maxlength="200" autocomplete="off" placeholder="Ex.: Tomate">
       </label>
     </fieldset>
@@ -68,15 +80,15 @@
       <legend><span class="num">2</span>Quanto pesa, mais ou menos?</legend>
       <div class="stepper">
         <button type="button" class="round" id="menos" aria-label="Menos 1 quilo">−</button>
-        <span class="big-num" aria-live="polite"><span id="peso">3</span> <small style="font-size:30px">kg</small></span>
-        <button type="button" class="round" id="mais" aria-label="Mais 1 quilo" style="background:var(--verde-escuro);color:var(--creme-claro)">+</button>
+        <span class="big-num" aria-live="polite"><span id="peso">3</span> <small>kg</small></span>
+        <button type="button" class="round dark" id="mais" aria-label="Mais 1 quilo">+</button>
         <span class="muted">Uma caixa de feira cheia tem uns 20 kg.</span>
       </div>
     </fieldset>
 
     <fieldset>
       <legend><span class="num">3</span>Como está?</legend>
-      <div class="grid" id="opt-cond" role="group" aria-label="Condição">
+      <div class="opts-3" id="opt-cond" role="group" aria-label="Condição">
         <button type="button" class="option" data-v="BOA" aria-pressed="false"><strong>Boa</strong><span>Bonita e firme</span></button>
         <button type="button" class="option" data-v="MADURA" aria-pressed="true"><strong>Madura</strong><span>Comer logo</span></button>
         <button type="button" class="option" data-v="CONSUMO_IMEDIATO" aria-pressed="false"><strong>Feia, mas boa</strong><span>Machucada por fora</span></button>
@@ -85,11 +97,11 @@
 
     <fieldset>
       <legend><span class="num">4</span>Doar ou vender barato?</legend>
-      <div class="grid-2" id="opt-mod" role="group" aria-label="Modalidade">
+      <div class="opts-2" id="opt-mod" role="group" aria-label="Modalidade">
         <button type="button" class="option" data-v="DOACAO" aria-pressed="true"><strong>Doar</strong><span>Vai para a ONG e para as famílias</span></button>
         <button type="button" class="option" data-v="VENDA" aria-pressed="false"><strong>Vender barato</strong><span>Você recupera uma parte</span></button>
       </div>
-      <div class="grid-2" style="margin-top:16px">
+      <div class="opts-2" style="margin-top:14px">
         <label class="field" id="campo-preco" hidden>Preço com desconto (R$)
           <input type="number" id="preco" min="0.01" step="0.01" inputmode="decimal">
         </label>
@@ -109,11 +121,11 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">6</span>Foto <span class="muted" style="font-family:var(--font-body);text-transform:none;font-weight:400;font-size:18px">(se quiser)</span></legend>
+      <legend><span class="num">6</span>Foto <span class="muted" style="font-family:var(--font-body);text-transform:none;font-weight:400;font-size:var(--fs-small)">(se quiser)</span></legend>
       <label class="field">Link da foto (começa com https://)
         <input type="url" id="foto" maxlength="255" placeholder="https://...">
       </label>
-      <label class="line" style="margin-top:12px;color:var(--verde-escuro)"><input type="checkbox" id="transporte" style="width:26px;height:26px"> Preciso de ajuda com o transporte</label>
+      <label class="line" style="margin-top:12px;color:var(--verde-escuro);font-size:var(--fs-body);min-height:44px"><input type="checkbox" id="transporte" style="width:26px;height:26px"> Preciso de ajuda com o transporte</label>
     </fieldset>
 
     <fieldset>
@@ -124,11 +136,11 @@
 
     <p class="msg-erro" role="alert" id="form-erro" hidden></p>
     <div id="form-ok" role="status"></div>
-    <button type="submit" class="btn btn-ok btn-block" id="btn-enviar" style="margin-top:20px;min-height:84px;font-size:24px"><span class="icon-slot" data-icon="bell"></span><span id="txt-enviar">Avisar as famílias</span></button>
+    <button type="submit" class="btn btn-ok btn-big btn-block" id="btn-enviar" style="margin-top:20px"><span class="icon-slot" data-icon="bell"></span><span id="txt-enviar">Avisar as famílias</span></button>
     <p style="text-align:center"><button type="button" class="link-btn" id="btn-cancelar-edicao" hidden>Desistir da mudança</button></p>
   </form>
 
-  <section style="margin-top:56px" aria-labelledby="meus-title">
+  <section style="margin-top:48px" aria-labelledby="meus-title">
     <span class="hand">o que você já registrou</span>
     <h2 id="meus-title">Meus lotes</h2>
     <p class="msg-erro" role="alert" id="meus-erro" hidden></p>

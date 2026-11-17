@@ -10,33 +10,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
   <style>
-    .hero-imp { background: var(--verde-escuro); color: var(--creme-claro); border-radius: 32px; padding: 36px 48px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
-    .hero-imp .kg { font-family: var(--font-title); font-weight: 900; font-size: clamp(80px, 12vw, 150px); color: var(--verde-folha); line-height: 1; }
-    .hero-imp .kg small { font-size: .42em; color: var(--creme-claro); }
-    @media (max-width: 760px) { .hero-imp { grid-template-columns: 1fr; padding: 24px; } }
-    .stat-card .v { font-family: var(--font-title); font-weight: 900; font-size: 48px; margin: 8px 0 4px; }
-    .stat-card svg { width: 46px; height: 46px; }
-    .two { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: stretch; }
-    @media (max-width: 1000px) { .two { grid-template-columns: 1fr; } }
-    .bars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: end; height: 300px; border-bottom: 3px solid var(--verde-escuro); margin-top: 24px; }
-    .bar { display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; height: 100%; text-align: center; }
-    .bar .b { background: var(--verde-folha); border: 3px solid var(--verde-escuro); border-bottom: 0; border-radius: 14px 14px 0 0; min-height: 4px; }
+    .hero-imp { background: var(--verde-escuro); color: var(--creme-claro); border-radius: 26px; padding: 28px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; }
+    .hero-imp > div { flex: 1 1 260px; min-width: 0; }
+    .hero-imp > svg { flex: 0 1 240px; min-width: 0; }
+    .hero-imp h2 { font-family: var(--font-body); font-weight: 400; text-transform: none; font-size: 19px; line-height: 1.3; color: var(--creme-claro); }
+    .hero-imp .kg { font-family: var(--font-title); font-weight: 900; font-size: var(--fs-bignum); color: var(--verde-folha); line-height: .9; }
+    .hero-imp .kg small { font-size: .45em; color: var(--creme-claro); }
+    @media (max-width: 640px) { .hero-imp { padding: 22px 20px; } .hero-imp > svg { display: none; } }
+    .stat-card { padding: 18px; display: flex; flex-direction: column; gap: 4px; }
+    .stat-card .v { font-family: var(--font-title); font-weight: 900; font-size: var(--fs-stat); line-height: 1; margin: 6px 0 2px; }
+    .stat-card svg { width: 36px; height: 36px; }
+    .two { display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch; }
+    .two > .card { flex: 999 1 480px; min-width: 0; }
+    .two > .selo-card { flex: 1 1 300px; min-width: 0; }
+    /* A3: bars shrink at 320px (flex: 1 1 0; min-width: 0), short labels */
+    .bars { display: flex; gap: 12px; align-items: flex-end; height: 200px; border-bottom: 3px solid var(--verde-escuro); margin-top: 16px; padding: 0 4px; }
+    .bar { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; height: 100%; text-align: center; }
+    .bar .b { background: var(--verde-folha); border: 3px solid var(--verde-escuro); border-bottom: 0; border-radius: 10px 10px 0 0; min-height: 4px; }
     .bar.atual .b { background: var(--verde-medio); }
-    .bar .val { font-family: var(--font-title); font-weight: 800; margin-bottom: 8px; font-size: 20px; }
-    .bar-labels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; text-align: center; font-weight: 700; margin-top: 10px; }
-    .split2 { display: flex; height: 52px; border-radius: 999px; overflow: hidden; border: 3px solid var(--verde-escuro); font-family: var(--font-title); font-weight: 800; color: #fff; }
-    .split2 .c { background: var(--verde-medio); display: flex; align-items: center; padding: 0 18px; white-space: nowrap; }
-    .split2 .a { background: var(--marrom-adubo); display: flex; align-items: center; justify-content: flex-end; padding: 0 18px; white-space: nowrap; }
-    .selo-card { background: var(--verde-folha); border: 3px solid var(--verde-escuro); border-radius: 32px; padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-    .quote { background: var(--creme-claro); border-radius: 20px; padding: 16px 20px; text-align: left; }
+    .bar .val { font-family: var(--font-title); font-weight: 900; margin-bottom: 6px; font-size: 17px; white-space: nowrap; }
+    .bar-labels { display: flex; gap: 12px; padding: 0 4px; text-align: center; font-weight: 700; font-size: var(--fs-small); margin-top: 8px; }
+    .bar-labels span { flex: 1 1 0; min-width: 0; }
+    .split2 { display: flex; height: 40px; border-radius: 999px; overflow: hidden; border: 3px solid var(--verde-escuro); font-weight: 700; font-size: var(--fs-small); color: var(--creme-claro); }
+    .split2 .c { background: var(--verde-medio); display: flex; align-items: center; padding: 0 14px; white-space: nowrap; overflow: hidden; }
+    .split2 .a { background: var(--marrom-adubo); display: flex; align-items: center; justify-content: flex-end; padding: 0 10px; white-space: nowrap; overflow: hidden; }
+    .selo-card { background: var(--verde-folha); border: 3px solid var(--verde-escuro); border-radius: 24px; padding: 22px 24px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+    .selo-card .selo { width: 180px; height: 180px; border-width: 6px; }
+    .quote { background: var(--creme-claro); border-radius: 16px; padding: 12px 16px; text-align: left; font-size: 16px; margin: 0; }
     .rank { list-style: none; padding: 0; margin: 12px 0 0; }
-    .rank li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--desabilitado); }
+    .rank li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--desabilitado); }
   </style>
 </head>
 <body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"> REDE DE PRATO</a>
+    <a class="brand" href="/"><img src="/img/logo_light.png" alt="" width="45" height="36"> REDE DE PRATO</a>
     <nav class="nav-pills" aria-label="Ofertante">
       <a href="/registrar.html" data-keep-persona>Registrar sobra</a>
       <a href="/retiradas.html" data-keep-persona>Retiradas</a>
@@ -46,16 +55,16 @@
   </div>
 </header>
 
-<main class="wrap">
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px">
+<main id="conteudo" tabindex="-1" class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:22px">
     <div>
       <span class="hand" id="mes-titulo">este mês</span>
       <h1>Meu impacto</h1>
     </div>
-    <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
       <span class="badge badge-amarelo" id="badge-exemplo" hidden>Dados de exemplo do protótipo</span>
       <label class="field" style="font-size:16px">Mês
-        <input type="month" id="mes" class="input" style="min-height:48px;padding:8px 12px;border:3px solid var(--verde-escuro);border-radius:16px;background:var(--creme-claro);font:inherit">
+        <input type="month" id="mes" class="input" style="min-height:48px;padding:0 12px">
       </label>
     </div>
   </div>
@@ -63,14 +72,14 @@
 
   <section class="hero-imp" aria-labelledby="hero-txt">
     <div>
-      <p id="hero-txt" style="margin:0">Este mês você salvou do lixo</p>
-      <p class="kg" style="margin:8px 0"><span id="total">0</span> <small>kg</small></p>
-      <p style="margin:0">de fruta, verdura e legume.</p>
+      <h2 id="hero-txt">Este mês você salvou do lixo</h2>
+      <p class="kg" style="margin:6px 0 0"><span id="total">0</span> <small>kg</small></p>
+      <p style="margin:10px 0 0;font-size:18px">de fruta, verdura e legume.</p>
     </div>
-    <svg viewBox="0 0 300 200" width="280" aria-hidden="true"><circle cx="70" cy="80" r="34" fill="#4E8F3A"/><circle cx="70" cy="90" r="22" fill="#7BB55A"/><circle cx="150" cy="105" r="30" fill="#D9452B"/><path d="M180 50 Q200 110 250 95 Q230 90 190 45 z" fill="#F2C230"/><circle cx="240" cy="110" r="22" fill="#F29A2B"/><rect x="20" y="120" width="260" height="80" rx="6" fill="#B97A3E"/><path d="M20 150 h260" stroke="#8C5C2B" stroke-width="8"/></svg>
+    <svg viewBox="0 0 300 200" width="240" aria-hidden="true"><circle cx="70" cy="80" r="34" fill="#4E8F3A"/><circle cx="70" cy="90" r="22" fill="#7BB55A"/><circle cx="150" cy="105" r="30" fill="#D9452B"/><path d="M180 50 Q200 110 250 95 Q230 90 190 45 z" fill="#F2C230"/><circle cx="240" cy="110" r="22" fill="#F29A2B"/><rect x="20" y="120" width="260" height="80" rx="6" fill="#B97A3E"/><path d="M20 150 h260" stroke="#8C5C2B" stroke-width="8"/></svg>
   </section>
 
-  <section class="grid-4" style="margin-top:28px" aria-label="Resumo do mês">
+  <section class="grid-4" style="margin-top:24px" aria-label="Resumo do mês">
     <article class="card stat-card"><svg viewBox="0 0 24 24" fill="none" stroke="#2F6B2B" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/></svg>
       <p class="v"><span id="consumo">0</span> kg</p><p style="margin:0">viraram <strong>comida</strong></p></article>
     <article class="card stat-card"><span style="color:var(--marrom-adubo)" class="icon-slot" data-icon="sprout"></span>
@@ -81,29 +90,30 @@
       <p class="v" id="lotes">0</p><p style="margin:0"><strong>lotes</strong> retirados</p></article>
   </section>
 
-  <section class="two" style="margin-top:28px">
-    <article class="card" style="padding:32px">
-      <h2 style="font-size:28px">Quilos salvos por semana</h2>
-      <div class="bars" id="bars" role="img" aria-label="Gráfico de quilos salvos por semana"></div>
-      <div class="bar-labels" aria-hidden="true"><span>Semana 1</span><span>Semana 2</span><span>Semana 3</span><span>Esta semana</span></div>
-      <h3 style="margin:28px 0 10px;text-transform:none;font-family:var(--font-body)">Para onde foi</h3>
-      <div class="split2" id="split"></div>
-      <p class="muted">Nada foi para o lixo comum: o que não dava para comer virou adubo.</p>
+  <section class="two" style="margin-top:24px">
+    <article class="card" aria-labelledby="semana-titulo">
+      <h2 id="semana-titulo" style="font-size:20px">Quilos salvos por semana</h2>
+      <!-- A8: the label lists every week's kg (set by painel.js) -->
+      <div class="bars" id="bars" role="img" aria-label="Quilos salvos por semana"></div>
+      <div class="bar-labels" aria-hidden="true"><span>Sem. 1</span><span>Sem. 2</span><span>Sem. 3</span><span>Esta semana</span></div>
+      <h3 style="margin:22px 0 8px;text-transform:none;font-family:var(--font-body);font-size:17px">Para onde foi</h3>
+      <div class="split2" id="split" role="img" aria-label="Nada registrado neste mês."></div>
+      <p class="muted" style="margin:8px 0 0">Nada foi para o lixo comum: o que não dava para comer virou adubo.</p>
     </article>
     <article class="selo-card" id="selo"></article>
   </section>
 
-  <section class="card" style="margin-top:28px" aria-labelledby="rede-title">
+  <section class="card" style="margin-top:24px" aria-labelledby="rede-title">
     <span class="hand">todos os mercados e feiras</span>
-    <h2 id="rede-title" style="font-size:30px">Impacto da rede</h2>
+    <h2 id="rede-title">Impacto da rede</h2>
     <div class="grid-4" style="margin-top:16px" id="rede-cards"></div>
     <ol class="rank" id="rede-rank"></ol>
   </section>
 
-  <section class="notice" style="margin-top:28px" aria-labelledby="admin-title">
-    <h3 id="admin-title" style="font-size:18px">Administração: conceder selo</h3>
+  <section class="notice" style="margin-top:24px" aria-labelledby="admin-title">
+    <h2 id="admin-title" style="font-size:17px">Administração: conceder selo</h2>
     <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-top:10px">
-      <label class="field" style="font-size:16px;min-width:260px">Ofertante
+      <label class="field" style="font-size:16px;flex:1 1 240px">Ofertante
         <select class="input" id="admin-of"></select>
       </label>
       <button type="button" class="btn btn-sm btn-dark" id="btn-selo">Conceder selo</button>

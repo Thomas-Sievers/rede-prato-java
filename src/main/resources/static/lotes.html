@@ -11,18 +11,19 @@
   <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"> REDE DE PRATO</a>
+    <a class="brand" href="/"><img src="/img/logo_light.png" alt="" width="45" height="36"> REDE DE PRATO</a>
     <div class="persona" id="persona" aria-live="polite"></div>
   </div>
 </header>
 
-<main class="wrap">
+<main id="conteudo" tabindex="-1" class="wrap">
   <div id="banner-xepa" class="banner-xepa" role="status" hidden></div>
   <p id="aviso-novo" class="notice" role="status" hidden style="margin-top:12px"></p>
 
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:28px 0 20px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:22px 0 18px">
     <div>
       <span class="hand">perto de você hoje</span>
       <h1>Escolha sua comida</h1>
@@ -37,7 +38,7 @@
       <button type="button" class="chip" data-mod="DOACAO" aria-pressed="false">De graça</button>
       <button type="button" class="chip" data-mod="VENDA" aria-pressed="false">Com desconto</button>
     </div>
-    <label class="field" style="max-width:360px">Bairro
+    <label class="field" style="max-width:360px;font-size:16px">Bairro
       <select class="input" id="sel-bairro"><option value="">Todos os bairros</option></select>
     </label>
   </section>

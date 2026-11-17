@@ -10,29 +10,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
   <style>
-    .layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: start; }
-    @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
-    .ret { display: grid; grid-template-columns: 110px 1fr auto; gap: 20px; align-items: center; padding: 18px; }
-    @media (max-width: 640px) { .ret { grid-template-columns: 1fr; } }
-    .ret .tile { aspect-ratio: 1; }
-    .ret.done { background: #F2EADA; border-color: #B8AB94; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+    @media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+    .ret { display: flex; flex-wrap: wrap; gap: 14px 18px; align-items: center; padding: 14px 18px; border-radius: 22px; }
+    .ret .tile { flex: none; width: 76px; height: 76px; aspect-ratio: 1; border-radius: 18px; }
+    .ret .tile svg { width: 60px; }
+    .ret .info { flex: 1 1 220px; min-width: 0; }
+    .ret .acao { flex: 1 1 180px; display: flex; justify-content: flex-end; }
+    .ret .acao .btn { width: 100%; }
+    .ret.done { background: #F3EBD9; border-color: #8A8170; }
     .ret.destaque { border: 5px solid var(--laranja-xepa); }
-    .ret h3 { font-size: 24px; }
-    .ret p { margin: 4px 0; }
-    .numfield { font-family: var(--font-title); font-weight: 900; font-size: 34px; letter-spacing: .12em; max-width: 220px; }
-    .split { display: flex; height: 34px; border-radius: 999px; overflow: hidden; border: 3px solid var(--verde-escuro); }
+    .ret h3 { font-size: 19px; }
+    .ret p { margin: 2px 0; }
+    .numfield { font-family: var(--font-title); font-weight: 900; font-size: 22px; letter-spacing: .1em; max-width: 180px; }
+    .split { display: flex; height: 40px; border-radius: 999px; overflow: hidden; border: 3px solid var(--verde-escuro); }
     .split .c { background: var(--verde-medio); }
     .split .a { background: var(--marrom-adubo); }
-    .row-dest { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
-    .row-dest .big-num { font-size: 40px; min-width: 120px; }
-    .round.sm { width: 56px; height: 56px; font-size: 28px; }
+    .row-dest { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 0; flex-wrap: wrap; }
+    .row-dest .stepper { gap: 10px; }
+    .row-dest .big-num { font-size: 28px; min-width: 72px; }
+    .round.sm { width: var(--stepper-sm); height: var(--stepper-sm); font-size: 24px; }
     .panel { position: sticky; top: 16px; }
   </style>
 </head>
 <body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"> REDE DE PRATO</a>
+    <a class="brand" href="/"><img src="/img/logo_light.png" alt="" width="45" height="36"> REDE DE PRATO</a>
     <nav class="nav-pills" aria-label="Ofertante">
       <a href="/registrar.html" data-keep-persona>Registrar sobra</a>
       <a href="/retiradas.html" aria-current="page" data-keep-persona>Retiradas</a>
@@ -42,14 +47,14 @@
   </div>
 </header>
 
-<main class="wrap">
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:24px">
+<main id="conteudo" tabindex="-1" class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px">
     <div>
       <span class="hand">quem vem buscar hoje</span>
       <h1>Retiradas</h1>
     </div>
-    <form id="form-conferir" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
-      <label class="field">Número da pessoa
+    <form id="form-conferir" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+      <label class="field" style="font-size:16px">Número da pessoa
         <input type="number" id="numero" class="numfield" inputmode="numeric" min="1" placeholder="0000">
       </label>
       <button type="submit" class="btn btn-dark">Conferir</button>
@@ -58,8 +63,9 @@
   <p id="msg" role="status"></p>
 
   <div class="layout">
-    <section aria-label="Reservas">
-      <div id="lista" style="display:flex;flex-direction:column;gap:16px"></div>
+    <section aria-labelledby="lista-titulo">
+      <h2 id="lista-titulo" style="margin-bottom:12px">Reservas da sua banca</h2>
+      <div id="lista" style="display:flex;flex-direction:column;gap:12px"></div>
       <div id="vencidos" style="margin-top:36px"></div>
     </section>
     <aside class="card panel" id="painel" aria-live="polite"></aside>
