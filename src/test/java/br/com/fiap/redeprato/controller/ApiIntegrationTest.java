@@ -227,6 +227,42 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void xepaFlowUc04() throws Exception {
+        long[] ids = novoLote("FEIRANTE");
+        long idOf = ids[0];
+        long idLote = ids[1];
+        mvc.perform(get("/api/alertas").param("idLote", String.valueOf(idLote)).param("tipo", "NOVO_LOTE"))
+                .andExpect(jsonPath("$.length()").value(1));
+
+        String body = mvc.perform(post("/api/alertas/xepa").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idOfertante\":" + idOf + "}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.quantidade").value(1))
+                .andExpect(jsonPath("$.mensagem").value("Xepa avisada para 1 lote."))
+                .andExpect(jsonPath("$.alertas[0].tipo").value("XEPA"))
+                .andReturn().getResponse().getContentAsString(java.nio.charset.StandardCharsets.UTF_8);
+        long idAlerta = ((Number) com.jayway.jsonpath.JsonPath.read(body, "$.alertas[0].idAlerta")).longValue();
+
+        mvc.perform(get("/api/alertas/recentes").param("horas", "24"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.idAlerta == " + idAlerta + ")]").exists());
+        mvc.perform(get("/api/lotes/disponiveis"))
+                .andExpect(jsonPath("$[?(@.idLote == " + idLote + ")]").exists());
+        mvc.perform(delete("/api/alertas/" + idAlerta)).andExpect(status().isNoContent());
+
+        long idMercado = novoLote("SUPERMERCADO")[0];
+        mvc.perform(post("/api/alertas/xepa").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idOfertante\":" + idMercado + "}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Só feirantes podem avisar xepa."));
+
+        // decisão 6: alerts go away with the lote
+        mvc.perform(delete("/api/lotes/" + idLote)).andExpect(status().isNoContent());
+        mvc.perform(get("/api/alertas").param("idLote", String.valueOf(idLote)))
+                .andExpect(jsonPath("$.length()").value(0));
+    }
+
+    @Test
     void enumInvalidoNoCorpoDa400() throws Exception {
         mvc.perform(post("/api/ofertantes").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\":\"X\",\"tipo\":\"PADARIA\",\"telefone\":\"11900000001\",\"idEndereco\":1}"))

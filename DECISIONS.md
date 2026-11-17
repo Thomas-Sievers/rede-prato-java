@@ -41,3 +41,13 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** `PUT /api/lotes/{id}` ignores `idOfertante` (a lote never changes owner); deadlines are truncated to whole seconds; `precisaTransporte` null → false.
 **Why:** PLAN §6/04 ("same fields except idOfertante"); Oracle `DATE` has second precision.
 **Alternatives considered:** 400 when idOfertante differs.
+
+## D-9 · 2026-11-17 · feature 09
+**Decision:** Only active FEIRANTE ofertantes can send a xepa (`"Só feirantes podem avisar xepa."`). The xepa runs lot expiry first, ignores duplicated ids, and the NOVO_LOTE alert of a new lote is saved by `LoteBO` through `AlertaDAO` (not `AlertaBO`).
+**Why:** UC04's actor is the Feirante (PLAN BR-09.1). Using the DAO avoids a LoteBO ↔ AlertaBO dependency cycle.
+**Alternatives considered:** allow supermarkets too (the screen would show the xepa block to everyone).
+
+## D-10 · 2026-11-17 · feature 08
+**Decision:** Implemented the optional batch endpoint `POST /api/lotes/{id}/destinacoes {consumoKg, compostagemKg}`; `PUT /api/destinacoes/{id}` may move a destinação to another lote (all rules re-checked, the row itself excluded from the sum).
+**Why:** The Retiradas screen registers both kinds in one action; one transaction keeps the sum rule consistent.
+**Alternatives considered:** two POSTs from the browser.

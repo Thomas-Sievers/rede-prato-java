@@ -9,10 +9,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.fiap.redeprato.dao.AlertaDAO;
 import br.com.fiap.redeprato.dao.DestinacaoDAO;
 import br.com.fiap.redeprato.dao.LoteDAO;
 import br.com.fiap.redeprato.dao.ReservaDAO;
 import br.com.fiap.redeprato.dto.LoteDTO;
+import br.com.fiap.redeprato.entity.Alerta;
+import br.com.fiap.redeprato.entity.enums.CanalAlerta;
+import br.com.fiap.redeprato.entity.enums.TipoAlerta;
 import br.com.fiap.redeprato.entity.Lote;
 import br.com.fiap.redeprato.entity.Ofertante;
 import br.com.fiap.redeprato.entity.Reserva;
@@ -32,15 +36,17 @@ public class LoteBO {
     private final LoteDAO dao;
     private final ReservaDAO reservaDAO;
     private final DestinacaoDAO destinacaoDAO;
+    private final AlertaDAO alertaDAO;
     private final OfertanteBO ofertanteBO;
     private final CategoriaAlimentoBO categoriaBO;
     private final Clock clock;
 
-    public LoteBO(LoteDAO dao, ReservaDAO reservaDAO, DestinacaoDAO destinacaoDAO, OfertanteBO ofertanteBO,
-                  CategoriaAlimentoBO categoriaBO, Clock clock) {
+    public LoteBO(LoteDAO dao, ReservaDAO reservaDAO, DestinacaoDAO destinacaoDAO, AlertaDAO alertaDAO,
+                  OfertanteBO ofertanteBO, CategoriaAlimentoBO categoriaBO, Clock clock) {
         this.dao = dao;
         this.reservaDAO = reservaDAO;
         this.destinacaoDAO = destinacaoDAO;
+        this.alertaDAO = alertaDAO;
         this.ofertanteBO = ofertanteBO;
         this.categoriaBO = categoriaBO;
         this.clock = clock;
@@ -80,6 +86,9 @@ public class LoteBO {
         l.setDataCadastro(now());
         validate(l);
         Lote salvo = dao.save(l);
+        // HU05 / UC07: every new lote generates a general NOVO_LOTE notice in the app
+        alertaDAO.save(Alerta.builder().lote(salvo).tipo(TipoAlerta.NOVO_LOTE).canal(CanalAlerta.APP)
+                .dataEnvio(now().withNano(0)).build());
         return LoteDTO.Response.from(salvo);
     }
 
@@ -95,7 +104,7 @@ public class LoteBO {
         return LoteDTO.Response.from(dao.save(l));
     }
 
-    /** HU03 / decisão 6: deletes the lote together with its CANCELADA reservas (and alertas, feature 09). */
+    /** HU03 / decisão 6: deletes the lote together with its CANCELADA reservas and its alertas. */
     @Transactional
     public void excluir(Long id) {
         Lote l = find(id);
@@ -103,6 +112,10 @@ public class LoteBO {
         List<Reserva> canceladas = reservaDAO.findByLote_IdLoteAndStatus(l.getIdLote(), StatusReserva.CANCELADA);
         if (!canceladas.isEmpty()) {
             reservaDAO.deleteAll(canceladas);
+        }
+        List<Alerta> alertas = alertaDAO.findByLote_IdLote(l.getIdLote());
+        if (!alertas.isEmpty()) {
+            alertaDAO.deleteAll(alertas);
         }
         dao.delete(l);
     }

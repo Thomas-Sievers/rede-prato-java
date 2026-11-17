@@ -54,6 +54,39 @@ class LoteBOTest {
     private ReservaDAO reservaDAO;
     @Mock
     private br.com.fiap.redeprato.dao.DestinacaoDAO destinacaoDAO;
+    @Mock
+    private br.com.fiap.redeprato.dao.AlertaDAO alertaDAO;
+
+    @Test
+    void hu05CriarLoteGeraAlertaNovoLoteNoApp() {
+        bo.criar(doacao());
+        org.mockito.ArgumentCaptor<br.com.fiap.redeprato.entity.Alerta> cap =
+                org.mockito.ArgumentCaptor.forClass(br.com.fiap.redeprato.entity.Alerta.class);
+        verify(alertaDAO).save(cap.capture());
+        assertThat(cap.getValue().getTipo()).isEqualTo(br.com.fiap.redeprato.entity.enums.TipoAlerta.NOVO_LOTE);
+        assertThat(cap.getValue().getCanal()).isEqualTo(br.com.fiap.redeprato.entity.enums.CanalAlerta.APP);
+        assertThat(cap.getValue().getDataEnvio()).isEqualTo(AGORA);
+        assertThat(cap.getValue().getLote().getIdLote()).isEqualTo(7L);
+    }
+
+    @Test
+    void loteInvalidoNaoGeraAlerta() {
+        assertThatThrownBy(() -> bo.criar(req(null, ModalidadeLote.DOACAO, null, AGORA.plusHours(1))))
+                .isInstanceOf(BusinessRuleException.class);
+        verify(alertaDAO, never()).save(any());
+    }
+
+    @Test
+    void excluirLoteApagaAlertasJunto() {
+        Lote l = lote(StatusLote.DISPONIVEL);
+        br.com.fiap.redeprato.entity.Alerta a = br.com.fiap.redeprato.entity.Alerta.builder().idAlerta(1L).lote(l).build();
+        when(dao.findById(7L)).thenReturn(Optional.of(l));
+        when(alertaDAO.findByLote_IdLote(7L)).thenReturn(List.of(a));
+        bo.excluir(7L);
+        org.mockito.InOrder order = org.mockito.Mockito.inOrder(alertaDAO, dao);
+        order.verify(alertaDAO).deleteAll(List.of(a));
+        order.verify(dao).delete(l);
+    }
 
     @Test
     void br0411NaoExcluiLoteComDestinacao() {
@@ -73,7 +106,7 @@ class LoteBOTest {
 
     @BeforeEach
     void setUp() {
-        bo = new LoteBO(dao, reservaDAO, destinacaoDAO, ofertanteBO, categoriaBO, CLOCK);
+        bo = new LoteBO(dao, reservaDAO, destinacaoDAO, alertaDAO, ofertanteBO, categoriaBO, CLOCK);
         ofertante = Ofertante.builder().idOfertante(1L).nome("Banca do Seu Antônio").tipo(TipoOfertante.FEIRANTE)
                 .ativo(true).endereco(Endereco.builder().bairro("Paraíso").logradouro("Rua X").build()).build();
         lenient().when(ofertanteBO.find(1L)).thenReturn(ofertante);
