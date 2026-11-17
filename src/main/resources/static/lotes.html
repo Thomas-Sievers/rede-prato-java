@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escolha sua comida — Rede de Prato</title>
+  <link rel="icon" href="/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"> REDE DE PRATO</a>
+    <div class="persona" id="persona" aria-live="polite"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="banner-xepa" class="banner-xepa" role="status" hidden></div>
+  <p id="aviso-novo" class="notice" role="status" hidden style="margin-top:12px"></p>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:28px 0 20px">
+    <div>
+      <span class="hand">perto de você hoje</span>
+      <h1>Escolha sua comida</h1>
+    </div>
+    <button type="button" class="btn btn-sm" id="btn-sacola"><span class="icon-slot" data-icon="basket"></span><span>Sacola: <strong id="sacola-txt">vazia</strong></span></button>
+  </div>
+
+  <section aria-label="Filtros" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px">
+    <div class="chips" id="chips-cat" role="group" aria-label="Tipo de alimento"></div>
+    <div class="chips" role="group" aria-label="Preço" id="chips-mod">
+      <button type="button" class="chip" data-mod="" aria-pressed="true">Todos</button>
+      <button type="button" class="chip" data-mod="DOACAO" aria-pressed="false">De graça</button>
+      <button type="button" class="chip" data-mod="VENDA" aria-pressed="false">Com desconto</button>
+    </div>
+    <label class="field" style="max-width:360px">Bairro
+      <select class="input" id="sel-bairro"><option value="">Todos os bairros</option></select>
+    </label>
+  </section>
+
+  <p id="erro" class="msg-erro" role="alert" hidden></p>
+  <div id="lista" class="grid" aria-live="polite"></div>
+  <div id="vazio" hidden></div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Rede de Prato · ONG · Paraíso, São Paulo</span>
+    <span>Protótipo acadêmico · FIAP Global Solution 2026 · Equipe Luxor Obelisc (18)</span>
+  </div>
+</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/persona.js"></script>
+<script src="/js/lotes.js"></script>
+</body>
+</html>

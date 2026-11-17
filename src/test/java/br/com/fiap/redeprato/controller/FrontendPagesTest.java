@@ -43,8 +43,17 @@ class FrontendPagesTest {
                 .andExpect(content().string(containsString("Procure esta placa")));
     }
 
+    @Test
+    void telaDeLotesServida() throws Exception {
+        mvc.perform(get("/lotes.html"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Escolha sua comida")))
+                .andExpect(content().string(containsString("/js/lotes.js")));
+    }
+
     @ParameterizedTest
-    @ValueSource(strings = {"/css/app.css", "/js/api.js", "/js/persona.js", "/img/logo.png"})
+    @ValueSource(strings = {"/css/app.css", "/js/api.js", "/js/persona.js", "/js/ui.js", "/js/lotes.js",
+        "/img/logo.png"})
     void assetsServidos(String path) throws Exception {
         mvc.perform(get(path)).andExpect(status().isOk());
     }
