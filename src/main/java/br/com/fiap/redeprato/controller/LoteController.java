@@ -44,8 +44,9 @@ public class LoteController {
     public List<LoteDTO.Response> listar(@RequestParam(required = false) StatusLote status,
                                          @RequestParam(required = false) Long idOfertante,
                                          @RequestParam(required = false) Long idCategoria,
-                                         @RequestParam(required = false) ModalidadeLote modalidade) {
-        return bo.listar(status, idOfertante, idCategoria, modalidade);
+                                         @RequestParam(required = false) ModalidadeLote modalidade,
+                                         @RequestParam(required = false) Boolean precisaTransporte) {
+        return bo.listar(status, idOfertante, idCategoria, modalidade, precisaTransporte);
     }
 
     @GetMapping("/disponiveis")

@@ -78,6 +78,13 @@ class FrontendPagesTest {
                 .andExpect(content().string(containsString("Quilos salvos por semana")));
     }
 
+    @Test
+    void openApiDisponivel() throws Exception {
+        mvc.perform(get("/v3/api-docs"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("/api/reservas")));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"/css/app.css", "/js/api.js", "/js/persona.js", "/js/ui.js", "/js/lotes.js",
         "/js/registrar.js", "/js/retiradas.js", "/js/painel.js", "/img/logo.png", "/img/logo_light.png"})

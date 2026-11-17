@@ -242,6 +242,20 @@ class ApiIntegrationTest {
         mvc.perform(get("/api/impacto/rede"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.ofertantes[?(@.idOfertante == " + idOf + ")]").exists());
+
+        // HU22: monthly report
+        mvc.perform(get("/api/relatorios/ofertantes/" + idOf + "/mensal"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.itens.length()").value(1))
+                .andExpect(jsonPath("$.itens[0].consumoKg").value(5.0))
+                .andExpect(jsonPath("$.totalKg").value(6.0));
+        mvc.perform(get("/api/relatorios/ofertantes/" + idOf + "/mensal").param("mes", "2026-13"))
+                .andExpect(status().isBadRequest());
+
+        // HU24: transport filter
+        mvc.perform(get("/api/lotes").param("precisaTransporte", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.precisaTransporte == false)]").doesNotExist());
     }
 
     @Test

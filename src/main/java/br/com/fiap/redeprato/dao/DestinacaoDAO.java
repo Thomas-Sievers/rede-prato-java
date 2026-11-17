@@ -32,6 +32,17 @@ public interface DestinacaoDAO extends JpaRepository<Destinacao, Long> {
 
     boolean existsByLote_IdLote(Long idLote);
 
+    /** HU22: destinações of one ofertante's lots in [inicio, fim), with lote and categoria loaded. */
+    @Query("""
+            select d from Destinacao d join fetch d.lote l join fetch l.categoria
+            where l.ofertante.idOfertante = :idOfertante
+              and d.dataDestinacao >= :inicio and d.dataDestinacao < :fim
+            order by d.dataDestinacao asc, d.idDestinacao asc
+            """)
+    List<Destinacao> doOfertanteNoPeriodo(@Param("idOfertante") Long idOfertante,
+                                          @Param("inicio") LocalDateTime inicio,
+                                          @Param("fim") LocalDateTime fim);
+
     /** BR-10.1: kg per type in [inicio, fim) for one ofertante (or the whole network when null). */
     @Query("""
             select new br.com.fiap.redeprato.dto.ImpactoDTO$KgPorTipo(d.tipo, sum(d.pesoKg))

@@ -58,7 +58,7 @@ Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate 7) · Lombok · H2 (per
 | Exception | `br.com.fiap.redeprato.exception` | `NotFoundException` (404), `BusinessRuleException` (400), `ConflictException` (409), `ApiError`, `GlobalExceptionHandler` |
 | (apoio) | `dto`, `converter`, `config` | DTOs (records), conversores JPA (S/N, HH:MM), Clock/CORS, carga de dados simulados |
 
-## Resumo dos endpoints (57 no total)
+## Resumo dos endpoints (58 no total)
 
 | Recurso | Endpoints |
 | --- | --- |
@@ -72,7 +72,10 @@ Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate 7) · Lombok · H2 (per
 | Destinações `/api/destinacoes` | GET, GET `/{id}`, POST, PUT, DELETE |
 | Alertas `/api/alertas` | POST `/xepa`, GET `/recentes`, GET, GET `/{id}`, POST, PUT, DELETE |
 | Impacto `/api/impacto` | GET `/ofertantes/{id}`, GET `/rede` |
+| Relatórios `/api/relatorios` | GET `/ofertantes/{id}/mensal` |
 | Saúde | GET `/api/health` |
+
+Swagger UI: `/swagger-ui.html` (OpenAPI em `/v3/api-docs`).
 
 Detalhes, exemplos e códigos de erro: [`docs/endpoints.md`](docs/endpoints.md).
 

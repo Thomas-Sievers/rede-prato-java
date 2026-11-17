@@ -21,4 +21,6 @@ Plan: `docs/PLAN.md` (spec-driven: every feature has `specs/<NN>-<name>/requirem
 - 09-alertas — Claude Code implemented 09 from `specs/09-alertas/`; one test per UC04 criterion; only feirantes send xepa (D-9).
 - 10-impacto — Claude Code implemented 10 from `specs/10-impacto/`; refeições estimadas not computed (D-11).
 - 11-seed — Claude Code implemented 11 from `specs/11-seed/` (simulated data, dates relative to the Clock).
+- 17-docs — Claude Code wrote `docs/endpoints.md`, `class-diagram.md`, `der.md`, `run.md`, `oracle-checklist.md` from the code, plus `DocsConsistencyTest` (fails if an endpoint/entity is missing from the docs).
+- 18-extras — Claude Code added Swagger UI, the HU22 monthly report, the transport filter and the "Onde buscar" list (D-13).
 - 12–16 frontend — Claude Code implemented the 5 screens from `specs/12…16-*` and `docs/prototipo.md` + the prototype PNGs (plain HTML/JS, D-12).

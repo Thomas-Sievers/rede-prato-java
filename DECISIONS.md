@@ -61,3 +61,8 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** Frontend = static HTML + plain JS (no framework, no build step) served by Spring Boot from `static/`; shared `api.js`, `ui.js` (dialog), `persona.js` ("Você é:" selector). Responses forced to UTF-8 (`server.servlet.encoding.force-response=true`) so Portuguese text in JS/CSS is never mis-decoded.
 **Why:** One deployable (one Render service), nothing extra to install, and the rubric grades the Java API; the screens only need to call it.
 **Alternatives considered:** React/Vite app (extra build and deploy), Thymeleaf (mixes view into controllers).
+
+## D-13 · 2026-11-17 · feature 18
+**Decision:** Added `springdoc-openapi-starter-webmvc-ui` 3.0.0 (Swagger UI at `/swagger-ui.html`), the HU22 monthly report `GET /api/relatorios/ofertantes/{id}/mensal` (lotes grouped from the month's destinações, valor estimado null → 0) and the `precisaTransporte` filter on `GET /api/lotes`.
+**Why:** PLAN §6/18 extras, done only after 01–17 were merged. springdoc 3.x targets Boot 4 and passed the H2 context test.
+**Alternatives considered:** skip OpenAPI; a separate report table (not in the DDL).
