@@ -145,7 +145,7 @@
       '<h3 id="onde" style="margin:20px 0 12px">Onde você quer buscar?</h3>' +
       '<div role="radiogroup" aria-labelledby="onde" style="display:flex;flex-direction:column;gap:12px">' +
       opcoes.map((o, i) => '<button type="button" class="option" role="radio" aria-checked="false" tabindex="' +
-        (i === 0 ? '0' : '-1') + '" data-ponto="' + o.id + '"><strong>' + esc(o.titulo) + '</strong><span>' +
+        (i === 0 ? '0' : '-1') + '" data-ponto="' + o.id + '" aria-label="' + esc(o.titulo + ': ' + o.sub) + '"><strong>' + esc(o.titulo) + '</strong><span>' +
         esc(o.sub) + '</span></button>').join('') +
       '</div>' +
       '<p class="msg-erro" role="alert" id="modal-erro" hidden style="margin-top:16px"></p>' +
