@@ -1,0 +1,11 @@
+target
+.git
+.idea
+.vscode
+.claude
+docs
+specs
+db
+*.md
+.env
+.env.*
