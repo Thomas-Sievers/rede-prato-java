@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retiradas — Rede de Prato</title>
+  <link rel="icon" href="/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <style>
+    .layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: start; }
+    @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+    .ret { display: grid; grid-template-columns: 110px 1fr auto; gap: 20px; align-items: center; padding: 18px; }
+    @media (max-width: 640px) { .ret { grid-template-columns: 1fr; } }
+    .ret .tile { aspect-ratio: 1; }
+    .ret.done { background: #F2EADA; border-color: #B8AB94; }
+    .ret.destaque { border: 5px solid var(--laranja-xepa); }
+    .ret h3 { font-size: 24px; }
+    .ret p { margin: 4px 0; }
+    .numfield { font-family: var(--font-title); font-weight: 900; font-size: 34px; letter-spacing: .12em; max-width: 220px; }
+    .split { display: flex; height: 34px; border-radius: 999px; overflow: hidden; border: 3px solid var(--verde-escuro); }
+    .split .c { background: var(--verde-medio); }
+    .split .a { background: var(--marrom-adubo); }
+    .row-dest { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 14px 0; flex-wrap: wrap; }
+    .row-dest .big-num { font-size: 40px; min-width: 120px; }
+    .round.sm { width: 56px; height: 56px; font-size: 28px; }
+    .panel { position: sticky; top: 16px; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"> REDE DE PRATO</a>
+    <nav class="nav-pills" aria-label="Ofertante">
+      <a href="/registrar.html" data-keep-persona>Registrar sobra</a>
+      <a href="/retiradas.html" aria-current="page" data-keep-persona>Retiradas</a>
+      <a href="/painel.html" data-keep-persona>Meu impacto</a>
+    </nav>
+    <div class="persona" id="persona"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:24px">
+    <div>
+      <span class="hand">quem vem buscar hoje</span>
+      <h1>Retiradas</h1>
+    </div>
+    <form id="form-conferir" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <label class="field">Número da pessoa
+        <input type="number" id="numero" class="numfield" inputmode="numeric" min="1" placeholder="0000">
+      </label>
+      <button type="submit" class="btn btn-dark">Conferir</button>
+    </form>
+  </div>
+  <p id="msg" role="status"></p>
+
+  <div class="layout">
+    <section aria-label="Reservas">
+      <div id="lista" style="display:flex;flex-direction:column;gap:16px"></div>
+      <div id="vencidos" style="margin-top:36px"></div>
+    </section>
+    <aside class="card panel" id="painel" aria-live="polite"></aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>Rede de Prato · ONG · Paraíso, São Paulo</span>
+    <span>Protótipo acadêmico · FIAP Global Solution 2026 · Equipe Luxor Obelisc (18)</span>
+  </div>
+</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/persona.js"></script>
+<script src="/js/retiradas.js"></script>
+</body>
+</html>

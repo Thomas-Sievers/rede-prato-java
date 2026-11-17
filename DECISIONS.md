@@ -56,3 +56,8 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** "Refeições estimadas" (UC10) is not computed; the painel shows kg (total, consumo, compostagem), lotes retirados, beneficiários and pessoas atendidas. Weekly buckets are the last 4 Monday–Sunday weeks ending in the current week, independent of `mes`.
 **Why:** The docs never define grams per meal; inventing a factor would put an unsourced number in the graded painel. PLAN §6/10 says to record this.
 **Alternatives considered:** 400 g per meal (common NGO estimate) — rejected as unsourced.
+
+## D-12 · 2026-11-17 · features 12–16
+**Decision:** Frontend = static HTML + plain JS (no framework, no build step) served by Spring Boot from `static/`; shared `api.js`, `ui.js` (dialog), `persona.js` ("Você é:" selector). Responses forced to UTF-8 (`server.servlet.encoding.force-response=true`) so Portuguese text in JS/CSS is never mis-decoded.
+**Why:** One deployable (one Render service), nothing extra to install, and the rubric grades the Java API; the screens only need to call it.
+**Alternatives considered:** React/Vite app (extra build and deploy), Thymeleaf (mixes view into controllers).

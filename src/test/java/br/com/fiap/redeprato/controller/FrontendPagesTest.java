@@ -27,7 +27,9 @@ class FrontendPagesTest {
 
     @BeforeEach
     void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilters(new org.springframework.web.filter.CharacterEncodingFilter("UTF-8", true))
+                .build();
     }
 
     @Test
@@ -59,9 +61,18 @@ class FrontendPagesTest {
                 .andExpect(content().string(containsString("Fim de feira?")));
     }
 
+    @Test
+    void telaDeRetiradasServida() throws Exception {
+        mvc.perform(get("/retiradas.html"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Retiradas")))
+                .andExpect(content().string(containsString("Conferir")))
+                .andExpect(content().string(containsString("Número da pessoa")));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"/css/app.css", "/js/api.js", "/js/persona.js", "/js/ui.js", "/js/lotes.js",
-        "/js/registrar.js", "/img/logo.png"})
+        "/js/registrar.js", "/js/retiradas.js", "/img/logo.png"})
     void assetsServidos(String path) throws Exception {
         mvc.perform(get(path)).andExpect(status().isOk());
     }
