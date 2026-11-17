@@ -1,14 +1,31 @@
 # db/ — Database scripts (Database Design, Mariana Souza França)
 
-Mariana's DDL is the **source of truth** for tables, columns, types and constraints (see `docs/decisoes.md`). Do not change her scripts.
+Mariana's scripts are the **source of truth** for tables, columns, types and constraints (see `docs/decisoes.md`). They are stored here exactly as she delivered them. Do not change them.
 
-## Status
+## Files
 
-- [ ] `ddl.sql` — **NOT DELIVERED YET** (as of 17/11/2026, 01h). It arrives later and is dropped here unchanged.
-- [ ] `dml.sql` — optional; seed data for Oracle.
+| File | Original name | Content |
+| --- | --- | --- |
+| `ddl.sql` | `rede_de_prato_backend_ddl.sql` | Tables, PKs, FKs, `CHECK`s, defaults, the conditional unique index `UX_RP_RESERVA_ATIVA_LOTE` and helper indexes. |
+| `dml.sql` | `rede_de_prato_backend_dml_atualizado.sql` | Sample data (at least 5 rows per table), then `ALTER TABLE ... (START WITH LIMIT VALUE)` so the identity counters start after the seeded IDs. |
+| `dql.sql` | `rede_de_prato_backend_dql.sql` | The 3 queries required by the Database Design rubric (INNER JOIN, GROUP BY, LEFT OUTER JOIN). |
 
-## Until the DDL arrives (instructions for Claude Code)
+Delivered on 17/11/2026.
 
-- Build the entities from `docs/classes.md`, with exact `columnDefinition` types taken from the "Tipo Oracle" column (e.g. `CHAR(1)`, `VARCHAR2(5)`, `NUMBER(8,2)`), table names `T_RP_*`, column names in snake_case exactly as listed.
-- Tests and the default profile run on H2 (`create-drop`), so nothing depends on this file.
-- When the DDL arrives, Thomas (or a later Claude Code run) diffs it against the entities and fixes any mismatch so `ddl-auto=validate` passes on the `oracle` profile. Record every mismatch in `DECISIONS.md`.
+## Order
+
+1. `ddl.sql`
+2. `dml.sql`
+3. `dql.sql` (optional; read-only queries)
+
+Then run the app with `SPRING_PROFILES_ACTIVE=oracle` (see `docs/run.md`).
+
+## Review against the backend (17/11/2026)
+
+- Every table, column, type, length, nullability and enum value matches the entities. No entity changes were needed.
+- The `CHECK` rules are also enforced in the services, so the API returns readable messages before Oracle rejects anything.
+- Known, accepted data quirks (the team decided to keep the script as delivered):
+  - No sample lote is `DISPONIVEL`, so the "Lotes" screen starts empty on Oracle. Register lotes through the app for the demo.
+  - All sample lotes have `data_limite_retirada = SYSDATE + 30`, including lote 6, which is `EXPIRADO`.
+  - Lote 5 stays `RESERVADO` with an `ATIVA` reserva, which is useful to demo "confirmar retirada".
+  - Text has no accents ("Sao Paulo") and category names are in capitals ("FRUTAS").

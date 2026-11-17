@@ -32,7 +32,7 @@ No IntelliJ: *File → Open* na pasta do projeto, esperar o Maven importar, e ro
 
 ## Com o Oracle da FIAP (perfil `oracle`)
 
-1. Rodar o DDL da Mariana (`db/ddl.sql`) no seu schema Oracle.
+1. Rodar os scripts da Mariana no seu schema Oracle, nesta ordem: `db/ddl.sql` (tabelas) e `db/dml.sql` (dados de exemplo e ajuste dos contadores IDENTITY). O `db/dql.sql` traz as consultas da disciplina de banco.
 2. Definir as variáveis de ambiente (nunca colocar senha em arquivo):
    ```bash
    export ORACLE_URL=jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
