@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Rede de Prato — Início</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FAEFD9}
+a{color:#1A3A2A}a:hover{color:#2F6B2B}
+:focus-visible{outline:3px solid #1A3A2A;outline-offset:3px;box-shadow:0 0 0 3px #FFF8EA}
+.skip{position:absolute;left:-9999px;top:12px;z-index:50;background:#1A3A2A;color:#FFF8EA;padding:12px 20px;border-radius:999px;font-weight:700;text-decoration:none}
+.skip:focus{left:16px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-family:Archivo,Arial,sans-serif;font-weight:900;font-size:16px;letter-spacing:.02em;text-transform:uppercase;text-decoration:none;box-sizing:border-box;border:0;cursor:pointer}
+.btn-dark{background:#1A3A2A;color:#FAEFD9}.btn-dark:hover{background:#2F6B2B;color:#FAEFD9}
+.btn-line{border:3px solid #1A3A2A;color:#1A3A2A;background:transparent}.btn-line:hover{background:#1A3A2A;color:#FAEFD9}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;text-decoration:none;font-family:Archivo,Arial,sans-serif;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.04em}
+.marquee{overflow:hidden}
+.track{display:flex;width:max-content;animation:roll 40s linear infinite}
+@keyframes roll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.track{animation:none}}
+.grp{display:flex;align-items:center;gap:28px;padding:14px 28px 14px 0}
+.grp span{font-family:Archivo,Arial,sans-serif;font-weight:900;font-size:22px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;color:#FAEFD9}
+.grp i{width:10px;height:10px;border-radius:50%;background:#9CCC6C;flex:none}
+.crate{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%);mask-composite:intersect}
+</style>
+</helmet>
+<div style="font-family: 'Atkinson Hyperlegible', Arial, sans-serif; color: #1A3A2A; background: #FAEFD9; font-size: 17px; line-height: 1.5; overflow-x: hidden">
+
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+<defs>
+<radialGradient id="g-red" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FF9A7A"></stop><stop offset=".55" stop-color="#E0492E"></stop><stop offset="1" stop-color="#A52D1A"></stop></radialGradient>
+<radialGradient id="g-orange" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFD08A"></stop><stop offset=".55" stop-color="#F7A23A"></stop><stop offset="1" stop-color="#C9700F"></stop></radialGradient>
+<radialGradient id="g-yellow" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#FFF0A8"></stop><stop offset=".55" stop-color="#F5CB3A"></stop><stop offset="1" stop-color="#C79A12"></stop></radialGradient>
+<radialGradient id="g-green" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#C2EA98"></stop><stop offset=".55" stop-color="#6FB04C"></stop><stop offset="1" stop-color="#3A6B2A"></stop></radialGradient>
+<radialGradient id="g-purple" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#E58AB7"></stop><stop offset=".55" stop-color="#A83E70"></stop><stop offset="1" stop-color="#6A2245"></stop></radialGradient>
+<radialGradient id="g-skin" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FBE0C4"></stop><stop offset="1" stop-color="#D99A68"></stop></radialGradient>
+<radialGradient id="g-skin2" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#D9A47A"></stop><stop offset="1" stop-color="#8E5A35"></stop></radialGradient>
+<linearGradient id="g-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FD066"></stop><stop offset="1" stop-color="#2F7A2B"></stop></linearGradient>
+<linearGradient id="g-carrot" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFB774"></stop><stop offset=".5" stop-color="#EE8A3C"></stop><stop offset="1" stop-color="#B95A18"></stop></linearGradient>
+<linearGradient id="g-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8DDA6"></stop><stop offset="1" stop-color="#D9A75E"></stop></linearGradient>
+<linearGradient id="g-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3E6650"></stop><stop offset="1" stop-color="#14301F"></stop></linearGradient>
+<linearGradient id="g-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#EADFC4"></stop></linearGradient>
+<linearGradient id="g-soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B07A47"></stop><stop offset="1" stop-color="#6E4521"></stop></linearGradient>
+<filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5"></feGaussianBlur></filter>
+</defs>
+</svg>
+
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header style="max-width: 1200px; margin: 0 auto; padding: 16px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; min-height: 44px">
+<img src="assets/logo.png" alt="" style="height: 40px; width: auto">
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 19px; letter-spacing: .02em">REDE DE PRATO</span>
+</a>
+<nav class="nav" aria-label="Menu principal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px">
+<a href="#como">Como funciona</a>
+<a href="#pontos">Onde buscar</a>
+<a href="#ofertantes">Mercados e feiras</a>
+<a class="btn btn-dark" href="Lotes.dc.html" style="min-height: 44px; font-size: 14px; padding: 0 20px">Quero comida</a>
+</nav>
+</header>
+
+<main id="conteudo" tabindex="-1">
+
+<section aria-labelledby="hero-titulo" style="max-width: 1200px; margin: 0 auto; padding: 24px 32px 56px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 30px; line-height: 1; color: #2F6B2B">comida boa não é lixo</p>
+<h1 id="hero-titulo" style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(36px, 5vw, 56px); line-height: 1; text-transform: uppercase; letter-spacing: -.01em">Comida boa perto de você. <span style="background: #9CCC6C; padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone">De graça</span> ou bem barata.</h1>
+<p style="margin: 0; font-size: 19px; max-width: 36ch">Mercados e feiras do Paraíso avisam quando sobra fruta, verdura e legume. Você reserva e busca perto de casa.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px">
+<a class="btn btn-dark" href="Lotes.dc.html">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18l-2 11H5L3 9z"></path><path d="M8 9l4-6 4 6"></path></svg>
+Quero pegar comida</a>
+<a class="btn btn-line" href="RegistrarLote.dc.html">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l2-6h14l2 6"></path><path d="M3 10c0 2 2 3 3 3s3-1 3-3c0 2 2 3 3 3s3-1 3-3c0 2 2 3 3 3s3-1 3-3"></path><path d="M5 13v7h14v-7"></path></svg>
+Tenho comida sobrando</a>
+</div>
+<ul style="list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 24px; font-weight: 700; font-size: 16px">
+<li style="display: flex; align-items: center; gap: 8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F6B2B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg>Não precisa de documento</li>
+<li style="display: flex; align-items: center; gap: 8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F6B2B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg>Funciona no WhatsApp</li>
+<li style="display: flex; align-items: center; gap: 8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F6B2B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg>Pontos com placa perto de casa</li>
+</ul>
+</div>
+<div style="flex: 1 1 380px; min-width: 0; display: flex; justify-content: center">
+<div style="position: relative; width: 100%; max-width: 440px">
+<img class="crate" src="assets/caixa-laranjas.png" alt="Caixa de feira de madeira cheia de laranjas" style="display: block; width: 100%; height: auto">
+<span style="position: absolute; top: 18px; right: 10px; transform: rotate(-8deg); background: #C2410C; color: #FFF8EA; border-radius: 999px; padding: 8px 18px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 18px; box-shadow: 0 6px 14px rgba(26,58,42,.25)">DE GRAÇA</span>
+</div>
+</div>
+</section>
+
+<section aria-label="Alimentos que a rede salva" style="background: #1A3A2A; margin-bottom: 64px; display: flex; align-items: center">
+<div class="marquee" style="flex: 1 1 auto; min-width: 0">
+<div class="track" aria-hidden="true" style="{{trackStyle}}">
+<div class="grp">
+<svg width="52" height="52" viewBox="0 0 100 100"><ellipse cx="50" cy="90" rx="28" ry="5" fill="#000000" opacity=".25" filter="url(#soft)"></ellipse><circle cx="50" cy="56" r="32" fill="url(#g-red)"></circle><ellipse cx="38" cy="42" rx="10" ry="6" fill="#FFFFFF" opacity=".5"></ellipse><path d="M50 26l6-9 3 10 10-2-7 8-12-2-12 2-7-8 10 2 3-10z" fill="url(#g-leaf)"></path></svg><span>Tomate</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><path d="M36 34h28L53 92q-3 6-6 0z" fill="url(#g-carrot)"></path><path d="M42 50h10M44 64h9M46 78h6" stroke="#B95A18" stroke-width="3" stroke-linecap="round"></path><path d="M40 33q-6-18 2-24q4 12 8 24M50 33q0-22 8-26q2 14-4 26M58 33q10-14 18-12q-6 10-14 13" fill="url(#g-leaf)"></path></svg><span>Cenoura</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><ellipse cx="50" cy="90" rx="30" ry="5" fill="#000000" opacity=".25" filter="url(#soft)"></ellipse><circle cx="32" cy="60" r="22" fill="url(#g-green)"></circle><circle cx="68" cy="60" r="22" fill="url(#g-green)"></circle><circle cx="50" cy="44" r="24" fill="url(#g-green)"></circle><circle cx="50" cy="64" r="20" fill="url(#g-green)"></circle><ellipse cx="42" cy="34" rx="9" ry="5" fill="#FFFFFF" opacity=".45"></ellipse></svg><span>Alface</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><path d="M16 30c4 42 46 58 72 32c2-4-2-7-6-5c-24 14-48 4-54-27z" fill="url(#g-yellow)"></path><path d="M16 30l4-10 8 10z" fill="#8A6420"></path><path d="M30 38c8 22 30 28 48 22" stroke="#FFF6C8" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"></path></svg><span>Banana</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><ellipse cx="50" cy="91" rx="28" ry="5" fill="#000000" opacity=".25" filter="url(#soft)"></ellipse><path d="M50 32C30 20 12 34 16 58c4 24 22 34 34 26c12 8 30-2 34-26c4-24-14-38-34-26z" fill="url(#g-red)"></path><path d="M50 32l2-16" stroke="#7A5226" stroke-width="5" stroke-linecap="round"></path><path d="M53 22c9-10 21-8 23-4c-8 8-16 8-23 4z" fill="url(#g-leaf)"></path><ellipse cx="32" cy="48" rx="7" ry="10" fill="#FFFFFF" opacity=".45"></ellipse></svg><span>Maçã</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><ellipse cx="50" cy="91" rx="28" ry="5" fill="#000000" opacity=".25" filter="url(#soft)"></ellipse><circle cx="50" cy="56" r="33" fill="url(#g-orange)"></circle><ellipse cx="38" cy="42" rx="10" ry="6" fill="#FFFFFF" opacity=".5"></ellipse><path d="M50 24c6-10 18-10 20-6c-8 8-14 8-20 6zM50 24c-5-9-15-9-17-5c7 7 12 7 17 5z" fill="url(#g-leaf)"></path></svg><span>Laranja</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><circle cx="50" cy="62" r="27" fill="url(#g-purple)"></circle><path d="M50 89v8" stroke="#6A2245" stroke-width="4" stroke-linecap="round"></path><ellipse cx="41" cy="52" rx="7" ry="5" fill="#FFFFFF" opacity=".4"></ellipse><path d="M50 36c-10-14-16-24-12-28c8 4 12 16 12 28c0-12 6-26 14-28c2 6-4 18-14 28" fill="url(#g-leaf)"></path></svg><span>Beterraba</span><i></i>
+</div>
+<div class="grp">
+<svg width="52" height="52" viewBox="0 0 100 100"><circle cx="50" cy="56" r="32" fill="url(#g-red)"></circle><ellipse cx="38" cy="42" rx="10" ry="6" fill="#FFFFFF" opacity=".5"></ellipse><path d="M50 26l6-9 3 10 10-2-7 8-12-2-12 2-7-8 10 2 3-10z" fill="url(#g-leaf)"></path></svg><span>Tomate</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><path d="M36 34h28L53 92q-3 6-6 0z" fill="url(#g-carrot)"></path><path d="M40 33q-6-18 2-24q4 12 8 24M50 33q0-22 8-26q2 14-4 26M58 33q10-14 18-12q-6 10-14 13" fill="url(#g-leaf)"></path></svg><span>Cenoura</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><circle cx="32" cy="60" r="22" fill="url(#g-green)"></circle><circle cx="68" cy="60" r="22" fill="url(#g-green)"></circle><circle cx="50" cy="44" r="24" fill="url(#g-green)"></circle><circle cx="50" cy="64" r="20" fill="url(#g-green)"></circle></svg><span>Alface</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><path d="M16 30c4 42 46 58 72 32c2-4-2-7-6-5c-24 14-48 4-54-27z" fill="url(#g-yellow)"></path><path d="M16 30l4-10 8 10z" fill="#8A6420"></path></svg><span>Banana</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><path d="M50 32C30 20 12 34 16 58c4 24 22 34 34 26c12 8 30-2 34-26c4-24-14-38-34-26z" fill="url(#g-red)"></path><path d="M53 22c9-10 21-8 23-4c-8 8-16 8-23 4z" fill="url(#g-leaf)"></path></svg><span>Maçã</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><circle cx="50" cy="56" r="33" fill="url(#g-orange)"></circle><path d="M50 24c6-10 18-10 20-6c-8 8-14 8-20 6z" fill="url(#g-leaf)"></path></svg><span>Laranja</span><i></i>
+<svg width="52" height="52" viewBox="0 0 100 100"><circle cx="50" cy="62" r="27" fill="url(#g-purple)"></circle><path d="M50 36c-10-14-16-24-12-28c8 4 12 16 12 28c0-12 6-26 14-28c2 6-4 18-14 28" fill="url(#g-leaf)"></path></svg><span>Beterraba</span><i></i>
+</div>
+</div>
+</div>
+<button type="button" onClick="{{toggleMotion}}" aria-pressed="{{pausedAttr}}" style="flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin: 0 16px; padding: 0 16px; border-radius: 999px; border: 2px solid #FAEFD9; background: #1A3A2A; color: #FAEFD9; font-family: Archivo, Arial, sans-serif; font-weight: 700; font-size: 14px; cursor: pointer">
+<sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4l13 8-13 8z"></path></svg></sc-if><sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg></sc-if>{{motionLabel}}</button>
+</section>
+
+<section id="como" aria-labelledby="como-titulo" style="max-width: 1200px; margin: 0 auto; padding: 8px 32px 80px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 30px; line-height: 1; color: #2F6B2B">como funciona</p>
+<h2 id="como-titulo" style="margin: 6px 0 32px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(30px, 4vw, 42px); line-height: 1.05; text-transform: uppercase">Três passos. Só isso.</h2>
+<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+<li style="background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<svg viewBox="0 0 220 140" style="width: 100%; height: 140px" aria-hidden="true">
+<ellipse cx="110" cy="130" rx="86" ry="8" fill="#000000" opacity=".18" filter="url(#soft)"></ellipse>
+<rect x="44" y="52" width="132" height="76" rx="10" fill="url(#g-cream)"></rect>
+<rect x="56" y="76" width="44" height="52" rx="6" fill="url(#g-green)"></rect>
+<path d="M32 54l18-36h120l18 36z" fill="url(#g-red)"></path>
+<path d="M68 18l-8 36M104 18l-4 36M140 18v36M162 18l8 36" stroke="#FFF8EA" stroke-width="9" opacity=".9"></path>
+<path d="M32 54h156" stroke="#A52D1A" stroke-width="4" stroke-linecap="round"></path>
+<circle cx="128" cy="92" r="13" fill="url(#g-red)"></circle><circle cx="150" cy="96" r="11" fill="url(#g-orange)"></circle><circle cx="139" cy="108" r="12" fill="url(#g-green)"></circle>
+<circle cx="190" cy="34" r="20" fill="url(#g-dark)"></circle><path d="M190 24v13M190 44v1" stroke="#FAEFD9" stroke-width="5" stroke-linecap="round"></path>
+</svg>
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 40px; line-height: 1; color: #2F6B2B">1</span>
+<h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 21px; text-transform: uppercase; line-height: 1.15">O mercado ou a feira avisa</h3>
+<p style="margin: 0">Sobrou comida boa? Eles colocam na Rede de Prato.</p>
+</li>
+<li style="background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<svg viewBox="0 0 220 140" style="width: 100%; height: 140px" aria-hidden="true">
+<ellipse cx="110" cy="132" rx="50" ry="7" fill="#000000" opacity=".18" filter="url(#soft)"></ellipse>
+<rect x="74" y="6" width="74" height="124" rx="16" fill="url(#g-dark)"></rect>
+<rect x="82" y="20" width="58" height="96" rx="8" fill="url(#g-cream)"></rect>
+<path d="M90 50c2 18 18 26 32 16c2-2 0-4-2-3c-12 7-24 2-26-13z" fill="url(#g-yellow)"></path>
+<rect x="90" y="74" width="42" height="6" rx="3" fill="#1A3A2A" opacity=".7"></rect>
+<rect x="90" y="88" width="42" height="18" rx="9" fill="url(#g-green)"></rect>
+<circle cx="168" cy="36" r="24" fill="url(#g-green)"></circle><ellipse cx="160" cy="26" rx="8" ry="5" fill="#FFFFFF" opacity=".45"></ellipse>
+<path d="M157 36l8 8 15-16" stroke="#FFFFFF" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 40px; line-height: 1; color: #2F6B2B">2</span>
+<h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 21px; text-transform: uppercase; line-height: 1.15">Você reserva</h3>
+<p style="margin: 0">Escolhe o que quer no celular ou pelo WhatsApp. Fica guardado para você.</p>
+</li>
+<li style="background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="height: 140px; display: flex; align-items: center; justify-content: center"><img src="assets/logo.png" alt="" style="height: 124px; width: auto"></div>
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 40px; line-height: 1; color: #2F6B2B">3</span>
+<h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 21px; text-transform: uppercase; line-height: 1.15">Busca no ponto da placa</h3>
+<p style="margin: 0">Vá até o ponto com esta placa, no dia e na hora marcados.</p>
+</li>
+</ol>
+</section>
+
+<section aria-labelledby="ganha-titulo" style="background: #1A3A2A; color: #FAEFD9">
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 32px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 30px; line-height: 1; color: #9CCC6C">todo mundo ganha</p>
+<h2 id="ganha-titulo" style="margin: 6px 0 36px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(30px, 4vw, 42px); line-height: 1.05; text-transform: uppercase">A comida <span style="background: #9CCC6C; color: #1A3A2A; padding: 0 .12em">chega</span> em quem precisa</h2>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<li style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; padding: 24px 0; border-top: 2px solid rgba(250,239,217,.35)">
+<span aria-hidden="true" style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 22px; color: #9CCC6C; width: 44px">01</span>
+<div style="flex: 1 1 360px; min-width: 0"><h3 style="margin: 0 0 4px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase">Famílias</h3><p style="margin: 0; font-size: 18px">Fruta, verdura e legume fresco, de graça ou com desconto, perto de casa.</p></div>
+<svg width="150" height="100" viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000000" opacity=".3" filter="url(#soft)"></ellipse><circle cx="38" cy="28" r="16" fill="url(#g-skin)"></circle><path d="M12 96c0-34 52-34 52 0z" fill="url(#g-red)"></path><circle cx="110" cy="26" r="17" fill="url(#g-skin2)"></circle><path d="M82 96c0-36 56-36 56 0z" fill="url(#g-green)"></path><circle cx="75" cy="52" r="12" fill="url(#g-skin)"></circle><path d="M56 96c0-28 38-28 38 0z" fill="url(#g-yellow)"></path></svg>
+</li>
+<li style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; padding: 24px 0; border-top: 2px solid rgba(250,239,217,.35)">
+<span aria-hidden="true" style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 22px; color: #9CCC6C; width: 44px">02</span>
+<div style="flex: 1 1 360px; min-width: 0"><h3 style="margin: 0 0 4px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase">Supermercados</h3><p style="margin: 0; font-size: 18px">Doam para uma ONG cadastrada, com tudo documentado, e ganham o Selo de Parceiro.</p></div>
+<svg width="150" height="100" viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000000" opacity=".3" filter="url(#soft)"></ellipse><rect x="24" y="36" width="102" height="58" rx="6" fill="url(#g-cream)"></rect><path d="M14 38l14-30h94l14 30z" fill="url(#g-red)"></path><path d="M48 8l-6 30M75 8v30M102 8l6 30" stroke="#FFF8EA" stroke-width="8"></path><rect x="38" y="56" width="32" height="38" rx="4" fill="url(#g-green)"></rect><rect x="82" y="56" width="32" height="22" rx="4" fill="#9CC3D9"></rect><path d="M86 60l10 0" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"></path></svg>
+</li>
+<li style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; padding: 24px 0; border-top: 2px solid rgba(250,239,217,.35)">
+<span aria-hidden="true" style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 22px; color: #9CCC6C; width: 44px">03</span>
+<div style="flex: 1 1 360px; min-width: 0"><h3 style="margin: 0 0 4px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase">Feirantes</h3><p style="margin: 0; font-size: 18px">Avisam a xepa com um toque, sem largar a banca. Nada vai para o lixo comum.</p></div>
+<svg width="150" height="100" viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000000" opacity=".3" filter="url(#soft)"></ellipse><path d="M10 34L75 6l65 28z" fill="url(#g-yellow)"></path><path d="M32 34v60M118 34v60" stroke="url(#g-wood)" stroke-width="6"></path><rect x="20" y="60" width="110" height="16" rx="4" fill="url(#g-wood)"></rect><circle cx="44" cy="52" r="10" fill="url(#g-red)"></circle><circle cx="64" cy="52" r="10" fill="url(#g-red)"></circle><circle cx="88" cy="50" r="12" fill="url(#g-green)"></circle><circle cx="110" cy="52" r="10" fill="url(#g-orange)"></circle></svg>
+</li>
+<li style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; padding: 24px 0; border-top: 2px solid rgba(250,239,217,.35); border-bottom: 2px solid rgba(250,239,217,.35)">
+<span aria-hidden="true" style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 22px; color: #9CCC6C; width: 44px">04</span>
+<div style="flex: 1 1 360px; min-width: 0"><h3 style="margin: 0 0 4px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase">O bairro</h3><p style="margin: 0; font-size: 18px">O que não dá mais para comer vira adubo para as hortas comunitárias.</p></div>
+<svg width="150" height="100" viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000000" opacity=".3" filter="url(#soft)"></ellipse><path d="M16 92q59-34 118 0z" fill="url(#g-soil)"></path><path d="M75 82V42" stroke="url(#g-leaf)" stroke-width="7" stroke-linecap="round"></path><path d="M75 58c-26 0-34-18-32-32c18 0 32 10 32 32z" fill="url(#g-leaf)"></path><path d="M75 50c22 0 34-16 32-30c-18 0-32 10-32 30z" fill="url(#g-green)"></path><ellipse cx="58" cy="38" rx="5" ry="3" fill="#FFFFFF" opacity=".4"></ellipse></svg>
+</li>
+</ul>
+</div>
+</section>
+
+<section id="pontos" aria-labelledby="placa-titulo" style="max-width: 1200px; margin: 0 auto; padding: 72px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+<div style="flex: 1 1 340px; min-width: 0; display: flex; justify-content: center">
+<div style="width: 100%; max-width: 380px; aspect-ratio: 1 / 1; background: #9CCC6C; border-radius: 50%; display: flex; align-items: center; justify-content: center">
+<img src="assets/logo.png" alt="Placa da Rede de Prato: placa pendurada com garfo, prato e faca" style="width: 70%; height: auto">
+</div>
+</div>
+<div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 30px; line-height: 1; color: #2F6B2B">sem celular? sem problema</p>
+<h2 id="placa-titulo" style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(30px, 4vw, 42px); line-height: 1.05; text-transform: uppercase">Procure esta placa</h2>
+<p style="margin: 0; font-size: 18px">Cada ponto de entrega tem a placa da Rede de Prato com os dias e horários. É só chegar.</p>
+<div style="background: #FFF8EA; border: 3px solid #1A3A2A; border-radius: 20px; padding: 20px 24px; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 18px; text-transform: uppercase">Ponto Paraíso</h3>
+<p style="margin: 0; display: flex; align-items: center; gap: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A3A2A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>Rua Desembargador Eliseu Guilherme, 88 – Paraíso</p>
+<p style="margin: 0; display: flex; align-items: center; gap: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A3A2A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Terça e quinta, das 16h às 18h</p>
+</div>
+<div style="display: flex; align-items: center; gap: 14px; background: #1A3A2A; color: #FAEFD9; border-radius: 20px; padding: 16px 22px">
+<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9CCC6C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.5A9 9 0 1 1 21 12z"></path></svg>
+<span style="font-size: 18px">Pouca internet? Mande <strong>OI</strong> no WhatsApp <strong>[NÚMERO DA REDE]</strong></span>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="numeros-titulo" style="background: #FFF8EA; border-top: 3px solid #1A3A2A; border-bottom: 3px solid #1A3A2A">
+<div style="max-width: 1200px; margin: 0 auto; padding: 64px 32px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 30px; line-height: 1; color: #2F6B2B">por que isso importa</p>
+<h2 id="numeros-titulo" style="margin: 6px 0 32px; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(30px, 4vw, 42px); line-height: 1.05; text-transform: uppercase">Tem comida indo para o lixo</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 44px; line-height: 1; color: #C2410C">33 mil t</span><p style="margin: 0; font-size: 18px">de alimento das feiras de São Paulo vão para o lixo por ano.</p><span style="font-size: 14px; color: #4A5548">Fonte: Jornal da USP (2018)</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 44px; line-height: 1; color: #C2410C">R$ 700/dia</span><p style="margin: 0; font-size: 18px">é o que uma só loja de hortifrúti do Paraíso perde em descarte.</p><span style="font-size: 14px; color: #4A5548">Fonte: entrevista da equipe (15/11/2026)</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 44px; line-height: 1; color: #C2410C">968 feiras</span><p style="margin: 0; font-size: 18px">funcionam na cidade, de terça a domingo. Toda xepa pode virar prato.</p><span style="font-size: 14px; color: #4A5548">Fonte: Prefeitura de SP (2025)</span></div>
+</div>
+</div>
+</section>
+
+<section id="ofertantes" aria-labelledby="of-titulo" style="background: #9CCC6C">
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-family: Caveat, cursive; font-size: 30px; line-height: 1; color: #1A3A2A">para mercados e feiras</p>
+<h2 id="of-titulo" style="margin: 0; font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.05; text-transform: uppercase">Sobrou? A gente leva até quem precisa.</h2>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 18px">
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none"><circle cx="50" cy="52" r="40" fill="url(#g-dark)"></circle><path d="M32 52l12 12 24-26" stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>Doe para uma ONG cadastrada, com registro de cada doação</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none"><circle cx="50" cy="52" r="40" fill="url(#g-dark)"></circle><path d="M32 52l12 12 24-26" stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>Registre um lote em menos de 1 minuto, ou avise a xepa com um toque</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none"><circle cx="50" cy="52" r="40" fill="url(#g-dark)"></circle><path d="M32 52l12 12 24-26" stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>Veja quantos quilos você salvou do lixo e mostre o Selo de Parceiro</li>
+</ul>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px">
+<a class="btn btn-dark" href="RegistrarLote.dc.html">Registrar sobra</a>
+<a class="btn btn-line" href="Painel.dc.html">Ver meu impacto</a>
+</div>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 12px">
+<div style="width: 220px; height: 220px; border-radius: 50%; background: #1A3A2A; border: 8px solid #FAEFD9; outline: 3px solid #1A3A2A; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px">
+<img src="assets/logo_light.png" alt="" style="width: 110px; height: auto">
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 17px; color: #FAEFD9; letter-spacing: .06em">PARCEIRO</span>
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 700; font-size: 12px; color: #9CCC6C; letter-spacing: .1em">REDE DE PRATO</span>
+</div>
+<span style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 16px; text-transform: uppercase">Selo de Parceiro</span>
+</div>
+</div>
+</section>
+</main>
+
+<footer style="background: #1A3A2A; color: #FAEFD9">
+<div style="max-width: 1200px; margin: 0 auto; padding: 44px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: center">
+<div style="display: flex; align-items: center; gap: 14px">
+<img src="assets/logo_light.png" alt="" style="height: 48px; width: auto">
+<div><div style="font-family: Archivo, Arial, sans-serif; font-weight: 900; font-size: 19px">REDE DE PRATO</div><div style="font-size: 15px">ONG · Paraíso, São Paulo</div></div>
+</div>
+<p style="margin: 0; font-size: 15px; max-width: 520px">Protótipo acadêmico · FIAP Global Solution 2026 · Equipe Luxor Obelisc (18). ODS 2, 11 e 12.</p>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3900}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { paused: false };
+}
+renderVals() {
+const p = this.state.paused;
+return {
+paused: p, playing: !p, pausedAttr: p ? 'true' : 'false',
+motionLabel: p ? 'Continuar animação' : 'Pausar animação',
+trackStyle: p ? 'animation-play-state: paused' : 'animation-play-state: running',
+toggleMotion: () => this.setState({ paused: !p })
+};
+}
+}
+</script>
+</body>
+</html>

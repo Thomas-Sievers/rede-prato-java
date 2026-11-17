@@ -24,14 +24,19 @@
       return '<div class="bar' + (i === semanas.length - 1 ? ' atual' : '') + '"><span class="val">' +
         esc(RP.fmtKg(s.kg)) + '</span><div class="b" style="height:' + h + '%"></div></div>';
     }).join('');
+    // A8: "Quilos salvos por semana: semana 1, 0 kg; semana 2, 5 kg; …; esta semana, 6 kg."
     $('bars').setAttribute('aria-label', 'Quilos salvos por semana: ' + semanas.map((s, i) =>
-      (i === semanas.length - 1 ? 'esta semana ' : 'semana ' + (i + 1) + ' ') + RP.fmtKg(s.kg)).join(', '));
+      (i === semanas.length - 1 ? 'esta semana, ' : 'semana ' + (i + 1) + ', ') + RP.fmtKg(s.kg)).join('; ') + '.');
   }
 
   function renderSplit(d) {
     const total = Number(d.totalKg);
     const pc = total > 0 ? Number(d.percentualConsumo) : 0;
     const pa = total > 0 ? Math.round((100 - pc) * 10) / 10 : 0;
+    // A8: the comida/adubo bar is an image with both percentages as its name
+    $('split').setAttribute('aria-label', total > 0
+      ? RP.fmtNum(pc) + '% virou comida e ' + RP.fmtNum(pa) + '% virou adubo.'
+      : 'Nada registrado neste mês.');
     $('split').innerHTML = total > 0
       ? '<div class="c" style="width:' + pc + '%">' + esc(RP.fmtNum(pc)) + '% comida</div>' +
         '<div class="a" style="width:' + pa + '%">' + (pa > 0 ? esc(RP.fmtNum(pa)) + '%' : '') + '</div>'
@@ -66,7 +71,7 @@
     const host = $('selo');
     if (d.possuiSelo) {
       const texto = 'Este mês, a ' + d.nomeOfertante + ' salvou ' + RP.fmtKg(d.totalKg) + ' de comida do lixo com a Rede de Prato.';
-      host.innerHTML = '<span class="hand">você é parceiro</span>' +
+      host.innerHTML = '<h2 class="hand" style="margin:0">você é parceiro</h2>' +
         '<div class="selo" role="img" aria-label="Selo de Parceiro Rede de Prato"><img src="/img/logo_light.png" alt="" style="width:90px">PARCEIRO<small>REDE DE PRATO</small></div>' +
         '<p class="muted" style="margin:0;color:var(--verde-escuro)">Parceiro desde ' + esc(String(d.dataSelo).split('-').reverse().join('/')) + '</p>' +
         '<p class="quote">“Este mês, a ' + esc(d.nomeOfertante) + ' salvou <strong>' + esc(RP.fmtKg(d.totalKg)) + '</strong> de comida do lixo.”</p>' +
@@ -75,7 +80,7 @@
         '<button type="button" class="btn btn-block" style="background:var(--creme-claro)" id="btn-baixar">' + RP.icon('download') + 'Baixar o selo</button>';
       $('btn-baixar').addEventListener('click', baixarSelo);
     } else {
-      host.innerHTML = '<span class="hand">selo de parceiro</span><h2 style="font-size:30px">Ainda sem selo</h2>' +
+      host.innerHTML = '<span class="hand">selo de parceiro</span><h2>Ainda sem selo</h2>' +
         '<p>Doe com frequência pela Rede de Prato e registre para onde foi a comida. ' +
         'A equipe da Rede de Prato concede o <strong>Selo de Parceiro</strong> para quem participa.</p>';
     }
@@ -106,7 +111,7 @@
   async function loadRede() {
     try {
       const r = await api.get(qs('/api/impacto/rede', { mes: state.mes }));
-      const card = (v, t) => '<div class="card stat-card" style="padding:18px"><p class="v" style="font-size:36px">' + esc(v) + '</p><p style="margin:0">' + t + '</p></div>';
+      const card = (v, t) => '<div class="card stat-card"><p class="v">' + esc(v) + '</p><p style="margin:0">' + t + '</p></div>';
       $('rede-cards').innerHTML = card(RP.fmtKg(r.totalKg), 'salvos do lixo') + card(RP.fmtNum(r.percentualConsumo) + '%', 'virou <strong>comida</strong>') +
         card(r.beneficiariosAtendidos, '<strong>famílias</strong> e instituições') + card(r.lotesRetirados, '<strong>lotes</strong> retirados');
       $('rede-rank').innerHTML = r.ofertantes.length

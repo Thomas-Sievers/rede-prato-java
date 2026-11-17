@@ -28,7 +28,8 @@
     const local = r.localRetirada === 'PONTO' ? 'levado ao ponto ' + r.nomePonto : 'busca na banca';
     let acao;
     if (r.status === 'ATIVA') {
-      acao = '<button type="button" class="btn btn-ok" data-buscou="' + r.idReserva + '">' + RP.icon('check') + 'Já buscou</button>';
+      acao = '<button type="button" class="btn btn-ok" data-buscou="' + r.idReserva + '" aria-label="' +
+        esc('Já buscou: ' + r.descricaoLote + ', número ' + r.numeroRetirada) + '">' + RP.icon('check') + 'Já buscou</button>';
     } else {
       const res = resumoDestino(r.idLote);
       acao = res
@@ -39,12 +40,12 @@
     }
     return '<article class="card ret' + (r.status !== 'ATIVA' ? ' done' : '') + '" id="res-' + r.idReserva + '">' +
       '<div class="tile ' + RP.tileClass(r.idLote) + '">' + RP.illustrationFor(r.nomeCategoria, r.descricaoLote) + '</div>' +
-      '<div><h3>' + esc(r.descricaoLote) + ' · ' + esc(RP.fmtKg(r.pesoKg)) + '</h3>' +
+      '<div class="info"><h3>' + esc(r.descricaoLote) + ' · ' + esc(RP.fmtKg(r.pesoKg)) + '</h3>' +
       '<p class="line" style="color:var(--verde-escuro)">' + RP.icon('user') + esc(r.nomeBeneficiario) + ' · ' +
       esc((RP.TIPO_BEN[r.tipoBeneficiario] || '').toLowerCase()) + '</p>' +
       '<p class="muted">Número <strong style="letter-spacing:.1em">' + esc(r.numeroRetirada) + '</strong> · ' + esc(local) +
       (r.status === 'ATIVA' ? ' · até ' + esc(RP.fmtDia(r.dataLimiteRetirada)) : '') + '</p></div>' +
-      '<div>' + acao + '</div></article>';
+      '<div class="acao">' + acao + '</div></article>';
   }
 
   async function load() {
@@ -81,17 +82,17 @@
         '<p class="muted">O que venceu só pode ir para o adubo.</p>' +
         sem.map((l) => '<article class="card ret done" style="margin-top:12px">' +
           '<div class="tile ' + RP.tileClass(l.idLote) + '">' + RP.illustrationFor(l.nomeCategoria, l.descricao) + '</div>' +
-          '<div><h3>' + esc(l.descricao) + ' · ' + esc(RP.fmtKg(l.pesoKg)) + '</h3><p class="muted">Venceu ' +
+          '<div class="info"><h3>' + esc(l.descricao) + ' · ' + esc(RP.fmtKg(l.pesoKg)) + '</h3><p class="muted">Venceu ' +
           esc(RP.fmtData(l.dataLimiteRetirada)) + '</p></div>' +
-          '<button type="button" class="btn btn-sm" data-adubo="' + l.idLote + '" data-kg="' + l.pesoKg + '">' +
-          RP.icon('sprout') + 'Mandar para adubo</button></article>').join('')
+          '<div class="acao"><button type="button" class="btn btn-sm" data-adubo="' + l.idLote + '" data-kg="' + l.pesoKg + '" aria-label="' +
+          esc('Mandar ' + l.descricao + ' para adubo') + '">' + RP.icon('sprout') + 'Mandar para adubo</button></div></article>').join('')
       : '';
   }
 
   // ---------- painel de destino ----------
   function painelIdle() {
     state.painel = null;
-    $('painel').innerHTML = '<div style="text-align:center">' + SPROUT + '<h2 style="font-size:28px;margin:12px 0">Para onde foi a comida?</h2>' +
+    $('painel').innerHTML = '<div style="text-align:center">' + SPROUT + '<h2 style="margin:12px 0">Para onde foi a comida?</h2>' +
       '<p>Quando a pessoa buscar, toque em <strong>JÁ BUSCOU</strong> e diga quanto virou comida e quanto virou adubo.</p></div>';
   }
 
@@ -109,18 +110,18 @@
     const pc = p.max > 0 ? (p.comida / p.max) * 100 : 0;
     $('painel').innerHTML =
       '<span class="hand">retirada confirmada</span>' +
-      '<h2 style="font-size:28px" tabindex="-1" id="painel-title">O que aconteceu com os ' + esc(RP.fmtKg(p.max)) +
+      '<h2 tabindex="-1" id="painel-title">O que aconteceu com os ' + esc(RP.fmtKg(p.max)) +
       ' de ' + esc(String(p.r.descricaoLote).toLowerCase()) + '?</h2>' +
       '<div class="split" style="margin:18px 0" aria-hidden="true"><div class="c" style="width:' + pc + '%"></div><div class="a" style="width:' + (100 - pc) + '%"></div></div>' +
-      '<div class="row-dest"><strong>Virou comida</strong><div class="stepper" style="gap:10px">' +
+      '<div class="row-dest"><strong>Virou comida</strong><div class="stepper">' +
       '<button type="button" class="round sm" id="c-menos" aria-label="Menos 1 quilo de comida">−</button>' +
       '<span class="big-num" aria-live="polite">' + esc(RP.fmtNum(p.comida)) + ' <small style="font-size:20px">kg</small></span>' +
-      '<button type="button" class="round sm" id="c-mais" aria-label="Mais 1 quilo de comida">+</button></div></div>' +
+      '<button type="button" class="round sm dark" id="c-mais" aria-label="Mais 1 quilo de comida">+</button></div></div>' +
       '<div class="row-dest"><strong style="color:var(--marrom-adubo)">Virou adubo</strong><span class="big-num" style="color:var(--marrom-adubo)" aria-live="polite">' +
       esc(RP.fmtNum(adubo)) + ' <small style="font-size:20px">kg</small></span></div>' +
       '<p class="muted">Adubo = o que não dava mais para comer. Vai para a horta comunitária.</p>' +
       '<p class="msg-erro" role="alert" id="painel-erro" hidden></p>' +
-      '<button type="button" class="btn btn-ok btn-block" id="btn-salvar"' + (p.max <= 0 ? ' disabled' : '') + '>Salvar</button>';
+      '<button type="button" class="btn btn-ok btn-block" style="min-height:56px;font-size:17px" id="btn-salvar"' + (p.max <= 0 ? ' disabled' : '') + '>Salvar</button>';
     $('c-menos').addEventListener('click', () => { p.comida = round2(Math.max(0, p.comida - Math.min(1, p.comida))); renderPainel(); $('c-menos').focus(); });
     $('c-mais').addEventListener('click', () => { p.comida = round2(Math.min(p.max, p.comida + 1)); renderPainel(); $('c-mais').focus(); });
     $('btn-salvar').addEventListener('click', salvarDestino);

@@ -196,11 +196,13 @@
     const cls = { DISPONIVEL: 'badge-verde', RESERVADO: 'badge-amarelo', RETIRADO: 'badge-cinza', EXPIRADO: 'badge-laranja' };
     host.innerHTML = lotes.map((l) => '<article class="card meu">' +
       '<div><h3>' + esc(l.descricao) + ' · ' + esc(RP.fmtKg(l.pesoKg)) + '</h3>' +
-      '<p class="line" style="margin:6px 0 0">' + RP.icon('clock') + 'buscar ' + esc(RP.fmtPrazo(l.dataLimiteRetirada)) +
+      '<p class="line" style="margin:4px 0 0;flex-wrap:wrap">' + RP.icon('clock') + 'buscar ' + esc(RP.fmtPrazo(l.dataLimiteRetirada)) +
       ' · <span class="badge ' + cls[l.status] + '">' + esc(RP.STATUS_LOTE[l.status]) + '</span></p></div>' +
       (l.status === 'DISPONIVEL'
-        ? '<div class="chips"><button type="button" class="btn btn-sm" data-mudar="' + l.idLote + '">' + RP.icon('edit') + 'Mudar</button>' +
-          '<button type="button" class="btn btn-sm" data-excluir="' + l.idLote + '">' + RP.icon('trash') + 'Cancelar</button></div>'
+        ? '<div class="chips"><button type="button" class="btn btn-sm" data-mudar="' + l.idLote + '" aria-label="' +
+          esc('Mudar ' + l.descricao) + '">' + RP.icon('edit') + 'Mudar</button>' +
+          '<button type="button" class="btn btn-sm" data-excluir="' + l.idLote + '" aria-label="' +
+          esc('Cancelar ' + l.descricao) + '">' + RP.icon('trash') + 'Cancelar</button></div>'
         : '') + '</article>').join('');
   }
 
