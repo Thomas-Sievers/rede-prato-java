@@ -18,3 +18,7 @@ Plan: `docs/PLAN.md` (spec-driven: every feature has `specs/<NN>-<name>/requirem
 - 06-pontos — Claude Code implemented 06 from `specs/06-pontos/` (horários as "HH:MM" strings).
 - 07-reservas — Claude Code implemented 07 from `specs/07-reservas/`; one test per UC12 criterion.
 - 08-retirada-destinacao — Claude Code implemented 08 from `specs/08-retirada-destinacao/`; included the batch endpoint `POST /api/lotes/{id}/destinacoes`.
+- 09-alertas — Claude Code implemented 09 from `specs/09-alertas/`; one test per UC04 criterion; only feirantes send xepa (D-9).
+- 10-impacto — Claude Code implemented 10 from `specs/10-impacto/`; refeições estimadas not computed (D-11).
+- 11-seed — Claude Code implemented 11 from `specs/11-seed/` (simulated data, dates relative to the Clock).
+- 12–16 frontend — Claude Code implemented the 5 screens from `specs/12…16-*` and `docs/prototipo.md` + the prototype PNGs (plain HTML/JS, D-12).
