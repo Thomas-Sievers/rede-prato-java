@@ -70,9 +70,17 @@ class FrontendPagesTest {
                 .andExpect(content().string(containsString("Número da pessoa")));
     }
 
+    @Test
+    void telaDePainelServida() throws Exception {
+        mvc.perform(get("/painel.html"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Meu impacto")))
+                .andExpect(content().string(containsString("Quilos salvos por semana")));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"/css/app.css", "/js/api.js", "/js/persona.js", "/js/ui.js", "/js/lotes.js",
-        "/js/registrar.js", "/js/retiradas.js", "/img/logo.png"})
+        "/js/registrar.js", "/js/retiradas.js", "/js/painel.js", "/img/logo.png", "/img/logo_light.png"})
     void assetsServidos(String path) throws Exception {
         mvc.perform(get(path)).andExpect(status().isOk());
     }

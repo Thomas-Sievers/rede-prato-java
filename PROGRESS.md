@@ -1,5 +1,5 @@
 # Progress
-Last update: 2026-11-17 02:05 (America/Sao_Paulo)
+Last update: 2026-11-17 02:25 (America/Sao_Paulo)
 
 | NN | Feature | Status | Tests | Notes |
 | --- | --- | --- | --- | --- |
@@ -12,18 +12,18 @@ Last update: 2026-11-17 02:05 (America/Sao_Paulo)
 | 06 | Pontos | merged | 184 | HH:MM schedule |
 | 07 | Reservas | merged | 218 | UC12 rules, cancel, delete cascade |
 | 08 | Retirada & Destinação | merged | 241 | retirada, destinos, batch endpoint |
-| 09 | Alertas | todo | | |
-| 10 | Impacto | todo | | |
-| 11 | Seed | todo | | |
-| 12 | Frontend base + landing | todo | | |
-| 13 | Frontend lotes | todo | | |
-| 14 | Frontend registrar | todo | | |
-| 15 | Frontend retiradas | todo | | |
-| 16 | Frontend painel | todo | | |
+| 09 | Alertas | merged | 269 | xepa (UC04), NOVO_LOTE, recentes |
+| 10 | Impacto | merged | 280 | JPQL aggregates, weekly buckets |
+| 11 | Seed | merged | 286 | simulated data relative to the clock |
+| 12 | Frontend base + landing | merged | 292 | CSS tokens, api.js, persona.js, landing |
+| 13 | Frontend lotes | merged | 295 | filters, reserva dialog, sacola/cancel |
+| 14 | Frontend registrar | merged | 297 | xepa + desfazer, 7-step form, meus lotes |
+| 15 | Frontend retiradas | merged | 299 | já buscou, destino panel, conferir número |
+| 16 | Frontend painel | merged | 302 | impacto, weekly bars, selo, rede, admin |
 | 17 | Docs | todo | | |
 | 18 | Extras (nice) | todo | | |
 
 (Test column = total suite size after the merge.)
 
 ## Next step
-Feature 09 (`feature/09-alertas`): Alerta entity, xepa endpoint (UC04), NOVO_LOTE alert on lote creation, alert cascade on lote delete.
+Feature 17 (`feature/17-docs`): docs/endpoints.md, class-diagram.md, der.md, run.md, oracle-checklist.md, final README.
