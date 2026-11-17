@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.fiap.redeprato.dao.BeneficiarioDAO;
 import br.com.fiap.redeprato.dao.EnderecoDAO;
 import br.com.fiap.redeprato.dao.OfertanteDAO;
 import br.com.fiap.redeprato.dto.EnderecoDTO;
@@ -24,10 +25,12 @@ public class EnderecoBO {
 
     private final EnderecoDAO dao;
     private final OfertanteDAO ofertanteDAO;
+    private final BeneficiarioDAO beneficiarioDAO;
 
-    public EnderecoBO(EnderecoDAO dao, OfertanteDAO ofertanteDAO) {
+    public EnderecoBO(EnderecoDAO dao, OfertanteDAO ofertanteDAO, BeneficiarioDAO beneficiarioDAO) {
         this.dao = dao;
         this.ofertanteDAO = ofertanteDAO;
+        this.beneficiarioDAO = beneficiarioDAO;
     }
 
     @Transactional(readOnly = true)
@@ -129,7 +132,7 @@ public class EnderecoBO {
     // BR-02.9 (ofertante: feature 03; beneficiário: 05; ponto: 06)
     private void checkSemUso(Endereco e) {
         Long id = e.getIdEndereco();
-        if (ofertanteDAO.existsByEndereco_IdEndereco(id)) {
+        if (ofertanteDAO.existsByEndereco_IdEndereco(id) || beneficiarioDAO.existsByEndereco_IdEndereco(id)) {
             throw new ConflictException(MSG_EM_USO);
         }
     }
