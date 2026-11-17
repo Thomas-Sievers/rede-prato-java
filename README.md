@@ -16,13 +16,36 @@
 | Indicador de impacto | kg de alimento desviados do descarte |
 | ODS conectados | 12 (12.3), 2 (2.1), 11 (11.6) e 13 (secundário) |
 
+## Links rápidos
+
+| O quê | Onde |
+| --- | --- |
+| Aplicação (telas + API) | https://rede-prato-java.onrender.com |
+| Saúde da API | https://rede-prato-java.onrender.com/api/health |
+| Tabela de endpoints | [`docs/endpoints.md`](docs/endpoints.md) |
+| Diagrama de classes | [`docs/class-diagram.md`](docs/class-diagram.md) |
+| DER | [`docs/der.md`](docs/der.md) (oficial: Oracle Data Modeler da Mariana) |
+| Como rodar | [`docs/run.md`](docs/run.md) |
+| Checklist do Oracle | [`docs/oracle-checklist.md`](docs/oracle-checklist.md) |
+| Especificações (SDD) | [`specs/`](specs/) — requisitos, design e tarefas de cada funcionalidade |
+
 ## Equipe
 
 Luxor Obelisc (equipe 18) — Áurea Sardinha Carminato (RM563837), Mariana Silva do Egito Moreira (RM562544), Mariana Souza França (RM562353), Thomas Soares Sievers (RM563566).
 
+## O que o sistema faz
+
+1. **Ofertante registra a sobra** (lote em kg, doação ou venda barata, prazo de retirada) — a plataforma cria um aviso.
+2. **Feirante avisa a xepa** com um toque no fim da feira.
+3. **Beneficiário reserva o lote inteiro** e escolhe onde buscar: no próprio local ou num **ponto de distribuição** com a placa Rede de Prato. Recebe o **número de retirada**.
+4. **Ofertante confirma a retirada** e diz quanto virou **comida** e quanto virou **adubo**.
+5. **Painel de impacto**: kg salvos do lixo por mês e por semana, famílias atendidas e o **Selo de Parceiro**.
+
+Sem login (decisão 5): cada tela tem o seletor **"Você é:"**. Lotes vencidos expiram sozinhos (job a cada 5 minutos).
+
 ## Tecnologias
 
-Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate) · Bean Validation · Lombok · H2 (perfil padrão) · Oracle Database FIAP (perfil `oracle`) · Maven Wrapper · Docker · Render.
+Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate 7) · Lombok · H2 (perfil padrão) · Oracle Database FIAP (perfil `oracle`) · JUnit 5 + Mockito · Maven Wrapper · Docker · Render · Frontend em HTML/CSS/JavaScript puro servido pelo próprio Spring Boot.
 
 ## Camadas
 
@@ -35,12 +58,44 @@ Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate) · Bean Validation · 
 | Exception | `br.com.fiap.redeprato.exception` | `NotFoundException` (404), `BusinessRuleException` (400), `ConflictException` (409), `ApiError`, `GlobalExceptionHandler` |
 | (apoio) | `dto`, `converter`, `config` | DTOs (records), conversores JPA (S/N, HH:MM), Clock/CORS, carga de dados simulados |
 
+## Resumo dos endpoints (57 no total)
+
+| Recurso | Endpoints |
+| --- | --- |
+| Categorias `/api/categorias` | GET, GET `/{id}`, POST, PUT `/{id}`, DELETE `/{id}` |
+| Endereços `/api/enderecos` | GET (`?bairro`), GET `/{id}`, POST, PUT, DELETE |
+| Ofertantes `/api/ofertantes` | GET (`?tipo&ativo&bairro`), GET `/{id}`, POST, PUT, DELETE (lógico), PUT/DELETE `/{id}/selo` |
+| Lotes `/api/lotes` | GET, GET `/disponiveis`, GET `/{id}`, POST, PUT, DELETE, POST `/expirar`, POST `/{id}/destinacoes` |
+| Beneficiários `/api/beneficiarios` | GET, GET `/{id}`, POST, PUT, DELETE (lógico) |
+| Pontos `/api/pontos` | GET, GET `/{id}`, POST, PUT, DELETE (lógico) |
+| Reservas `/api/reservas` | GET, GET `/{id}`, POST, PUT `/{id}`, PUT `/{id}/cancelar`, PUT `/{id}/retirada`, DELETE |
+| Destinações `/api/destinacoes` | GET, GET `/{id}`, POST, PUT, DELETE |
+| Alertas `/api/alertas` | POST `/xepa`, GET `/recentes`, GET, GET `/{id}`, POST, PUT, DELETE |
+| Impacto `/api/impacto` | GET `/ofertantes/{id}`, GET `/rede` |
+| Saúde | GET `/api/health` |
+
+Detalhes, exemplos e códigos de erro: [`docs/endpoints.md`](docs/endpoints.md).
+
+## Telas
+
+| Tela | Caminho | Para quem |
+| --- | --- | --- |
+| Início (landing) | `/` | todos |
+| Escolha sua comida (lotes + reserva + minhas reservas) | `/lotes.html` | beneficiário |
+| Registrar sobra + avisar xepa + meus lotes | `/registrar.html` | ofertante |
+| Retiradas + destino (comida/adubo) | `/retiradas.html` | ofertante / ponto |
+| Meu impacto + selo + impacto da rede | `/painel.html` | ofertante / administrador |
+
+Protótipos de referência: `docs/prototipo/*.png`.
+
 ## Como rodar
 
 ```bash
-./mvnw test                 # testes (H2, sem rede)
+./mvnw test                 # 300+ testes (H2, sem rede)
 ./mvnw spring-boot:run      # http://localhost:8080  (saúde: /api/health)
 ```
+
+No perfil padrão o banco é H2 em memória com **dados simulados** (nomes, telefones e endereços fictícios; nenhum documento).
 
 Com o Oracle da FIAP:
 
@@ -51,4 +106,13 @@ export ORACLE_PASSWORD=<sua senha>
 SPRING_PROFILES_ACTIVE=oracle ./mvnw spring-boot:run
 ```
 
-Endpoints: veja `docs/endpoints.md`.
+Passo a passo completo (IntelliJ, Oracle, Render): [`docs/run.md`](docs/run.md).
+
+## Testes
+
+- Testes unitários de todos os BOs (JUnit 5 + Mockito, DAOs simulados): uma ou mais provas para cada regra de negócio (`BR-xx.k` nos `specs/`), incluindo todos os critérios de aceite do UC12 (reservar) e do UC04 (xepa).
+- Testes da camada de exceções, dos conversores, integração ponta a ponta no H2 (MockMvc), dados de exemplo e consistência da documentação (`DocsConsistencyTest`).
+
+## Uso de IA
+
+O código Java foi implementado pelo Claude Code (Anthropic) seguindo um plano escrito pela equipe (`docs/PLAN.md`) e especificações por funcionalidade (`specs/`). Os prompts e decisões estão em [`prompts.md`](prompts.md) e [`DECISIONS.md`](DECISIONS.md).

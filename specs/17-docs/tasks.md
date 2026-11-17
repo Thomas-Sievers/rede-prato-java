@@ -1,9 +1,9 @@
 # 17 — Deliverable docs · Tasks
 
-- [ ] docs/endpoints.md
-- [ ] docs/class-diagram.md
-- [ ] docs/der.md
-- [ ] docs/run.md
-- [ ] docs/oracle-checklist.md
-- [ ] README final
-- [ ] DocsConsistencyTest
+- [x] docs/endpoints.md
+- [x] docs/class-diagram.md
+- [x] docs/der.md
+- [x] docs/run.md
+- [x] docs/oracle-checklist.md
+- [x] README final
+- [x] DocsConsistencyTest
