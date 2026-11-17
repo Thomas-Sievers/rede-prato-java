@@ -56,6 +56,24 @@ public final class Checks {
         }
     }
 
+    /** Number of decimal places ignoring trailing zeros (8.50 → 1). */
+    public static int decimals(java.math.BigDecimal v) {
+        return Math.max(0, v.stripTrailingZeros().scale());
+    }
+
+    /** Money value NUMBER(10,2): at most 2 decimals and 99 999 999,99. */
+    public static void money(java.math.BigDecimal v, String campo) {
+        if (v == null) {
+            return;
+        }
+        if (decimals(v) > 2) {
+            throw new BusinessRuleException(campo + " deve ter no máximo 2 casas decimais.");
+        }
+        if (v.compareTo(new java.math.BigDecimal("99999999.99")) > 0) {
+            throw new BusinessRuleException(campo + " deve ser no máximo 99999999,99.");
+        }
+    }
+
     /** Phone: 10 or 11 digits (DDD + number). */
     public static void phone(String digits, String campo) {
         if (digits == null || digits.length() < 10 || digits.length() > 11) {

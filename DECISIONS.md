@@ -31,3 +31,13 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** Reactivating an ofertante (and later beneficiário/ponto) is done with `PUT /api/<recurso>/{id}` and `"ativo": true` in the body; `ativo` absent/null keeps the current value. `GET` lists default to `ativo=true`; `?ativo=false` lists the inactive ones. Revoking a selo that does not exist is a no-op (204, idempotent).
 **Why:** PLAN BR-03.9 asks for it; keeps the CRUD at four verbs without an extra "reativar" endpoint.
 **Alternatives considered:** `PUT /{id}/reativar`; `?ativo=todos`.
+
+## D-7 · 2026-11-17 · feature 04
+**Decision:** When a RESERVADO lote expires (deadline passed without pickup), its ATIVA reserva becomes CANCELADA in the same transaction (wired in feature 07). Expiry runs every 5 minutes (`ExpiracaoJob`, `app.expiracao.enabled`), at the start of `GET /api/lotes/disponiveis`, before creating a reserva, and on `POST /api/lotes/expirar`.
+**Why:** PLAN BR-04.13; the lote can no longer be picked up, and leaving an ATIVA reserva on an EXPIRADO lote would block the "one ATIVA per lote" index forever and show a false pending pickup.
+**Alternatives considered:** keep the reserva ATIVA until someone cancels it manually.
+
+## D-8 · 2026-11-17 · feature 04
+**Decision:** `PUT /api/lotes/{id}` ignores `idOfertante` (a lote never changes owner); deadlines are truncated to whole seconds; `precisaTransporte` null → false.
+**Why:** PLAN §6/04 ("same fields except idOfertante"); Oracle `DATE` has second precision.
+**Alternatives considered:** 400 when idOfertante differs.

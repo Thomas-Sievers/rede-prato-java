@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.fiap.redeprato.dao.CategoriaAlimentoDAO;
+import br.com.fiap.redeprato.dao.LoteDAO;
 import br.com.fiap.redeprato.dto.CategoriaDTO;
 import br.com.fiap.redeprato.entity.CategoriaAlimento;
 import br.com.fiap.redeprato.exception.BusinessRuleException;
@@ -28,6 +29,19 @@ class CategoriaAlimentoBOTest {
 
     @Mock
     private CategoriaAlimentoDAO dao;
+
+    @Mock
+    private LoteDAO loteDAO;
+
+    @Test
+    void br024CategoriaUsadaPorLoteNaoPodeSerExcluida() {
+        when(dao.findById(3L)).thenReturn(Optional.of(cat(3L, "Frutas")));
+        when(loteDAO.existsByCategoria_IdCategoria(3L)).thenReturn(true);
+        assertThatThrownBy(() -> bo.excluir(3L))
+                .isInstanceOf(ConflictException.class)
+                .hasMessage("Não é possível excluir: existem lotes nesta categoria.");
+        verify(dao, never()).delete(any());
+    }
 
     @InjectMocks
     private CategoriaAlimentoBO bo;

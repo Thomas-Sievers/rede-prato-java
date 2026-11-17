@@ -101,6 +101,37 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void loteFlowMantemHorarioNoH2EApareceEmDisponiveis() throws Exception {
+        Long idEnd = novoEndereco();
+        Long idOf = postId("/api/ofertantes", "{\"nome\":\"Banca Lote IT\",\"tipo\":\"FEIRANTE\","
+                + "\"telefone\":\"11900000098\",\"idEndereco\":" + idEnd + "}", "idOfertante");
+        Long idCat = postId("/api/categorias", "{\"nome\":\"Cat Lote IT\"}", "idCategoria");
+        String prazo = java.time.LocalDate.now(java.time.ZoneId.of("America/Sao_Paulo")).plusDays(1) + "T18:30:00";
+
+        Long idLote = postId("/api/lotes", "{\"idOfertante\":" + idOf + ",\"idCategoria\":" + idCat
+                + ",\"descricao\":\"Tomates IT\",\"pesoKg\":8.5,\"condicao\":\"MADURA\",\"modalidade\":\"DOACAO\","
+                + "\"dataLimiteRetirada\":\"" + prazo + "\"}", "idLote");
+
+        mvc.perform(get("/api/lotes/" + idLote))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.dataLimiteRetirada").value(prazo))
+                .andExpect(jsonPath("$.status").value("DISPONIVEL"))
+                .andExpect(jsonPath("$.nomeCategoria").value("Cat Lote IT"))
+                .andExpect(jsonPath("$.pesoKg").value(8.5));
+        mvc.perform(get("/api/lotes/disponiveis").param("idCategoria", idCat.toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].idLote").value(idLote));
+        mvc.perform(delete("/api/categorias/" + idCat)).andExpect(status().isConflict());
+        mvc.perform(post("/api/lotes/expirar")).andExpect(status().isOk()).andExpect(jsonPath("$.expirados").isNumber());
+
+        mvc.perform(post("/api/lotes").contentType(MediaType.APPLICATION_JSON).content("{\"idOfertante\":" + idOf
+                        + ",\"idCategoria\":" + idCat + ",\"descricao\":\"X\",\"pesoKg\":1,\"condicao\":\"BOA\","
+                        + "\"modalidade\":\"DOACAO\",\"preco\":3,\"dataLimiteRetirada\":\"" + prazo + "\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Doação não tem preço."));
+    }
+
+    @Test
     void enumInvalidoNoCorpoDa400() throws Exception {
         mvc.perform(post("/api/ofertantes").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\":\"X\",\"tipo\":\"PADARIA\",\"telefone\":\"11900000001\",\"idEndereco\":1}"))
