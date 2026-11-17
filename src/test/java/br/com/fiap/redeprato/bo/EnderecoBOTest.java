@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import br.com.fiap.redeprato.dao.BeneficiarioDAO;
 import br.com.fiap.redeprato.dao.EnderecoDAO;
 import br.com.fiap.redeprato.dao.OfertanteDAO;
+import br.com.fiap.redeprato.dao.PontoDistribuicaoDAO;
 import br.com.fiap.redeprato.dto.EnderecoDTO;
 import br.com.fiap.redeprato.entity.Endereco;
 import br.com.fiap.redeprato.exception.BusinessRuleException;
@@ -36,6 +37,17 @@ class EnderecoBOTest {
 
     @Mock
     private BeneficiarioDAO beneficiarioDAO;
+
+    @Mock
+    private PontoDistribuicaoDAO pontoDAO;
+
+    @Test
+    void br029EnderecoUsadoPorPontoNaoPodeSerExcluido() {
+        when(dao.findById(5L)).thenReturn(Optional.of(Endereco.builder().idEndereco(5L).build()));
+        when(pontoDAO.existsByEndereco_IdEndereco(5L)).thenReturn(true);
+        assertThatThrownBy(() -> bo.excluir(5L)).isInstanceOf(ConflictException.class);
+        verify(dao, never()).delete(any());
+    }
 
     @Test
     void br029EnderecoUsadoPorBeneficiarioNaoPodeSerExcluido() {

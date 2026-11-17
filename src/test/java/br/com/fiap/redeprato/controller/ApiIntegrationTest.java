@@ -132,6 +132,20 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void pontoHorarioIdaEVoltaPeloBanco() throws Exception {
+        Long idEnd = novoEndereco();
+        Long id = postId("/api/pontos", "{\"nome\":\"Ponto IT\",\"tipo\":\"ASSOCIACAO\",\"diasFuncionamento\":\"TER e QUI\","
+                + "\"horarioAbertura\":\"16:00\",\"horarioFechamento\":\"18:30\",\"idEndereco\":" + idEnd + "}", "idPonto");
+        mvc.perform(get("/api/pontos/" + id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.horarioAbertura").value("16:00"))
+                .andExpect(jsonPath("$.horarioFechamento").value("18:30"));
+        mvc.perform(delete("/api/enderecos/" + idEnd)).andExpect(status().isConflict());
+        mvc.perform(delete("/api/pontos/" + id)).andExpect(status().isNoContent());
+        mvc.perform(get("/api/pontos/" + id)).andExpect(jsonPath("$.ativo").value(false));
+    }
+
+    @Test
     void enumInvalidoNoCorpoDa400() throws Exception {
         mvc.perform(post("/api/ofertantes").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\":\"X\",\"tipo\":\"PADARIA\",\"telefone\":\"11900000001\",\"idEndereco\":1}"))
