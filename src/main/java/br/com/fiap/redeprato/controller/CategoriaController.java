@@ -13,43 +13,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.CategoriaAlimentoBO;
+import br.com.fiap.redeprato.service.CategoriaAlimentoService;
 import br.com.fiap.redeprato.dto.CategoriaDTO;
 
 @RestController
 @RequestMapping("/api/categorias")
 public class CategoriaController {
 
-    private final CategoriaAlimentoBO bo;
+    private final CategoriaAlimentoService service;
 
-    public CategoriaController(CategoriaAlimentoBO bo) {
-        this.bo = bo;
+    public CategoriaController(CategoriaAlimentoService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<CategoriaDTO.Response> listar() {
-        return bo.listar();
+        return service.listar();
     }
 
     @GetMapping("/{id}")
     public CategoriaDTO.Response buscar(@PathVariable Long id) {
-        return bo.buscar(id);
+        return service.buscar(id);
     }
 
     @PostMapping
     public ResponseEntity<CategoriaDTO.Response> criar(@RequestBody CategoriaDTO.Request req) {
-        CategoriaDTO.Response r = bo.criar(req);
+        CategoriaDTO.Response r = service.criar(req);
         return ResponseEntity.created(URI.create("/api/categorias/" + r.idCategoria())).body(r);
     }
 
     @PutMapping("/{id}")
     public CategoriaDTO.Response atualizar(@PathVariable Long id, @RequestBody CategoriaDTO.Request req) {
-        return bo.atualizar(id, req);
+        return service.atualizar(id, req);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        bo.excluir(id);
+        service.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

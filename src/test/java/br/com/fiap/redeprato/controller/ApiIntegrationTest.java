@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-/** End-to-end API checks on H2 (real BOs, DAOs and exception handler). */
+/** End-to-end API checks on H2 (real services, repositories and exception handler). */
 @SpringBootTest
 class ApiIntegrationTest {
 

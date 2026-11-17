@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.DestinacaoBO;
-import br.com.fiap.redeprato.bo.LoteBO;
+import br.com.fiap.redeprato.service.DestinacaoService;
+import br.com.fiap.redeprato.service.LoteService;
 import br.com.fiap.redeprato.dto.DestinacaoDTO;
 import br.com.fiap.redeprato.dto.LoteDTO;
 import br.com.fiap.redeprato.entity.enums.ModalidadeLote;
@@ -25,19 +25,19 @@ import br.com.fiap.redeprato.entity.enums.StatusLote;
 @RequestMapping("/api/lotes")
 public class LoteController {
 
-    private final LoteBO bo;
-    private final DestinacaoBO destinacaoBO;
+    private final LoteService service;
+    private final DestinacaoService destinacaoService;
 
-    public LoteController(LoteBO bo, DestinacaoBO destinacaoBO) {
-        this.bo = bo;
-        this.destinacaoBO = destinacaoBO;
+    public LoteController(LoteService service, DestinacaoService destinacaoService) {
+        this.service = service;
+        this.destinacaoService = destinacaoService;
     }
 
     /** HU14: registers consumo and/or compostagem of one lote in one call. */
     @PostMapping("/{id}/destinacoes")
     public ResponseEntity<List<DestinacaoDTO.Response>> registrarDestinos(@PathVariable Long id,
                                                                           @RequestBody DestinacaoDTO.LoteRequest req) {
-        return ResponseEntity.status(201).body(destinacaoBO.registrarLote(id, req));
+        return ResponseEntity.status(201).body(destinacaoService.registrarLote(id, req));
     }
 
     @GetMapping
@@ -46,41 +46,41 @@ public class LoteController {
                                          @RequestParam(required = false) Long idCategoria,
                                          @RequestParam(required = false) ModalidadeLote modalidade,
                                          @RequestParam(required = false) Boolean precisaTransporte) {
-        return bo.listar(status, idOfertante, idCategoria, modalidade, precisaTransporte);
+        return service.listar(status, idOfertante, idCategoria, modalidade, precisaTransporte);
     }
 
     @GetMapping("/disponiveis")
     public List<LoteDTO.Response> disponiveis(@RequestParam(required = false) Long idCategoria,
                                               @RequestParam(required = false) ModalidadeLote modalidade,
                                               @RequestParam(required = false) String bairro) {
-        return bo.listarDisponiveis(idCategoria, modalidade, bairro);
+        return service.listarDisponiveis(idCategoria, modalidade, bairro);
     }
 
     @GetMapping("/{id}")
     public LoteDTO.Response buscar(@PathVariable Long id) {
-        return bo.buscar(id);
+        return service.buscar(id);
     }
 
     @PostMapping
     public ResponseEntity<LoteDTO.Response> criar(@RequestBody LoteDTO.Request req) {
-        LoteDTO.Response r = bo.criar(req);
+        LoteDTO.Response r = service.criar(req);
         return ResponseEntity.created(URI.create("/api/lotes/" + r.idLote())).body(r);
     }
 
     @PutMapping("/{id}")
     public LoteDTO.Response atualizar(@PathVariable Long id, @RequestBody LoteDTO.Request req) {
-        return bo.atualizar(id, req);
+        return service.atualizar(id, req);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        bo.excluir(id);
+        service.excluir(id);
         return ResponseEntity.noContent().build();
     }
 
     /** Runs the expiry routine now (admin/demo). */
     @PostMapping("/expirar")
     public LoteDTO.ExpiracaoResponse expirar() {
-        return new LoteDTO.ExpiracaoResponse(bo.expirarVencidos());
+        return new LoteDTO.ExpiracaoResponse(service.expirarVencidos());
     }
 }

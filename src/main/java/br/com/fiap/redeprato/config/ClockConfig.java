@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Single source of "now" for the BOs, so tests can use {@code Clock.fixed(...)}. */
+/** Single source of "now" for the services (BO layer), so tests can use {@code Clock.fixed(...)}. */
 @Configuration
 public class ClockConfig {
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.BeneficiarioBO;
+import br.com.fiap.redeprato.service.BeneficiarioService;
 import br.com.fiap.redeprato.dto.BeneficiarioDTO;
 import br.com.fiap.redeprato.entity.enums.TipoBeneficiario;
 
@@ -22,38 +22,38 @@ import br.com.fiap.redeprato.entity.enums.TipoBeneficiario;
 @RequestMapping("/api/beneficiarios")
 public class BeneficiarioController {
 
-    private final BeneficiarioBO bo;
+    private final BeneficiarioService service;
 
-    public BeneficiarioController(BeneficiarioBO bo) {
-        this.bo = bo;
+    public BeneficiarioController(BeneficiarioService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<BeneficiarioDTO.Response> listar(@RequestParam(required = false) TipoBeneficiario tipo,
                                                  @RequestParam(required = false) Boolean ativo) {
-        return bo.listar(tipo, ativo);
+        return service.listar(tipo, ativo);
     }
 
     @GetMapping("/{id}")
     public BeneficiarioDTO.Response buscar(@PathVariable Long id) {
-        return bo.buscar(id);
+        return service.buscar(id);
     }
 
     @PostMapping
     public ResponseEntity<BeneficiarioDTO.Response> criar(@RequestBody BeneficiarioDTO.Request req) {
-        BeneficiarioDTO.Response r = bo.criar(req);
+        BeneficiarioDTO.Response r = service.criar(req);
         return ResponseEntity.created(URI.create("/api/beneficiarios/" + r.idBeneficiario())).body(r);
     }
 
     @PutMapping("/{id}")
     public BeneficiarioDTO.Response atualizar(@PathVariable Long id, @RequestBody BeneficiarioDTO.Request req) {
-        return bo.atualizar(id, req);
+        return service.atualizar(id, req);
     }
 
     /** Logical delete (ativo = 'N'). */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        bo.excluir(id);
+        service.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.ReservaBO;
+import br.com.fiap.redeprato.service.ReservaService;
 import br.com.fiap.redeprato.dto.ReservaDTO;
 import br.com.fiap.redeprato.entity.enums.StatusReserva;
 
@@ -22,10 +22,10 @@ import br.com.fiap.redeprato.entity.enums.StatusReserva;
 @RequestMapping("/api/reservas")
 public class ReservaController {
 
-    private final ReservaBO bo;
+    private final ReservaService service;
 
-    public ReservaController(ReservaBO bo) {
-        this.bo = bo;
+    public ReservaController(ReservaService service) {
+        this.service = service;
     }
 
     @GetMapping
@@ -33,39 +33,39 @@ public class ReservaController {
                                             @RequestParam(required = false) Long idOfertante,
                                             @RequestParam(required = false) StatusReserva status,
                                             @RequestParam(required = false) Long idLote) {
-        return bo.listar(idBeneficiario, idOfertante, status, idLote);
+        return service.listar(idBeneficiario, idOfertante, status, idLote);
     }
 
     @GetMapping("/{id}")
     public ReservaDTO.Response buscar(@PathVariable Long id) {
-        return bo.buscar(id);
+        return service.buscar(id);
     }
 
     @PostMapping
     public ResponseEntity<ReservaDTO.Response> criar(@RequestBody ReservaDTO.Request req) {
-        ReservaDTO.Response r = bo.criar(req);
+        ReservaDTO.Response r = service.criar(req);
         return ResponseEntity.created(URI.create("/api/reservas/" + r.idReserva())).body(r);
     }
 
     @PutMapping("/{id}")
     public ReservaDTO.Response atualizar(@PathVariable Long id, @RequestBody ReservaDTO.UpdateRequest req) {
-        return bo.atualizar(id, req);
+        return service.atualizar(id, req);
     }
 
     @PutMapping("/{id}/cancelar")
     public ReservaDTO.Response cancelar(@PathVariable Long id) {
-        return bo.cancelar(id);
+        return service.cancelar(id);
     }
 
     /** UC09: confirms the pickup (reserva RETIRADA, lote RETIRADO). */
     @PutMapping("/{id}/retirada")
     public ReservaDTO.Response confirmarRetirada(@PathVariable Long id) {
-        return bo.confirmarRetirada(id);
+        return service.confirmarRetirada(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        bo.excluir(id);
+        service.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

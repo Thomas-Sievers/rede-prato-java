@@ -14,15 +14,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.fiap.redeprato.dao.AlertaDAO;
-import br.com.fiap.redeprato.dao.BeneficiarioDAO;
-import br.com.fiap.redeprato.dao.CategoriaAlimentoDAO;
-import br.com.fiap.redeprato.dao.DestinacaoDAO;
-import br.com.fiap.redeprato.dao.EnderecoDAO;
-import br.com.fiap.redeprato.dao.LoteDAO;
-import br.com.fiap.redeprato.dao.OfertanteDAO;
-import br.com.fiap.redeprato.dao.PontoDistribuicaoDAO;
-import br.com.fiap.redeprato.dao.ReservaDAO;
+import br.com.fiap.redeprato.repository.AlertaRepository;
+import br.com.fiap.redeprato.repository.BeneficiarioRepository;
+import br.com.fiap.redeprato.repository.CategoriaAlimentoRepository;
+import br.com.fiap.redeprato.repository.DestinacaoRepository;
+import br.com.fiap.redeprato.repository.EnderecoRepository;
+import br.com.fiap.redeprato.repository.LoteRepository;
+import br.com.fiap.redeprato.repository.OfertanteRepository;
+import br.com.fiap.redeprato.repository.PontoDistribuicaoRepository;
+import br.com.fiap.redeprato.repository.ReservaRepository;
 import br.com.fiap.redeprato.entity.Alerta;
 import br.com.fiap.redeprato.entity.Beneficiario;
 import br.com.fiap.redeprato.entity.CategoriaAlimento;
@@ -54,38 +54,38 @@ public class DataSeeder implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);
 
-    private final CategoriaAlimentoDAO categoriaDAO;
-    private final EnderecoDAO enderecoDAO;
-    private final OfertanteDAO ofertanteDAO;
-    private final BeneficiarioDAO beneficiarioDAO;
-    private final PontoDistribuicaoDAO pontoDAO;
-    private final LoteDAO loteDAO;
-    private final ReservaDAO reservaDAO;
-    private final DestinacaoDAO destinacaoDAO;
-    private final AlertaDAO alertaDAO;
+    private final CategoriaAlimentoRepository categoriaRepository;
+    private final EnderecoRepository enderecoRepository;
+    private final OfertanteRepository ofertanteRepository;
+    private final BeneficiarioRepository beneficiarioRepository;
+    private final PontoDistribuicaoRepository pontoRepository;
+    private final LoteRepository loteRepository;
+    private final ReservaRepository reservaRepository;
+    private final DestinacaoRepository destinacaoRepository;
+    private final AlertaRepository alertaRepository;
     private final Clock clock;
 
     private LocalDateTime now;
 
-    public DataSeeder(CategoriaAlimentoDAO categoriaDAO, EnderecoDAO enderecoDAO, OfertanteDAO ofertanteDAO,
-                      BeneficiarioDAO beneficiarioDAO, PontoDistribuicaoDAO pontoDAO, LoteDAO loteDAO,
-                      ReservaDAO reservaDAO, DestinacaoDAO destinacaoDAO, AlertaDAO alertaDAO, Clock clock) {
-        this.categoriaDAO = categoriaDAO;
-        this.enderecoDAO = enderecoDAO;
-        this.ofertanteDAO = ofertanteDAO;
-        this.beneficiarioDAO = beneficiarioDAO;
-        this.pontoDAO = pontoDAO;
-        this.loteDAO = loteDAO;
-        this.reservaDAO = reservaDAO;
-        this.destinacaoDAO = destinacaoDAO;
-        this.alertaDAO = alertaDAO;
+    public DataSeeder(CategoriaAlimentoRepository categoriaRepository, EnderecoRepository enderecoRepository, OfertanteRepository ofertanteRepository,
+                      BeneficiarioRepository beneficiarioRepository, PontoDistribuicaoRepository pontoRepository, LoteRepository loteRepository,
+                      ReservaRepository reservaRepository, DestinacaoRepository destinacaoRepository, AlertaRepository alertaRepository, Clock clock) {
+        this.categoriaRepository = categoriaRepository;
+        this.enderecoRepository = enderecoRepository;
+        this.ofertanteRepository = ofertanteRepository;
+        this.beneficiarioRepository = beneficiarioRepository;
+        this.pontoRepository = pontoRepository;
+        this.loteRepository = loteRepository;
+        this.reservaRepository = reservaRepository;
+        this.destinacaoRepository = destinacaoRepository;
+        this.alertaRepository = alertaRepository;
         this.clock = clock;
     }
 
     @Override
     @Transactional
     public void run(String... args) {
-        if (categoriaDAO.count() > 0) {
+        if (categoriaRepository.count() > 0) {
             log.info("Seed skipped: data already present");
             return;
         }
@@ -197,7 +197,7 @@ public class DataSeeder implements CommandLineRunner {
         alerta(d3, TipoAlerta.XEPA, CanalAlerta.WHATSAPP, now.minusMinutes(30));
 
         log.info("Seed done: {} lotes, {} reservas, {} destinações, {} alertas",
-                loteDAO.count(), reservaDAO.count(), destinacaoDAO.count(), alertaDAO.count());
+                loteRepository.count(), reservaRepository.count(), destinacaoRepository.count(), alertaRepository.count());
     }
 
     /** Today's slot, or now + {@code horas} if that hour already passed. */
@@ -206,28 +206,28 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private CategoriaAlimento cat(String nome, String descricao) {
-        return categoriaDAO.save(CategoriaAlimento.builder().nome(nome).descricao(descricao).build());
+        return categoriaRepository.save(CategoriaAlimento.builder().nome(nome).descricao(descricao).build());
     }
 
     private Endereco end(String logradouro, String numero, String complemento, String bairro, String cep) {
-        return enderecoDAO.save(Endereco.builder().logradouro(logradouro).numero(numero).complemento(complemento)
+        return enderecoRepository.save(Endereco.builder().logradouro(logradouro).numero(numero).complemento(complemento)
                 .bairro(bairro).cidade("São Paulo").uf("SP").cep(cep).build());
     }
 
     private Ofertante of(String nome, TipoOfertante tipo, String tel, String email, Endereco e,
                          LocalDate dataSelo, boolean ativo) {
-        return ofertanteDAO.save(Ofertante.builder().nome(nome).tipo(tipo).telefone(tel).email(email)
+        return ofertanteRepository.save(Ofertante.builder().nome(nome).tipo(tipo).telefone(tel).email(email)
                 .possuiSelo(dataSelo != null).dataSelo(dataSelo).ativo(ativo).endereco(e).build());
     }
 
     private Beneficiario ben(String nome, TipoBeneficiario tipo, Integer qtd, String tel, Endereco e) {
-        return beneficiarioDAO.save(Beneficiario.builder().nome(nome).tipo(tipo).qtdPessoas(qtd).telefone(tel)
+        return beneficiarioRepository.save(Beneficiario.builder().nome(nome).tipo(tipo).qtdPessoas(qtd).telefone(tel)
                 .ativo(true).endereco(e).build());
     }
 
     private PontoDistribuicao ponto(String nome, TipoPonto tipo, String dias, int abre, int fecha, String tel,
                                     Endereco e) {
-        return pontoDAO.save(PontoDistribuicao.builder().nome(nome).tipo(tipo).diasFuncionamento(dias)
+        return pontoRepository.save(PontoDistribuicao.builder().nome(nome).tipo(tipo).diasFuncionamento(dias)
                 .horarioAbertura(LocalTime.of(abre, 0)).horarioFechamento(LocalTime.of(fecha, 0)).telefone(tel)
                 .ativo(true).endereco(e).build());
     }
@@ -242,7 +242,7 @@ public class DataSeeder implements CommandLineRunner {
     private Lote lote(Ofertante o, CategoriaAlimento c, String desc, String kg, CondicaoLote cond,
                       ModalidadeLote mod, String preco, String valor, LocalDateTime prazo, StatusLote status,
                       LocalDateTime cadastro) {
-        Lote l = loteDAO.save(Lote.builder().ofertante(o).categoria(c).descricao(desc).pesoKg(new BigDecimal(kg))
+        Lote l = loteRepository.save(Lote.builder().ofertante(o).categoria(c).descricao(desc).pesoKg(new BigDecimal(kg))
                 .condicao(cond).modalidade(mod).preco(preco == null ? null : new BigDecimal(preco))
                 .valorEstimado(valor == null ? null : new BigDecimal(valor)).dataCadastro(cadastro)
                 .dataLimiteRetirada(prazo).precisaTransporte(false).status(status).build());
@@ -266,15 +266,15 @@ public class DataSeeder implements CommandLineRunner {
 
     private void reserva(Lote l, Beneficiario b, PontoDistribuicao p, LocalDateTime data, LocalDateTime retirada,
                          StatusReserva status) {
-        reservaDAO.save(Reserva.builder().lote(l).beneficiario(b).ponto(p).dataReserva(data)
+        reservaRepository.save(Reserva.builder().lote(l).beneficiario(b).ponto(p).dataReserva(data)
                 .dataRetirada(retirada).status(status).build());
     }
 
     private void destino(Lote l, TipoDestinacao tipo, String kg, LocalDateTime data) {
-        destinacaoDAO.save(Destinacao.builder().lote(l).tipo(tipo).pesoKg(new BigDecimal(kg)).dataDestinacao(data).build());
+        destinacaoRepository.save(Destinacao.builder().lote(l).tipo(tipo).pesoKg(new BigDecimal(kg)).dataDestinacao(data).build());
     }
 
     private void alerta(Lote l, TipoAlerta tipo, CanalAlerta canal, LocalDateTime data) {
-        alertaDAO.save(Alerta.builder().lote(l).tipo(tipo).canal(canal).dataEnvio(data).build());
+        alertaRepository.save(Alerta.builder().lote(l).tipo(tipo).canal(canal).dataEnvio(data).build());
     }
 }

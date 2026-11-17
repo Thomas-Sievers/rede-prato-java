@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.DestinacaoBO;
+import br.com.fiap.redeprato.service.DestinacaoService;
 import br.com.fiap.redeprato.dto.DestinacaoDTO;
 import br.com.fiap.redeprato.entity.enums.TipoDestinacao;
 
@@ -22,37 +22,37 @@ import br.com.fiap.redeprato.entity.enums.TipoDestinacao;
 @RequestMapping("/api/destinacoes")
 public class DestinacaoController {
 
-    private final DestinacaoBO bo;
+    private final DestinacaoService service;
 
-    public DestinacaoController(DestinacaoBO bo) {
-        this.bo = bo;
+    public DestinacaoController(DestinacaoService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<DestinacaoDTO.Response> listar(@RequestParam(required = false) Long idLote,
                                                @RequestParam(required = false) TipoDestinacao tipo) {
-        return bo.listar(idLote, tipo);
+        return service.listar(idLote, tipo);
     }
 
     @GetMapping("/{id}")
     public DestinacaoDTO.Response buscar(@PathVariable Long id) {
-        return bo.buscar(id);
+        return service.buscar(id);
     }
 
     @PostMapping
     public ResponseEntity<DestinacaoDTO.Response> criar(@RequestBody DestinacaoDTO.Request req) {
-        DestinacaoDTO.Response r = bo.criar(req);
+        DestinacaoDTO.Response r = service.criar(req);
         return ResponseEntity.created(URI.create("/api/destinacoes/" + r.idDestinacao())).body(r);
     }
 
     @PutMapping("/{id}")
     public DestinacaoDTO.Response atualizar(@PathVariable Long id, @RequestBody DestinacaoDTO.Request req) {
-        return bo.atualizar(id, req);
+        return service.atualizar(id, req);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        bo.excluir(id);
+        service.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

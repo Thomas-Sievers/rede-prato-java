@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.RelatorioBO;
+import br.com.fiap.redeprato.service.RelatorioService;
 import br.com.fiap.redeprato.dto.RelatorioDTO;
 
 /** HU22: monthly impact report. */
@@ -14,14 +14,14 @@ import br.com.fiap.redeprato.dto.RelatorioDTO;
 @RequestMapping("/api/relatorios")
 public class RelatorioController {
 
-    private final RelatorioBO bo;
+    private final RelatorioService service;
 
-    public RelatorioController(RelatorioBO bo) {
-        this.bo = bo;
+    public RelatorioController(RelatorioService service) {
+        this.service = service;
     }
 
     @GetMapping("/ofertantes/{id}/mensal")
     public RelatorioDTO.Mensal mensal(@PathVariable Long id, @RequestParam(required = false) String mes) {
-        return bo.mensal(id, mes);
+        return service.mensal(id, mes);
     }
 }

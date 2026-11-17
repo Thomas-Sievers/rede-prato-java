@@ -14,43 +14,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.EnderecoBO;
+import br.com.fiap.redeprato.service.EnderecoService;
 import br.com.fiap.redeprato.dto.EnderecoDTO;
 
 @RestController
 @RequestMapping("/api/enderecos")
 public class EnderecoController {
 
-    private final EnderecoBO bo;
+    private final EnderecoService service;
 
-    public EnderecoController(EnderecoBO bo) {
-        this.bo = bo;
+    public EnderecoController(EnderecoService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<EnderecoDTO.Response> listar(@RequestParam(required = false) String bairro) {
-        return bo.listar(bairro);
+        return service.listar(bairro);
     }
 
     @GetMapping("/{id}")
     public EnderecoDTO.Response buscar(@PathVariable Long id) {
-        return bo.buscar(id);
+        return service.buscar(id);
     }
 
     @PostMapping
     public ResponseEntity<EnderecoDTO.Response> criar(@RequestBody EnderecoDTO.Request req) {
-        EnderecoDTO.Response r = bo.criar(req);
+        EnderecoDTO.Response r = service.criar(req);
         return ResponseEntity.created(URI.create("/api/enderecos/" + r.idEndereco())).body(r);
     }
 
     @PutMapping("/{id}")
     public EnderecoDTO.Response atualizar(@PathVariable Long id, @RequestBody EnderecoDTO.Request req) {
-        return bo.atualizar(id, req);
+        return service.atualizar(id, req);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        bo.excluir(id);
+        service.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

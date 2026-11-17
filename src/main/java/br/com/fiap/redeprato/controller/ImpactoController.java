@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.redeprato.bo.ImpactoBO;
+import br.com.fiap.redeprato.service.ImpactoService;
 import br.com.fiap.redeprato.dto.ImpactoDTO;
 
 /** Painel de impacto (HU15): read-only aggregates. */
@@ -14,19 +14,19 @@ import br.com.fiap.redeprato.dto.ImpactoDTO;
 @RequestMapping("/api/impacto")
 public class ImpactoController {
 
-    private final ImpactoBO bo;
+    private final ImpactoService service;
 
-    public ImpactoController(ImpactoBO bo) {
-        this.bo = bo;
+    public ImpactoController(ImpactoService service) {
+        this.service = service;
     }
 
     @GetMapping("/ofertantes/{id}")
     public ImpactoDTO.Ofertante porOfertante(@PathVariable Long id, @RequestParam(required = false) String mes) {
-        return bo.porOfertante(id, mes);
+        return service.porOfertante(id, mes);
     }
 
     @GetMapping("/rede")
     public ImpactoDTO.Rede rede(@RequestParam(required = false) String mes) {
-        return bo.rede(mes);
+        return service.rede(mes);
     }
 }
