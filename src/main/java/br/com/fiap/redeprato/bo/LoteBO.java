@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.fiap.redeprato.dao.LoteDAO;
+import br.com.fiap.redeprato.dao.ReservaDAO;
 import br.com.fiap.redeprato.dto.LoteDTO;
 import br.com.fiap.redeprato.entity.Lote;
 import br.com.fiap.redeprato.entity.Ofertante;
+import br.com.fiap.redeprato.entity.Reserva;
 import br.com.fiap.redeprato.entity.enums.ModalidadeLote;
 import br.com.fiap.redeprato.entity.enums.StatusLote;
+import br.com.fiap.redeprato.entity.enums.StatusReserva;
 import br.com.fiap.redeprato.exception.BusinessRuleException;
 import br.com.fiap.redeprato.exception.ConflictException;
 import br.com.fiap.redeprato.exception.NotFoundException;
@@ -26,12 +29,15 @@ public class LoteBO {
     static final BigDecimal PESO_MAX = new BigDecimal("999999.99");
 
     private final LoteDAO dao;
+    private final ReservaDAO reservaDAO;
     private final OfertanteBO ofertanteBO;
     private final CategoriaAlimentoBO categoriaBO;
     private final Clock clock;
 
-    public LoteBO(LoteDAO dao, OfertanteBO ofertanteBO, CategoriaAlimentoBO categoriaBO, Clock clock) {
+    public LoteBO(LoteDAO dao, ReservaDAO reservaDAO, OfertanteBO ofertanteBO,
+                  CategoriaAlimentoBO categoriaBO, Clock clock) {
         this.dao = dao;
+        this.reservaDAO = reservaDAO;
         this.ofertanteBO = ofertanteBO;
         this.categoriaBO = categoriaBO;
         this.clock = clock;
@@ -86,10 +92,15 @@ public class LoteBO {
         return LoteDTO.Response.from(dao.save(l));
     }
 
+    /** HU03 / decisão 6: deletes the lote together with its CANCELADA reservas (and alertas, feature 09). */
     @Transactional
     public void excluir(Long id) {
         Lote l = find(id);
         checkPodeExcluir(l);
+        List<Reserva> canceladas = reservaDAO.findByLote_IdLoteAndStatus(l.getIdLote(), StatusReserva.CANCELADA);
+        if (!canceladas.isEmpty()) {
+            reservaDAO.deleteAll(canceladas);
+        }
         dao.delete(l);
     }
 
@@ -103,6 +114,13 @@ public class LoteBO {
         List<Lote> vencidos = dao.findByStatusInAndDataLimiteRetiradaBefore(
                 EnumSet.of(StatusLote.DISPONIVEL, StatusLote.RESERVADO), now());
         for (Lote l : vencidos) {
+            if (l.getStatus() == StatusLote.RESERVADO) {
+                // D-7: the lote can no longer be picked up, so its ATIVA reserva is cancelled
+                reservaDAO.findFirstByLote_IdLoteAndStatus(l.getIdLote(), StatusReserva.ATIVA).ifPresent(r -> {
+                    r.setStatus(StatusReserva.CANCELADA);
+                    reservaDAO.save(r);
+                });
+            }
             l.setStatus(StatusLote.EXPIRADO);
         }
         if (!vencidos.isEmpty()) {
@@ -236,9 +254,12 @@ public class LoteBO {
         }
     }
 
-    // BR-04.11 (reserva/destinação checks wired in features 07 and 08)
+    // BR-04.11 (destinação check wired in feature 08)
     private void checkPodeExcluir(Lote l) {
-        // no dependent table yet
+        if (reservaDAO.existsByLote_IdLoteAndStatusIn(l.getIdLote(),
+                EnumSet.of(StatusReserva.ATIVA, StatusReserva.RETIRADA))) {
+            throw new ConflictException(MSG_NAO_EXCLUI);
+        }
     }
 
     static final String MSG_NAO_EXCLUI =
