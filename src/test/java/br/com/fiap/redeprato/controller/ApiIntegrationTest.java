@@ -197,6 +197,36 @@ class ApiIntegrationTest {
     }
 
     @Test
+    void retiradaEDestinoFlow() throws Exception {
+        long idLote = novoLote("SUPERMERCADO")[1];
+        Long idBen = postId("/api/beneficiarios", "{\"nome\":\"Seu Jorge IT\",\"tipo\":\"PESSOA\"}", "idBeneficiario");
+
+        mvc.perform(post("/api/destinacoes").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idLote\":" + idLote + ",\"tipo\":\"CONSUMO\",\"pesoKg\":1}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Registre a retirada antes do destino."));
+
+        Long idRes = postId("/api/reservas", "{\"idLote\":" + idLote + ",\"idBeneficiario\":" + idBen + "}", "idReserva");
+        mvc.perform(put("/api/reservas/" + idRes + "/retirada"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("RETIRADA"))
+                .andExpect(jsonPath("$.statusLote").value("RETIRADO"))
+                .andExpect(jsonPath("$.dataRetirada").isNotEmpty());
+
+        mvc.perform(post("/api/lotes/" + idLote + "/destinacoes").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"consumoKg\":5,\"compostagemKg\":1}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.length()").value(2));
+        mvc.perform(post("/api/destinacoes").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idLote\":" + idLote + ",\"tipo\":\"CONSUMO\",\"pesoKg\":0.5}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("A soma dos destinos passa do peso do lote (6 kg)."));
+        mvc.perform(get("/api/destinacoes").param("idLote", String.valueOf(idLote)))
+                .andExpect(jsonPath("$.length()").value(2));
+        mvc.perform(delete("/api/lotes/" + idLote)).andExpect(status().isConflict());
+    }
+
+    @Test
     void enumInvalidoNoCorpoDa400() throws Exception {
         mvc.perform(post("/api/ofertantes").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\":\"X\",\"tipo\":\"PADARIA\",\"telefone\":\"11900000001\",\"idEndereco\":1}"))
