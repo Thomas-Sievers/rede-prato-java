@@ -224,6 +224,24 @@ class ApiIntegrationTest {
         mvc.perform(get("/api/destinacoes").param("idLote", String.valueOf(idLote)))
                 .andExpect(jsonPath("$.length()").value(2));
         mvc.perform(delete("/api/lotes/" + idLote)).andExpect(status().isConflict());
+
+        // HU15: the painel computes kg from the destinações (JPQL aggregates on H2)
+        String idOf = com.jayway.jsonpath.JsonPath.read(mvc.perform(get("/api/lotes/" + idLote)).andReturn()
+                .getResponse().getContentAsString(java.nio.charset.StandardCharsets.UTF_8), "$.idOfertante").toString();
+        mvc.perform(get("/api/impacto/ofertantes/" + idOf))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalKg").value(6.0))
+                .andExpect(jsonPath("$.consumoKg").value(5.0))
+                .andExpect(jsonPath("$.compostagemKg").value(1.0))
+                .andExpect(jsonPath("$.percentualConsumo").value(83.3))
+                .andExpect(jsonPath("$.lotesRetirados").value(1))
+                .andExpect(jsonPath("$.beneficiariosAtendidos").value(1))
+                .andExpect(jsonPath("$.pessoasAtendidas").value(1))
+                .andExpect(jsonPath("$.porSemana.length()").value(4))
+                .andExpect(jsonPath("$.porSemana[3].kg").value(6.0));
+        mvc.perform(get("/api/impacto/rede"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ofertantes[?(@.idOfertante == " + idOf + ")]").exists());
     }
 
     @Test

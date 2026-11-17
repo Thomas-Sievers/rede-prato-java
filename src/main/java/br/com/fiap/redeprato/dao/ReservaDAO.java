@@ -40,4 +40,27 @@ public interface ReservaDAO extends JpaRepository<Reserva, Long> {
     boolean existsByPonto_IdPonto(Long idPonto);
 
     boolean existsByBeneficiario_IdBeneficiario(Long idBeneficiario);
+
+    /** BR-10.2: distinct lotes picked up (reserva RETIRADA) in [inicio, fim). */
+    @Query("""
+            select count(distinct r.lote.idLote) from Reserva r
+            where r.status = br.com.fiap.redeprato.entity.enums.StatusReserva.RETIRADA
+              and (:idOfertante is null or r.lote.ofertante.idOfertante = :idOfertante)
+              and r.dataRetirada >= :inicio and r.dataRetirada < :fim
+            """)
+    long contarLotesRetirados(@Param("idOfertante") Long idOfertante,
+                              @Param("inicio") java.time.LocalDateTime inicio,
+                              @Param("fim") java.time.LocalDateTime fim);
+
+    /** BR-10.3: distinct beneficiários served by pickups in [inicio, fim). */
+    @Query("""
+            select distinct b from Reserva r join r.beneficiario b
+            where r.status = br.com.fiap.redeprato.entity.enums.StatusReserva.RETIRADA
+              and (:idOfertante is null or r.lote.ofertante.idOfertante = :idOfertante)
+              and r.dataRetirada >= :inicio and r.dataRetirada < :fim
+            """)
+    List<br.com.fiap.redeprato.entity.Beneficiario> beneficiariosAtendidos(
+            @Param("idOfertante") Long idOfertante,
+            @Param("inicio") java.time.LocalDateTime inicio,
+            @Param("fim") java.time.LocalDateTime fim);
 }
