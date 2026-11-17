@@ -54,6 +54,12 @@ public class OracleSmokeTest {
         // ---------- 0. health: only continue on the oracle profile ----------
         Resp h = expect("health", "GET", "/api/health", null, 200);
         String profile = str(h.body, "profile");
+        if (h.status == -1) {
+            check(false, "GET", "/api/health", "app reachable", "no answer",
+                    "nothing is listening at " + base + " — start the app (oracle profile) or pass its URL; stopping");
+            finish();
+            return;
+        }
         if (!"oracle".equals(profile)) {
             check(false, "GET", "/api/health", "profile=oracle", String.valueOf(profile),
                     "app is not on the oracle profile; stopping (no tests against H2)");
@@ -357,7 +363,8 @@ public class OracleSmokeTest {
                     HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             return new Resp(r.statusCode(), r.body());
         } catch (Exception e) {
-            return new Resp(-1, "connection error: " + e.getClass().getSimpleName() + " " + e.getMessage());
+            String why = e instanceof java.net.ConnectException ? "connection refused" : e.getClass().getSimpleName();
+            return new Resp(-1, "connection error: " + why + (e.getMessage() == null ? "" : " (" + e.getMessage() + ")"));
         }
     }
 
