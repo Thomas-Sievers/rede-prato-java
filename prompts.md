@@ -24,3 +24,4 @@ Plan: `docs/PLAN.md` (spec-driven: every feature has `specs/<NN>-<name>/requirem
 - 17-docs — Claude Code wrote `docs/endpoints.md`, `class-diagram.md`, `der.md`, `run.md`, `oracle-checklist.md` from the code, plus `DocsConsistencyTest` (fails if an endpoint/entity is missing from the docs).
 - 18-extras — Claude Code added Swagger UI, the HU22 monthly report, the transport filter and the "Onde buscar" list (D-13).
 - 12–16 frontend — Claude Code implemented the 5 screens from `specs/12…16-*` and `docs/prototipo.md` + the prototype PNGs (plain HTML/JS, D-12).
+- 19-rename-layers — Thomas asked to follow the teacher's package pattern: Claude Code renamed `dao`/`bo` to `repository`/`service` (D-14, supersedes D-1), updated the docs, and fixed the "Você é:" selector at 375 px and the reservation dialog radios' aria-label.

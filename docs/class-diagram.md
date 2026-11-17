@@ -185,10 +185,12 @@ classDiagram
 
 Observações de mapeamento:
 - `boolean` ↔ `CHAR(1)` 'S'/'N' via `converter.BooleanSNConverter`; `LocalTime` ↔ `VARCHAR2(5)` "HH:MM" via `converter.LocalTimeHHMMConverter`.
-- Todos os relacionamentos são `@ManyToOne(fetch = LAZY)` (navegação do filho para o pai); listas de filhos são consultadas pelos DAOs.
+- Todos os relacionamentos são `@ManyToOne(fetch = LAZY)` (navegação do filho para o pai); listas de filhos são consultadas pelos repositories (camada DAO).
 - Lombok: `@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder` em todas as entidades.
 
-## 2. Camadas (Controller → BO → DAO → Entity) e exceções
+## 2. Camadas (Controller → Service/BO → Repository/DAO → Entity) e exceções
+
+Pacote `service` = **camada BO** (regras de negócio, `XxxService`); pacote `repository` = **camada DAO** (acesso a dados, `XxxRepository extends JpaRepository`).
 
 ```mermaid
 classDiagram
@@ -213,7 +215,8 @@ classDiagram
         +confirmarRetirada(id) ReservaDTO.Response
         +excluir(id) ResponseEntity
     }
-    class LoteBO {
+    class LoteService {
+        <<BO>>
         +listar(...) List
         +listarDisponiveis(...) List
         +criar(LoteDTO.Request) LoteDTO.Response
@@ -223,7 +226,8 @@ classDiagram
         +find(id) Lote
         ~validate(Lote)
     }
-    class ReservaBO {
+    class ReservaService {
+        <<BO>>
         +criar(ReservaDTO.Request) ReservaDTO.Response
         +cancelar(id) ReservaDTO.Response
         +confirmarRetirada(id) ReservaDTO.Response
@@ -231,15 +235,15 @@ classDiagram
         +excluir(id)
         +find(id) Reserva
     }
-    class LoteDAO {
-        <<interface>>
+    class LoteRepository {
+        <<interface DAO>>
         +filtrar(...) List~Lote~
         +disponiveis(agora, ...) List~Lote~
         +findByStatusInAndDataLimiteRetiradaBefore(...) List~Lote~
         +existsByCategoria_IdCategoria(id) boolean
     }
-    class ReservaDAO {
-        <<interface>>
+    class ReservaRepository {
+        <<interface DAO>>
         +filtrar(...) List~Reserva~
         +existsByLote_IdLoteAndStatus(id, status) boolean
         +contarLotesRetirados(...) long
@@ -251,24 +255,24 @@ classDiagram
     class Lote
     class Reserva
 
-    LoteController --> LoteBO
-    LoteController --> DestinacaoBO
-    ReservaController --> ReservaBO
-    ReservaBO --> LoteBO
-    ReservaBO --> ReservaDAO
-    ReservaBO --> LoteDAO
-    ReservaBO --> BeneficiarioBO
-    ReservaBO --> PontoDistribuicaoBO
-    LoteBO --> LoteDAO
-    LoteBO --> ReservaDAO
-    LoteBO --> DestinacaoDAO
-    LoteBO --> AlertaDAO
-    LoteBO --> OfertanteBO
-    LoteBO --> CategoriaAlimentoBO
-    LoteDAO --|> JpaRepository
-    ReservaDAO --|> JpaRepository
-    LoteDAO ..> Lote
-    ReservaDAO ..> Reserva
+    LoteController --> LoteService
+    LoteController --> DestinacaoService
+    ReservaController --> ReservaService
+    ReservaService --> LoteService
+    ReservaService --> ReservaRepository
+    ReservaService --> LoteRepository
+    ReservaService --> BeneficiarioService
+    ReservaService --> PontoDistribuicaoService
+    LoteService --> LoteRepository
+    LoteService --> ReservaRepository
+    LoteService --> DestinacaoRepository
+    LoteService --> AlertaRepository
+    LoteService --> OfertanteService
+    LoteService --> CategoriaAlimentoService
+    LoteRepository --|> JpaRepository
+    ReservaRepository --|> JpaRepository
+    LoteRepository ..> Lote
+    ReservaRepository ..> Reserva
 
     class GlobalExceptionHandler {
         <<RestControllerAdvice>>
@@ -295,26 +299,26 @@ classDiagram
     BusinessRuleException --|> RuntimeException
     ConflictException --|> RuntimeException
     GlobalExceptionHandler ..> ApiError
-    LoteBO ..> BusinessRuleException : lança
-    LoteBO ..> ConflictException : lança
-    LoteBO ..> NotFoundException : lança
+    LoteService ..> BusinessRuleException : lança
+    LoteService ..> ConflictException : lança
+    LoteService ..> NotFoundException : lança
 ```
 
 O mesmo padrão vale para os outros recursos:
 
-| Controller (`/api/...`) | BO | DAO | Entidade |
+| Controller (`/api/...`) | Service (camada BO) | Repository (camada DAO) | Entidade |
 | --- | --- | --- | --- |
-| `CategoriaController` (`/categorias`) | `CategoriaAlimentoBO` | `CategoriaAlimentoDAO` | `CategoriaAlimento` |
-| `EnderecoController` (`/enderecos`) | `EnderecoBO` | `EnderecoDAO` | `Endereco` |
-| `OfertanteController` (`/ofertantes`) | `OfertanteBO` | `OfertanteDAO` | `Ofertante` |
-| `LoteController` (`/lotes`) | `LoteBO`, `DestinacaoBO` | `LoteDAO` | `Lote` |
-| `BeneficiarioController` (`/beneficiarios`) | `BeneficiarioBO` | `BeneficiarioDAO` | `Beneficiario` |
-| `PontoController` (`/pontos`) | `PontoDistribuicaoBO` | `PontoDistribuicaoDAO` | `PontoDistribuicao` |
-| `ReservaController` (`/reservas`) | `ReservaBO` | `ReservaDAO` | `Reserva` |
-| `DestinacaoController` (`/destinacoes`) | `DestinacaoBO` | `DestinacaoDAO` | `Destinacao` |
-| `AlertaController` (`/alertas`) | `AlertaBO` | `AlertaDAO` | `Alerta` |
-| `ImpactoController` (`/impacto`) | `ImpactoBO` | `DestinacaoDAO`, `ReservaDAO` | (consultas agregadas) |
-| `RelatorioController` (`/relatorios`) | `RelatorioBO` | `DestinacaoDAO` | (relatório mensal) |
+| `CategoriaController` (`/categorias`) | `CategoriaAlimentoService` | `CategoriaAlimentoRepository` | `CategoriaAlimento` |
+| `EnderecoController` (`/enderecos`) | `EnderecoService` | `EnderecoRepository` | `Endereco` |
+| `OfertanteController` (`/ofertantes`) | `OfertanteService` | `OfertanteRepository` | `Ofertante` |
+| `LoteController` (`/lotes`) | `LoteService`, `DestinacaoService` | `LoteRepository` | `Lote` |
+| `BeneficiarioController` (`/beneficiarios`) | `BeneficiarioService` | `BeneficiarioRepository` | `Beneficiario` |
+| `PontoController` (`/pontos`) | `PontoDistribuicaoService` | `PontoDistribuicaoRepository` | `PontoDistribuicao` |
+| `ReservaController` (`/reservas`) | `ReservaService` | `ReservaRepository` | `Reserva` |
+| `DestinacaoController` (`/destinacoes`) | `DestinacaoService` | `DestinacaoRepository` | `Destinacao` |
+| `AlertaController` (`/alertas`) | `AlertaService` | `AlertaRepository` | `Alerta` |
+| `ImpactoController` (`/impacto`) | `ImpactoService` | `DestinacaoRepository`, `ReservaRepository` | (consultas agregadas) |
+| `RelatorioController` (`/relatorios`) | `RelatorioService` | `DestinacaoRepository` | (relatório mensal) |
 | `HealthController` (`/health`) | — | — | — |
 
 Apoio: `dto` (records `XxxDTO.Request` / `XxxDTO.Response`), `converter` (S/N e HH:MM), `config` (`ClockConfig`, `WebConfig`, `ExpiracaoJob`, `DataSeeder`).
