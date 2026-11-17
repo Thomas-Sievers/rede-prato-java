@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.fiap.redeprato.dao.EnderecoDAO;
+import br.com.fiap.redeprato.dao.OfertanteDAO;
 import br.com.fiap.redeprato.dto.EnderecoDTO;
 import br.com.fiap.redeprato.entity.Endereco;
 import br.com.fiap.redeprato.exception.BusinessRuleException;
+import br.com.fiap.redeprato.exception.ConflictException;
 import br.com.fiap.redeprato.exception.NotFoundException;
 
 /** Business rules for addresses. */
@@ -21,9 +23,11 @@ public class EnderecoBO {
             "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO");
 
     private final EnderecoDAO dao;
+    private final OfertanteDAO ofertanteDAO;
 
-    public EnderecoBO(EnderecoDAO dao) {
+    public EnderecoBO(EnderecoDAO dao, OfertanteDAO ofertanteDAO) {
         this.dao = dao;
+        this.ofertanteDAO = ofertanteDAO;
     }
 
     @Transactional(readOnly = true)
@@ -122,8 +126,13 @@ public class EnderecoBO {
         }
     }
 
-    // BR-02.9 (wired in features 03, 05 and 06)
+    // BR-02.9 (ofertante: feature 03; beneficiário: 05; ponto: 06)
     private void checkSemUso(Endereco e) {
-        // no dependent table yet
+        Long id = e.getIdEndereco();
+        if (ofertanteDAO.existsByEndereco_IdEndereco(id)) {
+            throw new ConflictException(MSG_EM_USO);
+        }
     }
+
+    static final String MSG_EM_USO = "Não é possível excluir: este endereço está em uso.";
 }
