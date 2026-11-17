@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import br.com.fiap.redeprato.dao.BeneficiarioDAO;
 import br.com.fiap.redeprato.dao.EnderecoDAO;
 import br.com.fiap.redeprato.dao.OfertanteDAO;
 import br.com.fiap.redeprato.dto.EnderecoDTO;
@@ -32,6 +33,17 @@ class EnderecoBOTest {
 
     @Mock
     private OfertanteDAO ofertanteDAO;
+
+    @Mock
+    private BeneficiarioDAO beneficiarioDAO;
+
+    @Test
+    void br029EnderecoUsadoPorBeneficiarioNaoPodeSerExcluido() {
+        when(dao.findById(5L)).thenReturn(Optional.of(Endereco.builder().idEndereco(5L).build()));
+        when(beneficiarioDAO.existsByEndereco_IdEndereco(5L)).thenReturn(true);
+        assertThatThrownBy(() -> bo.excluir(5L)).isInstanceOf(ConflictException.class);
+        verify(dao, never()).delete(any());
+    }
 
     @InjectMocks
     private EnderecoBO bo;
