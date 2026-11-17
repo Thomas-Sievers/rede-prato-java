@@ -53,6 +53,16 @@ class LoteBOTest {
     @Mock
     private ReservaDAO reservaDAO;
     @Mock
+    private br.com.fiap.redeprato.dao.DestinacaoDAO destinacaoDAO;
+
+    @Test
+    void br0411NaoExcluiLoteComDestinacao() {
+        when(dao.findById(7L)).thenReturn(Optional.of(lote(StatusLote.EXPIRADO)));
+        when(destinacaoDAO.existsByLote_IdLote(7L)).thenReturn(true);
+        assertThatThrownBy(() -> bo.excluir(7L)).isInstanceOf(ConflictException.class);
+        verify(dao, never()).delete(any());
+    }
+    @Mock
     private OfertanteBO ofertanteBO;
     @Mock
     private CategoriaAlimentoBO categoriaBO;
@@ -63,7 +73,7 @@ class LoteBOTest {
 
     @BeforeEach
     void setUp() {
-        bo = new LoteBO(dao, reservaDAO, ofertanteBO, categoriaBO, CLOCK);
+        bo = new LoteBO(dao, reservaDAO, destinacaoDAO, ofertanteBO, categoriaBO, CLOCK);
         ofertante = Ofertante.builder().idOfertante(1L).nome("Banca do Seu Antônio").tipo(TipoOfertante.FEIRANTE)
                 .ativo(true).endereco(Endereco.builder().bairro("Paraíso").logradouro("Rua X").build()).build();
         lenient().when(ofertanteBO.find(1L)).thenReturn(ofertante);

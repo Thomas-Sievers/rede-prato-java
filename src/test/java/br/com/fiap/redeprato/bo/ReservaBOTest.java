@@ -304,6 +304,40 @@ class ReservaBOTest {
         assertThatThrownBy(() -> bo.cancelar(13L)).isInstanceOf(ConflictException.class);
     }
 
+    // ---------- retirada (UC09, feature 08) ----------
+
+    @Test
+    void retiradaTransicaoReservadoParaRetirado() {
+        lote.setStatus(StatusLote.RESERVADO);
+        Reserva r = reserva(StatusReserva.ATIVA);
+        when(dao.findById(12L)).thenReturn(Optional.of(r));
+        ReservaDTO.Response resp = bo.confirmarRetirada(12L);
+        assertThat(resp.status()).isEqualTo(StatusReserva.RETIRADA);
+        assertThat(resp.dataRetirada()).isEqualTo(AGORA);
+        assertThat(lote.getStatus()).isEqualTo(StatusLote.RETIRADO);
+        verify(loteDAO).save(lote);
+    }
+
+    @Test
+    void br081RetiradaSoDeReservaAtiva() {
+        lote.setStatus(StatusLote.RESERVADO);
+        when(dao.findById(12L)).thenReturn(Optional.of(reserva(StatusReserva.CANCELADA)));
+        assertThatThrownBy(() -> bo.confirmarRetirada(12L))
+                .isInstanceOf(ConflictException.class)
+                .hasMessage("Só é possível confirmar a retirada de uma reserva ativa.");
+        when(dao.findById(13L)).thenReturn(Optional.of(reserva(StatusReserva.RETIRADA)));
+        assertThatThrownBy(() -> bo.confirmarRetirada(13L)).isInstanceOf(ConflictException.class);
+        verify(loteDAO, never()).save(any());
+    }
+
+    @Test
+    void br082LoteDaReservaPrecisaEstarReservado() {
+        lote.setStatus(StatusLote.EXPIRADO);
+        when(dao.findById(12L)).thenReturn(Optional.of(reserva(StatusReserva.ATIVA)));
+        assertThatThrownBy(() -> bo.confirmarRetirada(12L))
+                .isInstanceOf(ConflictException.class).hasMessage("O lote desta reserva não está reservado.");
+    }
+
     // ---------- update / delete ----------
 
     @Test

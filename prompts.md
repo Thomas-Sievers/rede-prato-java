@@ -9,3 +9,12 @@ The Java project was implemented by Claude Code (Anthropic) running unattended, 
 Plan: `docs/PLAN.md` (spec-driven: every feature has `specs/<NN>-<name>/requirements.md`, `design.md`, `tasks.md`).
 
 ## Per feature
+
+- 01-setup — Claude Code implemented 01-setup from `specs/01-setup/`; key decisions: Boot 4.1.1 like the teacher's CP3 pom (D-2), standalone MockMvc tests (D-3).
+- 02-categorias-enderecos — Claude Code implemented 02 from `specs/02-categorias-enderecos/`; key decision: all rules in BOs, BOs return response records (D-5).
+- 03-ofertantes-selo — Claude Code implemented 03 from `specs/03-ofertantes-selo/`; key decision: reactivation via PUT `ativo` (D-6).
+- 04-lotes — Claude Code implemented 04 from `specs/04-lotes/`; key decisions: expiry also cancels the ATIVA reserva (D-7), PUT ignores idOfertante (D-8).
+- 05-beneficiarios — Claude Code implemented 05 from `specs/05-beneficiarios/` (no document fields, reflection test).
+- 06-pontos — Claude Code implemented 06 from `specs/06-pontos/` (horários as "HH:MM" strings).
+- 07-reservas — Claude Code implemented 07 from `specs/07-reservas/`; one test per UC12 criterion.
+- 08-retirada-destinacao — Claude Code implemented 08 from `specs/08-retirada-destinacao/`; included the batch endpoint `POST /api/lotes/{id}/destinacoes`.
