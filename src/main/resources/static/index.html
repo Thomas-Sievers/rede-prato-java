@@ -11,25 +11,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
 </head>
-<body>
+<body class="landing">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- 3D look: gradients and blur defined once, used by the landing SVGs below -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="g-red" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FF9A7A"/><stop offset=".55" stop-color="#E0492E"/><stop offset="1" stop-color="#A52D1A"/></radialGradient>
+    <radialGradient id="g-orange" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFD08A"/><stop offset=".55" stop-color="#F7A23A"/><stop offset="1" stop-color="#C9700F"/></radialGradient>
+    <radialGradient id="g-yellow" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#FFF0A8"/><stop offset=".55" stop-color="#F5CB3A"/><stop offset="1" stop-color="#C79A12"/></radialGradient>
+    <radialGradient id="g-green" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#C2EA98"/><stop offset=".55" stop-color="#6FB04C"/><stop offset="1" stop-color="#3A6B2A"/></radialGradient>
+    <radialGradient id="g-purple" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#E58AB7"/><stop offset=".55" stop-color="#A83E70"/><stop offset="1" stop-color="#6A2245"/></radialGradient>
+    <radialGradient id="g-skin" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FBE0C4"/><stop offset="1" stop-color="#D99A68"/></radialGradient>
+    <radialGradient id="g-skin2" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#D9A47A"/><stop offset="1" stop-color="#8E5A35"/></radialGradient>
+    <linearGradient id="g-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FD066"/><stop offset="1" stop-color="#2F7A2B"/></linearGradient>
+    <linearGradient id="g-carrot" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFB774"/><stop offset=".5" stop-color="#EE8A3C"/><stop offset="1" stop-color="#B95A18"/></linearGradient>
+    <linearGradient id="g-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8DDA6"/><stop offset="1" stop-color="#D9A75E"/></linearGradient>
+    <linearGradient id="g-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3E6650"/><stop offset="1" stop-color="#14301F"/></linearGradient>
+    <linearGradient id="g-cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EADFC4"/></linearGradient>
+    <linearGradient id="g-soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B07A47"/><stop offset="1" stop-color="#6E4521"/></linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+</svg>
+
 <header>
-  <nav class="wrap l-nav" aria-label="Principal">
-    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"> REDE DE PRATO</a>
-    <div class="links">
+  <div class="wrap l-nav">
+    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="50" height="40"> REDE DE PRATO</a>
+    <nav class="links" aria-label="Menu principal">
       <a href="#como">Como funciona</a>
       <a href="#pontos">Onde buscar</a>
       <a href="#ofertantes">Mercados e feiras</a>
-      <a class="btn btn-dark btn-sm" href="/lotes.html">Quero comida</a>
-    </div>
-  </nav>
+      <a class="btn btn-dark" href="/lotes.html">Quero comida</a>
+    </nav>
+  </div>
 </header>
 
-<main>
-  <section class="wrap hero">
+<main id="conteudo" tabindex="-1">
+  <section class="wrap hero" aria-labelledby="hero-titulo">
     <div>
       <span class="hand">comida boa não é lixo</span>
-      <h1>Comida boa perto de você. <span class="hl">De graça</span> ou bem barata.</h1>
-      <p>Mercados e feiras do Paraíso avisam quando sobra fruta, verdura e legume. Você reserva e busca perto de casa.</p>
+      <h1 id="hero-titulo">Comida boa perto de você. <span class="hl">De graça</span> ou bem barata.</h1>
+      <p class="lede">Mercados e feiras do Paraíso avisam quando sobra fruta, verdura e legume. Você reserva e busca perto de casa.</p>
       <div class="actions">
         <a class="btn btn-dark" href="/lotes.html" id="cta-quero"><span class="icon-slot" data-icon="basket"></span>Quero pegar comida</a>
         <a class="btn btn-line" href="/registrar.html"><span class="icon-slot" data-icon="store"></span>Tenho comida sobrando</a>
@@ -40,86 +62,106 @@
         <li><span class="icon-slot" data-icon="check"></span>Pontos com placa perto de casa</li>
       </ul>
     </div>
-    <div aria-hidden="true">
-      <svg viewBox="0 0 400 400" role="img">
-        <circle cx="200" cy="200" r="180" fill="#9CCC6C" stroke="#1A3A2A" stroke-width="4" stroke-dasharray="6 8"/>
-        <path d="M150 70 l10 50 l10 -50 z M190 60 l10 60 l10 -60 z" fill="#EE8A2B"/>
-        <path d="M150 70 l-8 -18 M160 70 v-22 M200 60 v-24 M210 60 l8 -18" stroke="#2F6B2B" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="130" cy="185" r="38" fill="#4E8F3A"/><circle cx="130" cy="185" r="22" fill="#9CCC6C"/>
-        <circle cx="215" cy="190" r="40" fill="#D9452B"/>
-        <path d="M245 130 Q260 200 320 175 Q300 170 260 125 z" fill="#F2C230"/>
-        <circle cx="290" cy="205" r="32" fill="#D92B2B"/>
-        <circle cx="160" cy="215" r="28" fill="#F29A2B"/>
-        <rect x="90" y="230" width="220" height="110" rx="6" fill="#B97A3E"/>
-        <path d="M90 266 h220 M90 302 h220 M120 230 v110 M280 230 v110" stroke="#8C5C2B" stroke-width="8"/>
-        <g transform="rotate(-14 330 110)"><rect x="268" y="88" width="132" height="44" rx="22" fill="#C2410C"/>
-          <text x="334" y="117" text-anchor="middle" font-family="Archivo, Arial Black, sans-serif" font-weight="900" font-size="20" fill="#fff">DE GRAÇA</text></g>
-      </svg>
+    <div class="hero-art">
+      <div class="crate-wrap">
+        <img class="crate" src="/img/caixa-laranjas.png" alt="Caixa de feira de madeira cheia de laranjas" width="736" height="736">
+        <span class="tag-graca" aria-hidden="true">DE GRAÇA</span>
+      </div>
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true">
-    <div class="track" id="marquee-track"></div>
-  </div>
+  <section class="marquee-bar" aria-label="Alimentos que a rede salva">
+    <div class="marquee" id="marquee">
+      <div class="track" aria-hidden="true">
+        <div class="grp">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="90" rx="28" ry="5" fill="#000" opacity=".25" filter="url(#soft)"/><circle cx="50" cy="56" r="32" fill="url(#g-red)"/><ellipse cx="38" cy="42" rx="10" ry="6" fill="#fff" opacity=".5"/><path d="M50 26l6-9 3 10 10-2-7 8-12-2-12 2-7-8 10 2 3-10z" fill="url(#g-leaf)"/></svg><span>Tomate</span><i></i>
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M36 34h28L53 92q-3 6-6 0z" fill="url(#g-carrot)"/><path d="M42 50h10M44 64h9M46 78h6" stroke="#B95A18" stroke-width="3" stroke-linecap="round"/><path d="M40 33q-6-18 2-24q4 12 8 24M50 33q0-22 8-26q2 14-4 26M58 33q10-14 18-12q-6 10-14 13" fill="url(#g-leaf)"/></svg><span>Cenoura</span><i></i>
+          <svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="90" rx="30" ry="5" fill="#000" opacity=".25" filter="url(#soft)"/><circle cx="32" cy="60" r="22" fill="url(#g-green)"/><circle cx="68" cy="60" r="22" fill="url(#g-green)"/><circle cx="50" cy="44" r="24" fill="url(#g-green)"/><circle cx="50" cy="64" r="20" fill="url(#g-green)"/><ellipse cx="42" cy="34" rx="9" ry="5" fill="#fff" opacity=".45"/></svg><span>Alface</span><i></i>
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M16 30c4 42 46 58 72 32c2-4-2-7-6-5c-24 14-48 4-54-27z" fill="url(#g-yellow)"/><path d="M16 30l4-10 8 10z" fill="#8A6420"/><path d="M30 38c8 22 30 28 48 22" stroke="#FFF6C8" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/></svg><span>Banana</span><i></i>
+          <svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="91" rx="28" ry="5" fill="#000" opacity=".25" filter="url(#soft)"/><path d="M50 32C30 20 12 34 16 58c4 24 22 34 34 26c12 8 30-2 34-26c4-24-14-38-34-26z" fill="url(#g-red)"/><path d="M50 32l2-16" stroke="#7A5226" stroke-width="5" stroke-linecap="round"/><path d="M53 22c9-10 21-8 23-4c-8 8-16 8-23 4z" fill="url(#g-leaf)"/><ellipse cx="32" cy="48" rx="7" ry="10" fill="#fff" opacity=".45"/></svg><span>Maçã</span><i></i>
+          <svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="91" rx="28" ry="5" fill="#000" opacity=".25" filter="url(#soft)"/><circle cx="50" cy="56" r="33" fill="url(#g-orange)"/><ellipse cx="38" cy="42" rx="10" ry="6" fill="#fff" opacity=".5"/><path d="M50 24c6-10 18-10 20-6c-8 8-14 8-20 6zM50 24c-5-9-15-9-17-5c7 7 12 7 17 5z" fill="url(#g-leaf)"/></svg><span>Laranja</span><i></i>
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="62" r="27" fill="url(#g-purple)"/><path d="M50 89v8" stroke="#6A2245" stroke-width="4" stroke-linecap="round"/><ellipse cx="41" cy="52" rx="7" ry="5" fill="#fff" opacity=".4"/><path d="M50 36c-10-14-16-24-12-28c8 4 12 16 12 28c0-12 6-26 14-28c2 6-4 18-14 28" fill="url(#g-leaf)"/></svg><span>Beterraba</span><i></i>
+        </div>
+        <div class="grp" id="marquee-copy"></div>
+      </div>
+    </div>
+    <button type="button" class="marquee-toggle" id="marquee-toggle" aria-pressed="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><span>Pausar animação</span></button>
+  </section>
 
-  <section class="wrap" id="como">
+  <section class="wrap" id="como" aria-labelledby="como-titulo">
     <span class="hand">como funciona</span>
-    <h2>Três passos. Só isso.</h2>
-    <div class="grid" style="margin-top:32px">
-      <article class="card">
-        <svg viewBox="0 0 120 90" width="120" aria-hidden="true"><path d="M15 40 h90 v45 h-90 z" fill="#FFF8EA" stroke="#1A3A2A" stroke-width="4"/><path d="M10 40 l10 -22 h80 l10 22 z" fill="#D9452B" stroke="#1A3A2A" stroke-width="4"/><rect x="28" y="52" width="24" height="33" fill="#9CCC6C" stroke="#1A3A2A" stroke-width="4"/><circle cx="82" cy="64" r="8" fill="#D9452B"/><circle cx="104" cy="18" r="13" fill="#1A3A2A"/><path d="M104 10 v10 M104 25 v1" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
-        <p class="stat" style="color:var(--verde-medio)">1</p>
+    <h2 id="como-titulo">Três passos. Só isso.</h2>
+    <ol class="steps">
+      <li class="card">
+        <svg class="art" viewBox="0 0 220 140" aria-hidden="true">
+          <ellipse cx="110" cy="130" rx="86" ry="8" fill="#000" opacity=".18" filter="url(#soft)"/>
+          <rect x="44" y="52" width="132" height="76" rx="10" fill="url(#g-cream)"/>
+          <rect x="56" y="76" width="44" height="52" rx="6" fill="url(#g-green)"/>
+          <path d="M32 54l18-36h120l18 36z" fill="url(#g-red)"/>
+          <path d="M68 18l-8 36M104 18l-4 36M140 18v36M162 18l8 36" stroke="#FFF8EA" stroke-width="9" opacity=".9"/>
+          <path d="M32 54h156" stroke="#A52D1A" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="128" cy="92" r="13" fill="url(#g-red)"/><circle cx="150" cy="96" r="11" fill="url(#g-orange)"/><circle cx="139" cy="108" r="12" fill="url(#g-green)"/>
+          <circle cx="190" cy="34" r="20" fill="url(#g-dark)"/><path d="M190 24v13M190 44v1" stroke="#FAEFD9" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <span class="step-n" aria-hidden="true">1</span>
         <h3>O mercado ou a feira avisa</h3>
-        <p class="muted">Sobrou comida boa? Eles colocam na Rede de Prato.</p>
-      </article>
-      <article class="card">
-        <svg viewBox="0 0 120 90" width="120" aria-hidden="true"><rect x="38" y="5" width="44" height="80" rx="8" fill="#FFF8EA" stroke="#1A3A2A" stroke-width="4"/><path d="M50 30 Q60 42 70 28" stroke="#F2C230" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="48" y="50" width="24" height="14" rx="7" fill="#2F6B2B"/><circle cx="90" cy="18" r="13" fill="#9CCC6C" stroke="#1A3A2A" stroke-width="4"/><path d="M84 18 l4 4 l8 -8" stroke="#1A3A2A" stroke-width="4" fill="none"/></svg>
-        <p class="stat" style="color:var(--verde-medio)">2</p>
+        <p>Sobrou comida boa? Eles colocam na Rede de Prato.</p>
+      </li>
+      <li class="card">
+        <svg class="art" viewBox="0 0 220 140" aria-hidden="true">
+          <ellipse cx="110" cy="132" rx="50" ry="7" fill="#000" opacity=".18" filter="url(#soft)"/>
+          <rect x="74" y="6" width="74" height="124" rx="16" fill="url(#g-dark)"/>
+          <rect x="82" y="20" width="58" height="96" rx="8" fill="url(#g-cream)"/>
+          <path d="M90 50c2 18 18 26 32 16c2-2 0-4-2-3c-12 7-24 2-26-13z" fill="url(#g-yellow)"/>
+          <rect x="90" y="74" width="42" height="6" rx="3" fill="#1A3A2A" opacity=".7"/>
+          <rect x="90" y="88" width="42" height="18" rx="9" fill="url(#g-green)"/>
+          <circle cx="168" cy="36" r="24" fill="url(#g-green)"/><ellipse cx="160" cy="26" rx="8" ry="5" fill="#fff" opacity=".45"/>
+          <path d="M157 36l8 8 15-16" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="step-n" aria-hidden="true">2</span>
         <h3>Você reserva</h3>
-        <p class="muted">Escolhe o que quer no celular ou pelo WhatsApp. Fica guardado para você.</p>
-      </article>
-      <article class="card">
-        <img src="/img/logo.png" alt="" width="120" height="96" style="object-fit:contain">
-        <p class="stat" style="color:var(--verde-medio)">3</p>
+        <p>Escolhe o que quer no celular ou pelo WhatsApp. Fica guardado para você.</p>
+      </li>
+      <li class="card">
+        <div class="art"><img src="/img/logo.png" alt="" width="155" height="124"></div>
+        <span class="step-n" aria-hidden="true">3</span>
         <h3>Busca no ponto da placa</h3>
-        <p class="muted">Vá até o ponto com esta placa, no dia e na hora marcados.</p>
-      </article>
-    </div>
+        <p>Vá até o ponto com esta placa, no dia e na hora marcados.</p>
+      </li>
+    </ol>
   </section>
 
-  <section class="section-dark">
+  <section class="section-dark" aria-labelledby="ganha-titulo">
     <div class="wrap">
       <span class="hand">todo mundo ganha</span>
-      <h2>A comida <span class="hl" style="color:var(--verde-escuro)">chega</span> em quem precisa</h2>
-      <ol class="rows">
-        <li><span class="n">01</span><div><h3>Famílias</h3><p>Fruta, verdura e legume fresco, de graça ou com desconto, perto de casa.</p></div>
-          <svg viewBox="0 0 80 60" aria-hidden="true"><circle cx="20" cy="18" r="10" fill="#F2C9A0"/><circle cx="58" cy="14" r="10" fill="#B97A3E"/><path d="M4 56 a16 16 0 0 1 32 0 z" fill="#D9452B"/><path d="M40 56 a18 18 0 0 1 36 0 z" fill="#9CCC6C"/><path d="M26 58 a10 10 0 0 1 20 0z" fill="#F2C230"/></svg></li>
-        <li><span class="n">02</span><div><h3>Supermercados</h3><p>Doam para uma ONG cadastrada, com tudo documentado, e ganham o Selo de Parceiro.</p></div>
-          <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M8 22 h64 v36 h-64 z" fill="#FFF8EA"/><path d="M4 22 l6 -16 h60 l6 16 z" fill="#D9452B"/><rect x="16" y="32" width="16" height="26" fill="#9CCC6C"/><rect x="44" y="32" width="18" height="12" fill="#5B7FA6"/></svg></li>
-        <li><span class="n">03</span><div><h3>Feirantes</h3><p>Avisam a xepa com um toque, sem largar a banca. Nada vai para o lixo comum.</p></div>
-          <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M6 20 l8 -14 h52 l8 14 z" fill="#F2C230"/><rect x="10" y="30" width="60" height="8" fill="#B97A3E"/><circle cx="24" cy="26" r="6" fill="#D9452B"/><circle cx="40" cy="26" r="6" fill="#D9452B"/><circle cx="56" cy="26" r="6" fill="#9CCC6C"/><path d="M14 38 v20 M66 38 v20 M14 20 v10 M66 20 v10" stroke="#FFF8EA" stroke-width="3"/></svg></li>
-        <li><span class="n">04</span><div><h3>O bairro</h3><p>O que não dá mais para comer vira adubo para as hortas comunitárias.</p></div>
-          <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M8 58 Q40 40 72 58 z" fill="#8C5C2B"/><path d="M40 48 v-22" stroke="#2F6B2B" stroke-width="4"/><path d="M40 30 Q26 26 22 12 Q36 14 40 30 z M40 26 Q52 18 60 8 Q58 24 40 26 z" fill="#9CCC6C"/></svg></li>
-      </ol>
+      <h2 id="ganha-titulo">A comida <span class="hl" style="color:var(--verde-escuro)">chega</span> em quem precisa</h2>
+      <ul class="rows">
+        <li><span class="n" aria-hidden="true">01</span><div class="txt"><h3>Famílias</h3><p>Fruta, verdura e legume fresco, de graça ou com desconto, perto de casa.</p></div>
+          <svg viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000" opacity=".3" filter="url(#soft)"/><circle cx="38" cy="28" r="16" fill="url(#g-skin)"/><path d="M12 96c0-34 52-34 52 0z" fill="url(#g-red)"/><circle cx="110" cy="26" r="17" fill="url(#g-skin2)"/><path d="M82 96c0-36 56-36 56 0z" fill="url(#g-green)"/><circle cx="75" cy="52" r="12" fill="url(#g-skin)"/><path d="M56 96c0-28 38-28 38 0z" fill="url(#g-yellow)"/></svg></li>
+        <li><span class="n" aria-hidden="true">02</span><div class="txt"><h3>Supermercados</h3><p>Doam para uma ONG cadastrada, com tudo documentado, e ganham o Selo de Parceiro.</p></div>
+          <svg viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000" opacity=".3" filter="url(#soft)"/><rect x="24" y="36" width="102" height="58" rx="6" fill="url(#g-cream)"/><path d="M14 38l14-30h94l14 30z" fill="url(#g-red)"/><path d="M48 8l-6 30M75 8v30M102 8l6 30" stroke="#FFF8EA" stroke-width="8"/><rect x="38" y="56" width="32" height="38" rx="4" fill="url(#g-green)"/><rect x="82" y="56" width="32" height="22" rx="4" fill="#9CC3D9"/><path d="M86 60l10 0" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/></svg></li>
+        <li><span class="n" aria-hidden="true">03</span><div class="txt"><h3>Feirantes</h3><p>Avisam a xepa com um toque, sem largar a banca. Nada vai para o lixo comum.</p></div>
+          <svg viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000" opacity=".3" filter="url(#soft)"/><path d="M10 34L75 6l65 28z" fill="url(#g-yellow)"/><path d="M32 34v60M118 34v60" stroke="url(#g-wood)" stroke-width="6"/><rect x="20" y="60" width="110" height="16" rx="4" fill="url(#g-wood)"/><circle cx="44" cy="52" r="10" fill="url(#g-red)"/><circle cx="64" cy="52" r="10" fill="url(#g-red)"/><circle cx="88" cy="50" r="12" fill="url(#g-green)"/><circle cx="110" cy="52" r="10" fill="url(#g-orange)"/></svg></li>
+        <li><span class="n" aria-hidden="true">04</span><div class="txt"><h3>O bairro</h3><p>O que não dá mais para comer vira adubo para as hortas comunitárias.</p></div>
+          <svg viewBox="0 0 150 100" aria-hidden="true"><ellipse cx="75" cy="94" rx="64" ry="6" fill="#000" opacity=".3" filter="url(#soft)"/><path d="M16 92q59-34 118 0z" fill="url(#g-soil)"/><path d="M75 82V42" stroke="url(#g-leaf)" stroke-width="7" stroke-linecap="round"/><path d="M75 58c-26 0-34-18-32-32c18 0 32 10 32 32z" fill="url(#g-leaf)"/><path d="M75 50c22 0 34-16 32-30c-18 0-32 10-32 30z" fill="url(#g-green)"/><ellipse cx="58" cy="38" rx="5" ry="3" fill="#fff" opacity=".4"/></svg></li>
+      </ul>
     </div>
   </section>
 
-  <section class="wrap grid-2" id="pontos" style="align-items:center">
-    <div style="display:flex;justify-content:center">
-      <div style="background:var(--verde-folha);border-radius:50%;width:min(420px,80vw);aspect-ratio:1;display:flex;align-items:center;justify-content:center">
-        <img src="/img/logo.png" alt="Placa da Rede de Prato: um prato com garfo e faca" style="width:62%">
-      </div>
+  <section class="wrap grid-2" id="pontos" aria-labelledby="placa-titulo" style="align-items:center;padding-top:64px;padding-bottom:64px">
+    <div class="placa">
+      <div><img src="/img/logo.png" alt="Placa da Rede de Prato: placa pendurada com garfo, prato e faca" width="266" height="213"></div>
     </div>
     <div>
       <span class="hand">sem celular? sem problema</span>
-      <h2>Procure esta placa</h2>
-      <p>Cada ponto de entrega tem a placa da Rede de Prato com os dias e horários. É só chegar.</p>
+      <h2 id="placa-titulo">Procure esta placa</h2>
+      <p style="font-size:18px">Cada ponto de entrega tem a placa da Rede de Prato com os dias e horários. É só chegar.</p>
       <div class="card" id="ponto-card" style="margin:16px 0">
         <h3 id="ponto-nome">Ponto Paraíso (exemplo)</h3>
-        <p class="line"><span class="icon-slot" data-icon="pin"></span><span id="ponto-end">[Endereço do ponto]</span></p>
-        <p class="line"><span class="icon-slot" data-icon="clock"></span><span id="ponto-hora">Terça e quinta, das 16h às 18h</span></p>
+        <p class="line" style="color:var(--verde-escuro);font-size:var(--fs-body);margin-top:10px"><span class="icon-slot" data-icon="pin"></span><span id="ponto-end">[Endereço do ponto]</span></p>
+        <p class="line" style="color:var(--verde-escuro);font-size:var(--fs-body);margin-top:6px"><span class="icon-slot" data-icon="clock"></span><span id="ponto-hora">Terça e quinta, das 16h às 18h</span></p>
       </div>
-      <p class="box-dark line" style="color:var(--creme-claro)"><span class="icon-slot" data-icon="chat"></span>
+      <p class="box-dark line" style="color:var(--creme-claro);font-size:18px"><span class="icon-slot" data-icon="chat"></span>
         <span>Pouca internet? Mande <strong>OI</strong> no WhatsApp <strong>[NÚMERO DA REDE]</strong></span></p>
     </div>
   </section>
@@ -130,27 +172,27 @@
     <div class="grid" id="lista-pontos" style="margin-top:24px"></div>
   </section>
 
-  <section class="section-light">
+  <section class="section-light" aria-labelledby="numeros-titulo">
     <div class="wrap">
       <span class="hand">por que isso importa</span>
-      <h2>Tem comida indo para o lixo</h2>
-      <div class="grid" style="margin-top:24px">
-        <div><p class="stat">33 mil t</p><p>de alimento das feiras de São Paulo vão para o lixo por ano.</p><p class="fonte">Fonte: Jornal da USP (2018)</p></div>
-        <div><p class="stat">R$ 700/dia</p><p>é o que uma só loja de hortifrúti do Paraíso perde em descarte.</p><p class="fonte">Fonte: entrevista da equipe (15/11/2026)</p></div>
-        <div><p class="stat">968 feiras</p><p>funcionam na cidade, de terça a domingo. Toda xepa pode virar prato.</p><p class="fonte">Fonte: Prefeitura de SP (2025)</p></div>
+      <h2 id="numeros-titulo">Tem comida indo para o lixo</h2>
+      <div class="grid" style="margin-top:28px;gap:32px">
+        <div><p class="stat">33 mil t</p><p style="margin:0 0 8px;font-size:18px">de alimento das feiras de São Paulo vão para o lixo por ano.</p><p class="fonte">Fonte: Jornal da USP (2018)</p></div>
+        <div><p class="stat">R$ 700/dia</p><p style="margin:0 0 8px;font-size:18px">é o que uma só loja de hortifrúti do Paraíso perde em descarte.</p><p class="fonte">Fonte: entrevista da equipe (15/11/2026)</p></div>
+        <div><p class="stat">968 feiras</p><p style="margin:0 0 8px;font-size:18px">funcionam na cidade, de terça a domingo. Toda xepa pode virar prato.</p><p class="fonte">Fonte: Prefeitura de SP (2025)</p></div>
       </div>
     </div>
   </section>
 
-  <section class="section-green" id="ofertantes">
+  <section class="section-green" id="ofertantes" aria-labelledby="of-titulo">
     <div class="wrap grid-2" style="align-items:center">
       <div>
         <span class="hand">para mercados e feiras</span>
-        <h2>Sobrou? A gente leva até quem precisa.</h2>
-        <ul class="checks" style="flex-direction:column;margin:20px 0">
-          <li><span class="icon-slot" data-icon="check"></span>Doe para uma ONG cadastrada, com registro de cada doação</li>
-          <li><span class="icon-slot" data-icon="check"></span>Registre um lote em menos de 1 minuto, ou avise a xepa com um toque</li>
-          <li><span class="icon-slot" data-icon="check"></span>Veja quantos quilos você salvou do lixo e mostre o Selo de Parceiro</li>
+        <h2 id="of-titulo">Sobrou? A gente leva até quem precisa.</h2>
+        <ul class="checks checks-3d">
+          <li><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="40" fill="url(#g-dark)"/><path d="M32 52l12 12 24-26" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Doe para uma ONG cadastrada, com registro de cada doação</li>
+          <li><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="40" fill="url(#g-dark)"/><path d="M32 52l12 12 24-26" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Registre um lote em menos de 1 minuto, ou avise a xepa com um toque</li>
+          <li><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="40" fill="url(#g-dark)"/><path d="M32 52l12 12 24-26" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Veja quantos quilos você salvou do lixo e mostre o Selo de Parceiro</li>
         </ul>
         <div class="chips">
           <a class="btn btn-dark" href="/registrar.html">Registrar sobra</a>
@@ -159,7 +201,7 @@
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
         <div class="selo" role="img" aria-label="Selo de Parceiro Rede de Prato">
-          <img src="/img/logo_light.png" alt="" style="width:90px">PARCEIRO<small>REDE DE PRATO</small>
+          <img src="/img/logo_light.png" alt="" width="110" height="88">PARCEIRO<small>REDE DE PRATO</small>
         </div>
         <strong class="title" style="font-size:16px">Selo de parceiro</strong>
       </div>
@@ -168,9 +210,9 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">
-    <a class="brand" href="/"><img src="/img/logo.png" alt="" width="54" height="44"><span>REDE DE PRATO<br><small style="font-family:var(--font-body);font-weight:400">ONG · Paraíso, São Paulo</small></span></a>
-    <p>Protótipo acadêmico · FIAP Global Solution 2026 · Equipe Luxor Obelisc (18). ODS 2, 11 e 12.</p>
+  <div class="wrap" style="padding-top:44px;padding-bottom:44px">
+    <a class="brand" href="/"><img src="/img/logo_light.png" alt="" width="60" height="48"><span>REDE DE PRATO<br><small style="font-family:var(--font-body);font-weight:400;font-size:15px">ONG · Paraíso, São Paulo</small></span></a>
+    <p style="max-width:520px;margin:0">Protótipo acadêmico · FIAP Global Solution 2026 · Equipe Luxor Obelisc (18). ODS 2, 11 e 12.</p>
   </div>
 </footer>
 
@@ -180,12 +222,22 @@
     document.querySelectorAll('.icon-slot').forEach(function (el) {
       el.outerHTML = RP.icon(el.dataset.icon);
     });
-    var foods = [['TOMATE', 'tomate'], ['CENOURA', 'cenoura'], ['ALFACE', 'alface'], ['BANANA', 'banana'],
-      ['MAÇÃ', 'maçã'], ['LARANJA', 'laranja'], ['BETERRABA', 'caixa']];
-    var html = foods.map(function (f) {
-      return '<span class="item">' + RP.illustrationFor('', f[1]) + f[0] + '</span><span>•</span>';
-    }).join('');
-    document.getElementById('marquee-track').innerHTML = html + html;
+
+    // Marquee: second copy for the seamless loop (the whole track is aria-hidden)
+    var grp = document.querySelector('#marquee .grp');
+    document.getElementById('marquee-copy').innerHTML = grp.innerHTML;
+
+    // A1 (WCAG 2.2.2): real pause / play button
+    var PAUSE = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
+    var PLAY = '<path d="M7 4l13 8-13 8z"/>';
+    var toggle = document.getElementById('marquee-toggle');
+    toggle.addEventListener('click', function () {
+      var paused = toggle.getAttribute('aria-pressed') !== 'true';
+      toggle.setAttribute('aria-pressed', String(paused));
+      document.getElementById('marquee').classList.toggle('paused', paused);
+      toggle.querySelector('svg').innerHTML = paused ? PLAY : PAUSE;
+      toggle.querySelector('span').textContent = paused ? 'Continuar animação' : 'Pausar animação';
+    });
 
     var DIAS = { SEG: 'segunda', TER: 'terça', QUA: 'quarta', QUI: 'quinta', SEX: 'sexta', SAB: 'sábado', DOM: 'domingo' };
     function dias(txt) {
