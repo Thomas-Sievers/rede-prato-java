@@ -52,10 +52,15 @@ h3 { font-size: 22px; font-weight: 800; }
 .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
 .nav-pills a { text-decoration: none; padding: 10px 18px; border-radius: 999px; font-family: var(--font-title); font-weight: 800; font-size: 16px; text-transform: uppercase; min-height: 44px; display: inline-flex; align-items: center; }
 .nav-pills a[aria-current="page"] { background: var(--verde-folha); color: var(--verde-escuro); }
-.persona { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.persona { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-left: auto; min-width: 0; max-width: 100%; }
 .nav-pills + .persona { margin-left: 0; }
 .persona label { font-size: 16px; }
-.persona select { font: inherit; font-size: 17px; padding: 8px 12px; border-radius: 999px; border: 2px solid var(--verde-folha); background: var(--creme-claro); color: var(--verde-escuro); min-height: 44px; max-width: 260px; }
+.persona select { font: inherit; font-size: 17px; padding: 8px 12px; border-radius: 999px; border: 2px solid var(--verde-folha); background: var(--creme-claro); color: var(--verde-escuro); min-height: 44px; min-width: 0; max-width: min(260px, 100%); text-overflow: ellipsis; }
+@media (max-width: 640px) {
+  .persona { width: 100%; margin-left: 0; }
+  .persona .hello { flex: 1 1 calc(100% - 54px); min-width: 0; overflow-wrap: anywhere; }
+  .persona select { flex: 1 1 140px; max-width: 100%; }
+}
 .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--amarelo); color: var(--verde-escuro); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-title); font-weight: 900; font-size: 20px; flex: none; }
 .avatar.ben { background: var(--verde-folha); }
 .hello { font-size: 17px; }

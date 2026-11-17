@@ -52,8 +52,8 @@ Java 21 · Spring Boot 4.1 · Spring Data JPA (Hibernate 7) · Lombok · H2 (per
 | Camada (rubrica) | Pacote | Conteúdo |
 | --- | --- | --- |
 | Model | `br.com.fiap.redeprato.entity` (+ `entity.enums`) | 9 entidades JPA mapeadas 1:1 para as tabelas `T_RP_*`, 10 enums |
-| DAO | `br.com.fiap.redeprato.dao` | `XxxDAO extends JpaRepository<Xxx, Long>` (Spring Data = DAO), consultas JPQL |
-| BO | `br.com.fiap.redeprato.bo` | `XxxBO` (`@Service`): regras de negócio validadas antes de gravar; transações |
+| DAO | `br.com.fiap.redeprato.repository` | **repository = camada DAO**: `XxxRepository extends JpaRepository<Xxx, Long>` (Spring Data), consultas JPQL |
+| BO | `br.com.fiap.redeprato.service` | **service = camada BO**: `XxxService` (`@Service`), regras de negócio validadas antes de gravar; transações |
 | Controller | `br.com.fiap.redeprato.controller` | `@RestController` por recurso, GET/POST/PUT/DELETE em `/api` |
 | Exception | `br.com.fiap.redeprato.exception` | `NotFoundException` (404), `BusinessRuleException` (400), `ConflictException` (409), `ApiError`, `GlobalExceptionHandler` |
 | (apoio) | `dto`, `converter`, `config` | DTOs (records), conversores JPA (S/N, HH:MM), Clock/CORS, carga de dados simulados |
@@ -113,7 +113,7 @@ Passo a passo completo (IntelliJ, Oracle, Render): [`docs/run.md`](docs/run.md).
 
 ## Testes
 
-- Testes unitários de todos os BOs (JUnit 5 + Mockito, DAOs simulados): uma ou mais provas para cada regra de negócio (`BR-xx.k` nos `specs/`), incluindo todos os critérios de aceite do UC12 (reservar) e do UC04 (xepa).
+- Testes unitários de todos os services/camada BO (`XxxServiceTest`, JUnit 5 + Mockito, repositories simulados): uma ou mais provas para cada regra de negócio (`BR-xx.k` nos `specs/`), incluindo todos os critérios de aceite do UC12 (reservar) e do UC04 (xepa).
 - Testes da camada de exceções, dos conversores, integração ponta a ponta no H2 (MockMvc), dados de exemplo e consistência da documentação (`DocsConsistencyTest`).
 
 ## Uso de IA

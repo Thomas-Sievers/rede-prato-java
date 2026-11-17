@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.fiap.redeprato.bo.LoteBO;
+import br.com.fiap.redeprato.service.LoteService;
 
 /** UC22 / HU21: expires overdue lots every 5 minutes. */
 @Component
@@ -15,15 +15,15 @@ public class ExpiracaoJob {
 
     private static final Logger log = LoggerFactory.getLogger(ExpiracaoJob.class);
 
-    private final LoteBO loteBO;
+    private final LoteService loteService;
 
-    public ExpiracaoJob(LoteBO loteBO) {
-        this.loteBO = loteBO;
+    public ExpiracaoJob(LoteService loteService) {
+        this.loteService = loteService;
     }
 
     @Scheduled(fixedDelayString = "${app.expiracao.intervalo-ms:300000}", initialDelay = 60000)
     public void expirar() {
-        int n = loteBO.expirarVencidos();
+        int n = loteService.expirarVencidos();
         if (n > 0) {
             log.info("Expiry job: {} lote(s) expired", n);
         }

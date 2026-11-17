@@ -81,7 +81,7 @@ git branch -d feature/<NN>-<short-name>
 - Never commit `target/`, IDE files, `.DS_Store`, `.claude/settings.local.json`, `.env*`, or any credential.
 
 ### 2.5 Tests (definition of done)
-- **Unit tests for every BO**: JUnit 5 + Mockito, `@ExtendWith(MockitoExtension.class)`, DAOs mocked. At least one test per business rule `BR-xx.k` (assert the exception type **and** message), plus happy path and edge cases (nulls, boundaries, status transitions). You decide how many beyond that.
+- **Unit tests for every service (BO layer)**: `XxxServiceTest`, JUnit 5 + Mockito, `@ExtendWith(MockitoExtension.class)`, repositories (DAO layer) mocked. At least one test per business rule `BR-xx.k` (assert the exception type **and** message), plus happy path and edge cases (nulls, boundaries, status transitions). You decide how many beyond that.
 - Inject a `java.time.Clock` bean into BOs that use "now" so tests can fix time (`Clock.fixed(...)`).
 - Integration tests are allowed only on H2: one `@SpringBootTest` context-load test, plus MockMvc tests where useful (exception-handler JSON, a happy-path flow). Prefer `MockMvcBuilders.standaloneSetup(...)` with the `@RestControllerAdvice` if Boot 4 test-slice annotations give trouble.
 - Tests never use the `oracle` profile and never need network.
@@ -103,13 +103,13 @@ Before every merge run `date`. If it is after **2026-11-19 22:00 -03**, do not c
 | Rubric layer | Package | Contents |
 | --- | --- | --- |
 | Model | `br.com.fiap.redeprato.entity` (+ `entity.enums`) | 9 JPA entities mapped 1:1 to `T_RP_*` tables, 10 enums |
-| DAO | `br.com.fiap.redeprato.dao` | `XxxDAO extends JpaRepository<Xxx, Long>` (Spring Data = DAO), custom JPQL queries |
-| BO | `br.com.fiap.redeprato.bo` | `XxxBO` (`@Service`): business rules as private `checkXxx()` methods, each with a clear Portuguese message, called by `validate()` before save/update; transactions |
+| DAO | `br.com.fiap.redeprato.repository` | repository = DAO layer: `XxxRepository extends JpaRepository<Xxx, Long>` (Spring Data), custom JPQL queries |
+| BO | `br.com.fiap.redeprato.service` | service = BO layer: `XxxService` (`@Service`): business rules as private `checkXxx()` methods, each with a clear Portuguese message, called by `validate()` before save/update; transactions |
 | Controller | `br.com.fiap.redeprato.controller` | `@RestController` per resource, GET/POST/PUT/DELETE under `/api` |
 | Exception | `br.com.fiap.redeprato.exception` | `NotFoundException` (404), `BusinessRuleException` (400), `ConflictException` (409), `ApiError`, `GlobalExceptionHandler` (`@RestControllerAdvice`) |
 | (support) | `dto`, `converter`, `config` | Request/Response records, JPA converters, Clock/CORS/scheduling config, `DataSeeder` |
 
-Decision (record as D-1 in `DECISIONS.md`): packages are named `dao` and `bo` (not `repository`/`service`) so the graders find the DAO and BO layers by name; classes keep the teacher's style (Spring Data repositories, services with `validate()`).
+Decision D-14 (decided by Thomas, supersedes D-1): packages follow the teacher's pattern, `repository` and `service`; Javadoc on every class names its rubric layer ("DAO layer" / "BO layer (business rules)") so the graders still find the DAO and BO layers. Elsewhere in this plan, "DAO" means the `repository` package and "BO" the `service` package.
 
 ### 3.2 Entities (from `docs/classes.md`)
 - Table names `T_RP_ENDERECO`, `T_RP_OFERTANTE`, `T_RP_CATEGORIA_ALIMENTO`, `T_RP_LOTE`, `T_RP_BENEFICIARIO`, `T_RP_PONTO_DISTRIBUICAO`, `T_RP_RESERVA`, `T_RP_DESTINACAO`, `T_RP_ALERTA`. Column names exactly as in the doc (snake_case). Java fields camelCase.
@@ -214,12 +214,12 @@ rede-prato-java/
 └── src/
     ├── main/java/br/com/fiap/redeprato/
     │   ├── RedePratoApplication.java
-    │   ├── entity/ (+ enums/)  dao/  bo/  controller/  dto/  exception/  converter/  config/
+    │   ├── entity/ (+ enums/)  repository/  service/  controller/  dto/  exception/  converter/  config/
     └── main/resources/
     │   ├── application.properties  application-oracle.properties
     │   └── static/ index.html lotes.html registrar.html retiradas.html painel.html
     │              css/app.css  js/api.js js/persona.js js/<page>.js  img/logo.png img/logo_light.png
-    └── test/java/br/com/fiap/redeprato/ bo/ exception/ converter/ controller/ RedePratoApplicationTests.java
+    └── test/java/br/com/fiap/redeprato/ service/ exception/ converter/ controller/ RedePratoApplicationTests.java
 ```
 
 ---
@@ -357,7 +357,7 @@ Rules (one test each — they are the UC12 acceptance criteria): BR-07.1 benefic
 ### 09 — Alertas (`feature/09-alertas`) · HU04, HU05 (UC04)
 - `POST /api/alertas/xepa` `{idOfertante, idsLotes?: [..], novoPrazo?: "2026-11-17T14:00:00", canal?: "APP"}` → 201 `{"quantidade": n, "alertas": [...], "mensagem": "Xepa avisada para n lotes."}`.
   Rules: BR-09.1 ofertante exists, ativo and **FEIRANTE** (400 `"Só feirantes podem avisar xepa."` — UC04 actor; record as decision); BR-09.2 if `idsLotes` empty/absent → all DISPONIVEL lots of the ofertante; if the resulting set is empty → 400 `"Selecione pelo menos um lote disponível."`; BR-09.3 every listed lote must belong to the ofertante and be DISPONIVEL (400 naming the lote); BR-09.4 `novoPrazo` optional, must be in the future; it updates `dataLimiteRetirada` of those lots; BR-09.5 one Alerta per lote, tipo XEPA, canal default APP, `dataEnvio = now`; BR-09.6 no recipient is stored (decision 8); no "pending" status (decisão 1); BR-09.7 all in one transaction.
-- Lote creation (04) creates one NOVO_LOTE/APP alert (HU05) — wire it here if 04 left a TODO, with a test in `LoteBOTest`.
+- Lote creation (04) creates one NOVO_LOTE/APP alert (HU05) — wire it here if 04 left a TODO, with a test in `LoteServiceTest`.
 - CRUD `/api/alertas` (`GET ?tipo=&idLote=`), POST `{idLote, tipo, canal}` (lote must exist), PUT `{tipo, canal}`, DELETE always → 204.
 - `GET /api/alertas/recentes?horas=24` → alerts of lots still DISPONIVEL, newest first, flat DTO with `descricaoLote`, `nomeOfertante`, `bairro`, `dataLimiteRetirada`, `tipo` (feeds the xepa banner, HU05).
 - WhatsApp is simulated: canal WHATSAPP is just stored.
@@ -408,7 +408,7 @@ Look at `docs/prototipo/4-painel.png`. Implement prototipo.md §3.5 against `GET
 
 ### 17 — Deliverables docs (`feature/17-docs`)
 - `docs/endpoints.md`: one table with **every** endpoint (method, path, description in Portuguese, request example, success status, error statuses). Generate it from the controllers (read them; do not invent). Link it from the README.
-- `docs/class-diagram.md`: Mermaid `classDiagram` of the 9 entities + 10 enums with fields/types exactly as in the code, associations with multiplicities; a second diagram of the layers (Controller → BO → DAO → Entity, plus exception classes). Must match the code.
+- `docs/class-diagram.md`: Mermaid `classDiagram` of the 9 entities + 10 enums with fields/types exactly as in the code, associations with multiplicities; a second diagram of the layers (Controller → Service/BO → Repository/DAO → Entity, plus exception classes). Must match the code.
 - `docs/der.md`: Mermaid `erDiagram` of the 9 tables with columns, PK/FK and cardinalities from `docs/classes.md` (note that Mariana's Oracle Data Modeler diagram is the official DER).
 - `docs/run.md` (run instructions for the PDF): tools and versions (JDK 21, Maven wrapper, Spring Boot version from the pom, IntelliJ IDEA, Oracle Database FIAP), GitHub link, deploy link, step by step: clone → `./mvnw test` → `./mvnw spring-boot:run` → open `http://localhost:8080`; Oracle profile with the three env vars; Render settings.
 - `docs/oracle-checklist.md`: steps for Thomas when the DDL arrives (put it in `db/ddl.sql`, run it in the schema, set `SPRING_PROFILES_ACTIVE=oracle` locally, fix `validate` errors, then set it on Render), and a table "entity field → expected column/type" generated from the entities.

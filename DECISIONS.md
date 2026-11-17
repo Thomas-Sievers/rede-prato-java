@@ -66,3 +66,8 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** Added `springdoc-openapi-starter-webmvc-ui` 3.0.0 (Swagger UI at `/swagger-ui.html`), the HU22 monthly report `GET /api/relatorios/ofertantes/{id}/mensal` (lotes grouped from the month's destinações, valor estimado null → 0) and the `precisaTransporte` filter on `GET /api/lotes`.
 **Why:** PLAN §6/18 extras, done only after 01–17 were merged. springdoc 3.x targets Boot 4 and passed the H2 context test.
 **Alternatives considered:** skip OpenAPI; a separate report table (not in the DDL).
+
+## D-14 · 2026-11-17 · feature 19 (decided by Thomas — supersedes D-1)
+**Decision:** Packages follow the teacher's pattern: `dao` → `repository` (`XxxDAO` → `XxxRepository`) and `bo` → `service` (`XxxBO` → `XxxService`, tests `XxxServiceTest`). Every repository's Javadoc says "DAO layer" and every service's says "BO layer (business rules)"; README, CLAUDE.md, PLAN §3.1 and `docs/class-diagram.md` map repository = DAO layer and service = BO layer. Source documents (`docs/decisoes.md`, `docs/classes.md`, `docs/gs-ficha.md`) and the historical specs `specs/01…18` are not rewritten: "BO"/"DAO" there names the rubric layer, now implemented by `service`/`repository`.
+**Why:** Thomas's decision (teacher's reference project uses `repository`/`service`). The rubric layers stay identifiable through the Javadoc and the README layer table, which was D-1's concern.
+**Alternatives considered:** keep `dao`/`bo` (D-1).
