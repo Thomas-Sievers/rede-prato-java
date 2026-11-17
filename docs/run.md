@@ -44,6 +44,38 @@ No IntelliJ: *File → Open* na pasta do projeto, esperar o Maven importar, e ro
    No perfil `oracle`: `ddl-auto=validate` (o Hibernate confere se as entidades batem com as tabelas), sem dados de exemplo e sem H2 console.
 3. Se aparecer erro de validação, ver `docs/oracle-checklist.md`.
 
+## Teste com Oracle
+
+O `tools/smoke/OracleSmokeTest.java` é um teste de fumaça que chama a API que está rodando e confere tudo contra o banco Oracle de verdade. Ele não faz parte do `./mvnw test`, que continua usando só H2.
+
+- **Cobertura:** chama os 58 endpoints de `docs/endpoints.md`.
+- **Dados da Mariana:** confere os dados de exemplo (5 ofertantes, 5 categorias, 6 beneficiários, 5 pontos, lote 5 reservado).
+- **Fluxos:** lote, reserva, retirada, destino, xepa, selo, exclusão lógica e física, expiração, impacto e relatório.
+- **Erros:** 400, 404 e 409.
+
+1. Rodar `db/ddl.sql` e `db/dml.sql` no schema Oracle e subir a aplicação no perfil `oracle`, como na seção anterior.
+2. Em outro terminal, na pasta do projeto, rodar o teste. Só precisa do JDK 21; não usa Maven nem bibliotecas:
+   ```bash
+   java tools/smoke/OracleSmokeTest.java                     # usa http://localhost:8080
+   java tools/smoke/OracleSmokeTest.java https://rede-prato-java.onrender.com
+   ```
+3. Ler a saída:
+   - uma linha por verificação, no formato `PASS`/`FAIL`, método, caminho, status esperado × recebido e o motivo;
+   - no fim, o resumo e a lista das falhas.
+   - O código de saída é `0` se tudo passou e `1` se algo falhou.
+
+Cuidados:
+- **Só roda no Oracle:** a primeira verificação é `GET /api/health`. Se o perfil não for `oracle`, o teste para e não roda contra o H2.
+- **Grava dados de verdade no banco.** Tudo que ele cria começa com `[TESTE]`. No fim ele:
+  - desativa o ofertante, o beneficiário e o ponto de teste;
+  - apaga o lote de teste que sobrou.
+
+  O lote de teste retirado fica no banco, com seus destinos, como histórico.
+- **Dados de exemplo:**
+  - não mexe no lote 5 nem na reserva dele;
+  - o selo do ofertante 3 é concedido e retirado, e termina como no `dml.sql` (sem selo).
+- Pode rodar quantas vezes quiser: os nomes levam um número da execução, então não repetem.
+
 ## Deploy no Render
 
 - Serviço `rede-prato-java`, tipo **Docker**, branch `main`, health check `/api/health`. Cada `git push` na `main` gera um deploy novo.
