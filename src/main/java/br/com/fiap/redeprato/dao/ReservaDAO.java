@@ -1,0 +1,43 @@
+package br.com.fiap.redeprato.dao;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import br.com.fiap.redeprato.entity.Reserva;
+import br.com.fiap.redeprato.entity.enums.StatusReserva;
+
+public interface ReservaDAO extends JpaRepository<Reserva, Long> {
+
+    @Query("""
+            select r from Reserva r
+              join fetch r.lote l join fetch l.categoria join fetch l.ofertante o join fetch o.endereco
+              join fetch r.beneficiario b
+              left join fetch r.ponto p left join fetch p.endereco
+            where (:idBeneficiario is null or b.idBeneficiario = :idBeneficiario)
+              and (:idOfertante is null or o.idOfertante = :idOfertante)
+              and (:status is null or r.status = :status)
+              and (:idLote is null or l.idLote = :idLote)
+            order by r.dataReserva desc, r.idReserva desc
+            """)
+    List<Reserva> filtrar(@Param("idBeneficiario") Long idBeneficiario,
+                          @Param("idOfertante") Long idOfertante,
+                          @Param("status") StatusReserva status,
+                          @Param("idLote") Long idLote);
+
+    boolean existsByLote_IdLoteAndStatus(Long idLote, StatusReserva status);
+
+    boolean existsByLote_IdLoteAndStatusIn(Long idLote, Collection<StatusReserva> status);
+
+    Optional<Reserva> findFirstByLote_IdLoteAndStatus(Long idLote, StatusReserva status);
+
+    List<Reserva> findByLote_IdLoteAndStatus(Long idLote, StatusReserva status);
+
+    boolean existsByPonto_IdPonto(Long idPonto);
+
+    boolean existsByBeneficiario_IdBeneficiario(Long idBeneficiario);
+}
