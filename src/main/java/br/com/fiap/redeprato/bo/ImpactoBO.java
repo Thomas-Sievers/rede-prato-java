@@ -108,7 +108,7 @@ public class ImpactoBO {
     }
 
     /** BR-10.7: "yyyy-MM", default = current month. */
-    YearMonth parseMes(String mes) {
+    public YearMonth parseMes(String mes) {
         String m = Checks.clean(mes);
         if (m == null) {
             return YearMonth.now(clock);

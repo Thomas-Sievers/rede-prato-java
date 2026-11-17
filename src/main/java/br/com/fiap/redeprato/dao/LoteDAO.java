@@ -21,12 +21,18 @@ public interface LoteDAO extends JpaRepository<Lote, Long> {
               and (:idOfertante is null or o.idOfertante = :idOfertante)
               and (:idCategoria is null or c.idCategoria = :idCategoria)
               and (:modalidade is null or l.modalidade = :modalidade)
+              and (:precisaTransporte is null or l.precisaTransporte = :precisaTransporte)
             order by l.dataCadastro desc, l.idLote desc
             """)
     List<Lote> filtrar(@Param("status") StatusLote status,
                        @Param("idOfertante") Long idOfertante,
                        @Param("idCategoria") Long idCategoria,
-                       @Param("modalidade") ModalidadeLote modalidade);
+                       @Param("modalidade") ModalidadeLote modalidade,
+                       @Param("precisaTransporte") Boolean precisaTransporte);
+
+    default List<Lote> filtrar(StatusLote status, Long idOfertante, Long idCategoria, ModalidadeLote modalidade) {
+        return filtrar(status, idOfertante, idCategoria, modalidade, null);
+    }
 
     @Query("""
             select l from Lote l

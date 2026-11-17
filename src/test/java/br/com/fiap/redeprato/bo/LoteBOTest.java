@@ -417,6 +417,15 @@ class LoteBOTest {
         verify(dao).findByStatusInAndDataLimiteRetiradaBefore(anyCollection(), eq(AGORA));
     }
 
+    @Test
+    void br183FiltroPrecisaTransporte() {
+        Lote l = lote(StatusLote.DISPONIVEL);
+        l.setPrecisaTransporte(true);
+        when(dao.filtrar(null, null, null, null, true)).thenReturn(List.of(l));
+        assertThat(bo.listar(null, null, null, null, true)).singleElement()
+                .satisfies(r -> assertThat(r.precisaTransporte()).isTrue());
+    }
+
     // ---------- delete ----------
 
     @Test

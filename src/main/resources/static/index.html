@@ -124,6 +124,12 @@
     </div>
   </section>
 
+  <section class="wrap" id="onde" aria-labelledby="onde-title" hidden>
+    <span class="hand">onde buscar</span>
+    <h2 id="onde-title">Pontos com a placa</h2>
+    <div class="grid" id="lista-pontos" style="margin-top:24px"></div>
+  </section>
+
   <section class="section-light">
     <div class="wrap">
       <span class="hand">por que isso importa</span>
@@ -195,6 +201,14 @@
         p.logradouro + (p.numero ? ', ' + p.numero : '') + ' - ' + p.bairro;
       document.getElementById('ponto-hora').textContent =
         dias(p.diasFuncionamento) + ', das ' + hora(p.horarioAbertura) + ' às ' + hora(p.horarioFechamento);
+      // HU16 (sem mapa): todos os pontos ativos com endereço e horário
+      document.getElementById('lista-pontos').innerHTML = pontos.map(function (x) {
+        return '<article class="card"><h3>' + RP.esc(x.nome) + '</h3>' +
+          '<p class="line">' + RP.icon('pin') + RP.esc(x.logradouro + (x.numero ? ', ' + x.numero : '') + ' - ' + x.bairro) + '</p>' +
+          '<p class="line">' + RP.icon('clock') + RP.esc(dias(x.diasFuncionamento) + ', das ' + hora(x.horarioAbertura) +
+          ' às ' + hora(x.horarioFechamento)) + '</p></article>';
+      }).join('');
+      document.getElementById('onde').hidden = false;
     }).catch(function () { /* keep the placeholder */ });
   })();
 </script>

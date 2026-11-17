@@ -55,7 +55,14 @@ public class LoteBO {
     @Transactional(readOnly = true)
     public List<LoteDTO.Response> listar(StatusLote status, Long idOfertante, Long idCategoria,
                                          ModalidadeLote modalidade) {
-        return dao.filtrar(status, idOfertante, idCategoria, modalidade).stream()
+        return this.listar(status, idOfertante, idCategoria, modalidade, null);
+    }
+
+    /** HU24/HU25: {@code precisaTransporte=true} lists the lots waiting for the logistics partner. */
+    @Transactional(readOnly = true)
+    public List<LoteDTO.Response> listar(StatusLote status, Long idOfertante, Long idCategoria,
+                                         ModalidadeLote modalidade, Boolean precisaTransporte) {
+        return dao.filtrar(status, idOfertante, idCategoria, modalidade, precisaTransporte).stream()
                 .map(LoteDTO.Response::from).toList();
     }
 

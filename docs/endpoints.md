@@ -19,7 +19,7 @@ Base: `https://rede-prato-java.onrender.com` (ou `http://localhost:8080`). Todos
 | 409 | conflito de estado (`ConflictException`), registro duplicado (ORA-00001), exclusão com registros ligados (ORA-02292) |
 | 500 | erro inesperado (`"Erro interno. Tente novamente."`, sem detalhes técnicos) |
 
-Total: **57 endpoints** em 11 controllers (GET 23 · POST 12 · PUT 12 · DELETE 10).
+Total: **58 endpoints** em 12 controllers (GET 24 · POST 12 · PUT 12 · DELETE 10).
 
 ## Tabela completa
 
@@ -93,6 +93,12 @@ Total: **57 endpoints** em 11 controllers (GET 23 · POST 12 · PUT 12 · DELETE
 | **Impacto** (HU15) | | | | | | |
 | 56 | `GET` | `/api/impacto/ofertantes/{id}` | Painel do ofertante no mês (`?mes=2026-11`): kg, % comida, lotes, famílias, 4 semanas, selo | — | 200 | 400, 404 |
 | 57 | `GET` | `/api/impacto/rede` | Totais da rede no mês + ranking de ofertantes (`?mes=2026-11`) | — | 200 | 400 |
+| **Relatórios** (HU22) | | | | | | |
+| 58 | `GET` | `/api/relatorios/ofertantes/{id}/mensal` | Relatório mensal: lotes com destino no mês (data, alimento, peso, valor estimado, comida/adubo) e totais (`?mes=2026-11`) | — | 200 | 400, 404 |
+
+Documentação interativa (OpenAPI): `/swagger-ui.html` · JSON: `/v3/api-docs`.
+
+Filtro extra (HU24/HU25): `GET /api/lotes?precisaTransporte=true` lista os lotes que precisam de transporte.
 
 ## Exemplo de resposta — confirmação de reserva (`GET /api/reservas/{id}`)
 

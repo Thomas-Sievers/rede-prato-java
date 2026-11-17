@@ -314,6 +314,7 @@ O mesmo padrão vale para os outros recursos:
 | `DestinacaoController` (`/destinacoes`) | `DestinacaoBO` | `DestinacaoDAO` | `Destinacao` |
 | `AlertaController` (`/alertas`) | `AlertaBO` | `AlertaDAO` | `Alerta` |
 | `ImpactoController` (`/impacto`) | `ImpactoBO` | `DestinacaoDAO`, `ReservaDAO` | (consultas agregadas) |
+| `RelatorioController` (`/relatorios`) | `RelatorioBO` | `DestinacaoDAO` | (relatório mensal) |
 | `HealthController` (`/health`) | — | — | — |
 
 Apoio: `dto` (records `XxxDTO.Request` / `XxxDTO.Response`), `converter` (S/N e HH:MM), `config` (`ClockConfig`, `WebConfig`, `ExpiracaoJob`, `DataSeeder`).
