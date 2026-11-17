@@ -25,11 +25,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.fiap.redeprato.dao.LoteDAO;
+import br.com.fiap.redeprato.dao.ReservaDAO;
 import br.com.fiap.redeprato.dto.LoteDTO;
 import br.com.fiap.redeprato.entity.CategoriaAlimento;
 import br.com.fiap.redeprato.entity.Endereco;
 import br.com.fiap.redeprato.entity.Lote;
 import br.com.fiap.redeprato.entity.Ofertante;
+import br.com.fiap.redeprato.entity.Reserva;
+import br.com.fiap.redeprato.entity.enums.StatusReserva;
 import br.com.fiap.redeprato.entity.enums.CondicaoLote;
 import br.com.fiap.redeprato.entity.enums.ModalidadeLote;
 import br.com.fiap.redeprato.entity.enums.StatusLote;
@@ -48,6 +51,8 @@ class LoteBOTest {
     @Mock
     private LoteDAO dao;
     @Mock
+    private ReservaDAO reservaDAO;
+    @Mock
     private OfertanteBO ofertanteBO;
     @Mock
     private CategoriaAlimentoBO categoriaBO;
@@ -58,7 +63,7 @@ class LoteBOTest {
 
     @BeforeEach
     void setUp() {
-        bo = new LoteBO(dao, ofertanteBO, categoriaBO, CLOCK);
+        bo = new LoteBO(dao, reservaDAO, ofertanteBO, categoriaBO, CLOCK);
         ofertante = Ofertante.builder().idOfertante(1L).nome("Banca do Seu Antônio").tipo(TipoOfertante.FEIRANTE)
                 .ativo(true).endereco(Endereco.builder().bairro("Paraíso").logradouro("Rua X").build()).build();
         lenient().when(ofertanteBO.find(1L)).thenReturn(ofertante);
@@ -377,5 +382,47 @@ class LoteBOTest {
         when(dao.findById(7L)).thenReturn(Optional.of(l));
         bo.excluir(7L);
         verify(dao).delete(l);
+    }
+
+    @Test
+    void br0411NaoExcluiLoteComReservaAtivaOuRetirada() {
+        when(dao.findById(7L)).thenReturn(Optional.of(lote(StatusLote.RESERVADO)));
+        when(reservaDAO.existsByLote_IdLoteAndStatusIn(eq(7L), anyCollection())).thenReturn(true);
+        assertThatThrownBy(() -> bo.excluir(7L))
+                .isInstanceOf(ConflictException.class)
+                .hasMessage("Não é possível excluir: o lote tem reserva ativa ou retirada, ou destino registrado.");
+        verify(dao, never()).delete(any());
+    }
+
+    @Test
+    void br0411ExcluiReservasCanceladasJunto() {
+        Lote l = lote(StatusLote.DISPONIVEL);
+        Reserva cancelada = Reserva.builder().idReserva(3L).lote(l).status(StatusReserva.CANCELADA).build();
+        when(dao.findById(7L)).thenReturn(Optional.of(l));
+        when(reservaDAO.findByLote_IdLoteAndStatus(7L, StatusReserva.CANCELADA)).thenReturn(List.of(cancelada));
+        bo.excluir(7L);
+        org.mockito.InOrder order = org.mockito.Mockito.inOrder(reservaDAO, dao);
+        order.verify(reservaDAO).deleteAll(List.of(cancelada));
+        order.verify(dao).delete(l);
+    }
+
+    @Test
+    void br0413ExpirarReservadoCancelaReservaAtiva() {
+        Lote l = lote(StatusLote.RESERVADO);
+        Reserva ativa = Reserva.builder().idReserva(3L).lote(l).status(StatusReserva.ATIVA).build();
+        when(dao.findByStatusInAndDataLimiteRetiradaBefore(anyCollection(), eq(AGORA))).thenReturn(List.of(l));
+        when(reservaDAO.findFirstByLote_IdLoteAndStatus(7L, StatusReserva.ATIVA)).thenReturn(Optional.of(ativa));
+        bo.expirarVencidos();
+        assertThat(l.getStatus()).isEqualTo(StatusLote.EXPIRADO);
+        assertThat(ativa.getStatus()).isEqualTo(StatusReserva.CANCELADA);
+        verify(reservaDAO).save(ativa);
+    }
+
+    @Test
+    void br0413ExpirarDisponivelNaoMexeEmReservas() {
+        Lote l = lote(StatusLote.DISPONIVEL);
+        when(dao.findByStatusInAndDataLimiteRetiradaBefore(anyCollection(), eq(AGORA))).thenReturn(List.of(l));
+        bo.expirarVencidos();
+        verify(reservaDAO, never()).findFirstByLote_IdLoteAndStatus(any(), any());
     }
 }

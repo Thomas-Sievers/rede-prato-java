@@ -145,6 +145,57 @@ class ApiIntegrationTest {
         mvc.perform(get("/api/pontos/" + id)).andExpect(jsonPath("$.ativo").value(false));
     }
 
+    /** Creates ofertante + categoria + a DISPONIVEL lote; returns {idOfertante, idLote}. */
+    private long[] novoLote(String tipoOfertante) throws Exception {
+        Long idEnd = novoEndereco();
+        Long idOf = postId("/api/ofertantes", "{\"nome\":\"Banca Fluxo\",\"tipo\":\"" + tipoOfertante + "\","
+                + "\"telefone\":\"11900000097\",\"idEndereco\":" + idEnd + "}", "idOfertante");
+        Long idCat = postId("/api/categorias", "{\"nome\":\"Cat " + System.nanoTime() + "\"}", "idCategoria");
+        String prazo = java.time.LocalDate.now(java.time.ZoneId.of("America/Sao_Paulo")).plusDays(1) + "T12:00:00";
+        Long idLote = postId("/api/lotes", "{\"idOfertante\":" + idOf + ",\"idCategoria\":" + idCat
+                + ",\"descricao\":\"Bananas\",\"pesoKg\":6,\"condicao\":\"MADURA\",\"modalidade\":\"DOACAO\","
+                + "\"dataLimiteRetirada\":\"" + prazo + "\"}", "idLote");
+        return new long[] {idOf, idLote};
+    }
+
+    @Test
+    void reservaFlowUc12() throws Exception {
+        long[] ids = novoLote("FEIRANTE");
+        long idLote = ids[1];
+        Long idBen = postId("/api/beneficiarios", "{\"nome\":\"Rosana IT\",\"tipo\":\"FAMILIA\",\"qtdPessoas\":4}",
+                "idBeneficiario");
+
+        Long idRes = postId("/api/reservas", "{\"idLote\":" + idLote + ",\"idBeneficiario\":" + idBen + "}", "idReserva");
+        mvc.perform(get("/api/reservas/" + idRes))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.numeroRetirada").value(idRes))
+                .andExpect(jsonPath("$.localRetirada").value("OFERTANTE"))
+                .andExpect(jsonPath("$.statusLote").value("RESERVADO"));
+        mvc.perform(get("/api/lotes/disponiveis"))
+                .andExpect(jsonPath("$[?(@.idLote == " + idLote + ")]").doesNotExist());
+
+        mvc.perform(post("/api/reservas").contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idLote\":" + idLote + ",\"idBeneficiario\":" + idBen + "}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Este lote já foi reservado por outra pessoa."));
+
+        mvc.perform(delete("/api/lotes/" + idLote)).andExpect(status().isConflict());
+        mvc.perform(delete("/api/reservas/" + idRes)).andExpect(status().isConflict());
+
+        mvc.perform(put("/api/reservas/" + idRes + "/cancelar"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("CANCELADA"))
+                .andExpect(jsonPath("$.statusLote").value("DISPONIVEL"));
+        mvc.perform(get("/api/lotes/disponiveis"))
+                .andExpect(jsonPath("$[?(@.idLote == " + idLote + ")]").exists());
+        mvc.perform(get("/api/reservas").param("idBeneficiario", idBen.toString()).param("status", "CANCELADA"))
+                .andExpect(jsonPath("$[0].idReserva").value(idRes));
+
+        // decisão 6: deleting the lote also deletes its CANCELADA reservas
+        mvc.perform(delete("/api/lotes/" + idLote)).andExpect(status().isNoContent());
+        mvc.perform(get("/api/reservas/" + idRes)).andExpect(status().isNotFound());
+    }
+
     @Test
     void enumInvalidoNoCorpoDa400() throws Exception {
         mvc.perform(post("/api/ofertantes").contentType(MediaType.APPLICATION_JSON)
