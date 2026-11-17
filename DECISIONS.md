@@ -51,3 +51,8 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** Implemented the optional batch endpoint `POST /api/lotes/{id}/destinacoes {consumoKg, compostagemKg}`; `PUT /api/destinacoes/{id}` may move a destinação to another lote (all rules re-checked, the row itself excluded from the sum).
 **Why:** The Retiradas screen registers both kinds in one action; one transaction keeps the sum rule consistent.
 **Alternatives considered:** two POSTs from the browser.
+
+## D-11 · 2026-11-17 · feature 10
+**Decision:** "Refeições estimadas" (UC10) is not computed; the painel shows kg (total, consumo, compostagem), lotes retirados, beneficiários and pessoas atendidas. Weekly buckets are the last 4 Monday–Sunday weeks ending in the current week, independent of `mes`.
+**Why:** The docs never define grams per meal; inventing a factor would put an unsourced number in the graded painel. PLAN §6/10 says to record this.
+**Alternatives considered:** 400 g per meal (common NGO estimate) — rejected as unsourced.
