@@ -4,8 +4,8 @@ Last update: 2026-11-17 01:40 (America/Sao_Paulo)
 | NN | Feature | Status | Tests | Notes |
 | --- | --- | --- | --- | --- |
 | 00 | Initial commit | merged | — | docs + plan + logs |
-| 01 | Setup | todo | | |
-| 02 | Categorias & Endereços | todo | | |
+| 01 | Setup | merged | 33 | Boot 4.1.1, H2/Oracle profiles, converters, error layer, health, Dockerfile |
+| 02 | Categorias & Endereços | in progress | | |
 | 03 | Ofertantes & Selo | todo | | |
 | 04 | Lotes | todo | | |
 | 05 | Beneficiários | todo | | |
