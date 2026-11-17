@@ -1,13 +1,13 @@
 # 01 — Setup · Tasks
 
-- [ ] pom.xml + Maven wrapper
-- [ ] RedePratoApplication (time zone, scheduling)
-- [ ] application.properties + application-oracle.properties
-- [ ] ClockConfig, WebConfig (CORS)
-- [ ] BooleanSNConverter + tests
-- [ ] LocalTimeHHMMConverter + tests
-- [ ] Exceptions, ApiError, GlobalExceptionHandler + tests
-- [ ] HealthController + test; context-load test
-- [ ] Dockerfile, .dockerignore
-- [ ] README v1 (Ficha at top)
-- [ ] `./mvnw -B test` green, merge, push
+- [x] pom.xml + Maven wrapper
+- [x] RedePratoApplication (time zone, scheduling)
+- [x] application.properties + application-oracle.properties
+- [x] ClockConfig, WebConfig (CORS)
+- [x] BooleanSNConverter + tests
+- [x] LocalTimeHHMMConverter + tests
+- [x] Exceptions, ApiError, GlobalExceptionHandler + tests
+- [x] HealthController + test; context-load test
+- [x] Dockerfile, .dockerignore
+- [x] README v1 (Ficha at top)
+- [x] `./mvnw -B test` green, merge, push
