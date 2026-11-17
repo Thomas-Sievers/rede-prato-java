@@ -1,5 +1,5 @@
 # Progress
-Last update: 2026-11-17 20:18 (America/Sao_Paulo) — feature 21 (Oracle smoke test; Oracle as default profile, D-16) merged locally, not pushed
+Last update: 2026-11-17 20:18 (America/Sao_Paulo) — feature 21 (Oracle smoke test; Oracle as default profile, D-16) merged and pushed 20:24 (Render has the `ORACLE_*` vars)
 
 ## Oracle smoke test result
 **2026-11-17 20:17 — 149 checks, 149 passed, 0 failed** (`java tools/smoke/OracleSmokeTest.java` against the local app on the FIAP Oracle schema with Mariana's `ddl.sql` + `dml.sql`).
@@ -27,7 +27,7 @@ What was built:
 4. Review `DECISIONS.md` (D-1…D-16; D-14 supersedes D-1) and `BLOCKED.md` (B-1, B-2).
 5. Build the PDF from the docs above + screenshots of the screens; deadline 19/11 23:55 (no commits after it).
 
-Open issues: frontend not browser-tested (B-1); feature 21 not pushed yet (Render needs the `ORACLE_*` vars first); Spring Boot is 4.1.1 instead of 4.0.x (D-2).
+Open issues: frontend not browser-tested (B-1); Render deploy of feature 21 (Oracle by default) to be confirmed at `/api/health`; Spring Boot is 4.1.1 instead of 4.0.x (D-2).
 
 | NN | Feature | Status | Tests | Notes |
 | --- | --- | --- | --- | --- |
@@ -52,9 +52,9 @@ Open issues: frontend not browser-tested (B-1); feature 21 not pushed yet (Rende
 | 18 | Extras | merged | 310 | Swagger UI, monthly report, transport filter, "Onde buscar" |
 | 19 | Rename layers + front fixes | merged | 310 | dao/bo → repository/service (D-14), persona selector at 375 px, aria-label on pickup radios |
 | 20 | Redesign + WCAG 2.2 AA | merged | 321 | type scale vars, 3D landing (crate photo + gradient SVGs), A1–A9: pause button, focus ring, 320 px reflow, skip link, headings, chart/button names (D-15). Not yet checked in a browser |
-| 21 | Oracle smoke test | merged (local, not pushed) | 325 | `tools/smoke/OracleSmokeTest.java`: 149/149 checks passed on Oracle. Oracle is the default profile, H2 → `dev` (D-16). Health reports the default profile. Mariana's scripts committed to `db/` |
+| 21 | Oracle smoke test | merged | 325 | `tools/smoke/OracleSmokeTest.java`: 149/149 checks passed on Oracle. Oracle is the default profile, H2 → `dev` (D-16). Health reports the default profile. Mariana's scripts committed to `db/` |
 
 (Test column = total suite size after the merge.)
 
 ## Next step
-Nothing left in the plan (19–21 were extra requests from Thomas). Push `main` once Render has the `ORACLE_*` variables. Feature 20 needs a browser pass: 320 px width on index/registrar/painel, Tab through each page (skip link, focus ring), marquee pause button. Next session: react to Thomas's review / the Render deploy log / the Oracle DDL (see `docs/oracle-checklist.md`).
+Nothing left in the plan (19–21 were extra requests from Thomas). Check that the Render deploy answers `"profile":"oracle"`; optionally run `java tools/smoke/OracleSmokeTest.java https://rede-prato-java.onrender.com`. Feature 20 needs a browser pass: 320 px width on index/registrar/painel, Tab through each page (skip link, focus ring), marquee pause button. Next session: react to Thomas's review / the Render deploy log / the Oracle DDL (see `docs/oracle-checklist.md`).
