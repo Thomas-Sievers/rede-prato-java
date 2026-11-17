@@ -29,6 +29,16 @@
   - Test ofertante, beneficiário and ponto are logically deleted again, so they don't show in the demo screens.
   - The extra test lote is deleted; the retirado test lote and its destinos stay, as history.
 
+## Profiles (D-16)
+| File | Content |
+| --- | --- |
+| `application.properties` | Common settings (port, encoding, time zone, `open-in-view`) + `spring.profiles.default=oracle` |
+| `application-oracle.properties` | Unchanged: Oracle datasource from `ORACLE_*` env vars, `validate`, seed off, H2 console off |
+| `application-dev.properties` | New: the H2 block moved out of `application.properties` (`create-drop`, seed on, H2 console) |
+| `src/test/resources/config/application.properties` | Test classpath only: `spring.profiles.active=dev`. `classpath:/config/` overrides `classpath:/` |
+
+Docs that said "H2 = default profile" are updated: README, `docs/run.md`, `docs/oracle-checklist.md`, CLAUDE.md quick facts.
+
 ## Docs
 - `docs/run.md`: section "Teste com Oracle" (Portuguese) on how to run it and read the output.
 - `PROGRESS.md`: result (passed/failed counts, date).

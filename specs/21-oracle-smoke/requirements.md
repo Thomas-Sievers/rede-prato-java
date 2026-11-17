@@ -45,6 +45,14 @@ No new HU. Mariana's scripts (`db/ddl.sql`, `db/dml.sql`, `db/dql.sql`) were run
     - every error body has `status`, `message` and `path`.
 15. Every record the tool creates has a name or description starting with `[TESTE]`.
 
+### Oracle is the default database (decided by Thomas, D-16)
+16. **Given** the app is started with no `SPRING_PROFILES_ACTIVE`:
+    - it connects to Oracle (`ORACLE_URL`, `ORACLE_USERNAME`, `ORACLE_PASSWORD`, `ddl-auto=validate`, no seed, no H2 console);
+    - `/api/health` reports `"profile":"oracle"`.
+    - `SPRING_PROFILES_ACTIVE=oracle` keeps working.
+17. **Given** `SPRING_PROFILES_ACTIVE=dev`, **then** the app uses H2 in memory with the simulated seed and the H2 console, for development without Oracle.
+18. **Given** `./mvnw test`, **then** every Spring test runs on the `dev` profile (H2) through a test-only `config/application.properties`, and never touches Oracle.
+
 ## Business rules
 - BR-21.1 No change to `db/*.sql` or to any entity. A mismatch with Mariana's database goes to `BLOCKED.md`.
 - BR-21.2 Only app bugs found by the smoke test are fixed in this feature, each with a unit test, and `./mvnw test` stays green.
