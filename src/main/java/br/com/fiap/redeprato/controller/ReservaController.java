@@ -57,6 +57,12 @@ public class ReservaController {
         return bo.cancelar(id);
     }
 
+    /** UC09: confirms the pickup (reserva RETIRADA, lote RETIRADO). */
+    @PutMapping("/{id}/retirada")
+    public ReservaDTO.Response confirmarRetirada(@PathVariable Long id) {
+        return bo.confirmarRetirada(id);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
         bo.excluir(id);

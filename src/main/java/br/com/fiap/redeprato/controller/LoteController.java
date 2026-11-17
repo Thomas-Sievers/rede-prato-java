@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.fiap.redeprato.bo.DestinacaoBO;
 import br.com.fiap.redeprato.bo.LoteBO;
+import br.com.fiap.redeprato.dto.DestinacaoDTO;
 import br.com.fiap.redeprato.dto.LoteDTO;
 import br.com.fiap.redeprato.entity.enums.ModalidadeLote;
 import br.com.fiap.redeprato.entity.enums.StatusLote;
@@ -24,9 +26,18 @@ import br.com.fiap.redeprato.entity.enums.StatusLote;
 public class LoteController {
 
     private final LoteBO bo;
+    private final DestinacaoBO destinacaoBO;
 
-    public LoteController(LoteBO bo) {
+    public LoteController(LoteBO bo, DestinacaoBO destinacaoBO) {
         this.bo = bo;
+        this.destinacaoBO = destinacaoBO;
+    }
+
+    /** HU14: registers consumo and/or compostagem of one lote in one call. */
+    @PostMapping("/{id}/destinacoes")
+    public ResponseEntity<List<DestinacaoDTO.Response>> registrarDestinos(@PathVariable Long id,
+                                                                          @RequestBody DestinacaoDTO.LoteRequest req) {
+        return ResponseEntity.status(201).body(destinacaoBO.registrarLote(id, req));
     }
 
     @GetMapping

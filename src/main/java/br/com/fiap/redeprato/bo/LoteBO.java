@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.fiap.redeprato.dao.DestinacaoDAO;
 import br.com.fiap.redeprato.dao.LoteDAO;
 import br.com.fiap.redeprato.dao.ReservaDAO;
 import br.com.fiap.redeprato.dto.LoteDTO;
@@ -30,14 +31,16 @@ public class LoteBO {
 
     private final LoteDAO dao;
     private final ReservaDAO reservaDAO;
+    private final DestinacaoDAO destinacaoDAO;
     private final OfertanteBO ofertanteBO;
     private final CategoriaAlimentoBO categoriaBO;
     private final Clock clock;
 
-    public LoteBO(LoteDAO dao, ReservaDAO reservaDAO, OfertanteBO ofertanteBO,
+    public LoteBO(LoteDAO dao, ReservaDAO reservaDAO, DestinacaoDAO destinacaoDAO, OfertanteBO ofertanteBO,
                   CategoriaAlimentoBO categoriaBO, Clock clock) {
         this.dao = dao;
         this.reservaDAO = reservaDAO;
+        this.destinacaoDAO = destinacaoDAO;
         this.ofertanteBO = ofertanteBO;
         this.categoriaBO = categoriaBO;
         this.clock = clock;
@@ -254,10 +257,11 @@ public class LoteBO {
         }
     }
 
-    // BR-04.11 (destinação check wired in feature 08)
+    // BR-04.11
     private void checkPodeExcluir(Lote l) {
         if (reservaDAO.existsByLote_IdLoteAndStatusIn(l.getIdLote(),
-                EnumSet.of(StatusReserva.ATIVA, StatusReserva.RETIRADA))) {
+                EnumSet.of(StatusReserva.ATIVA, StatusReserva.RETIRADA))
+                || destinacaoDAO.existsByLote_IdLote(l.getIdLote())) {
             throw new ConflictException(MSG_NAO_EXCLUI);
         }
     }

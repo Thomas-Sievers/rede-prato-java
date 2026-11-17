@@ -111,6 +111,24 @@ public class ReservaBO {
         return ReservaDTO.Response.from(dao.save(r));
     }
 
+    /** UC09 / HU13: ATIVA → RETIRADA and lote RESERVADO → RETIRADO in one transaction. */
+    @Transactional
+    public ReservaDTO.Response confirmarRetirada(Long id) {
+        Reserva r = find(id);
+        if (r.getStatus() != StatusReserva.ATIVA) { // BR-08.1
+            throw new ConflictException("Só é possível confirmar a retirada de uma reserva ativa.");
+        }
+        Lote lote = r.getLote();
+        if (lote.getStatus() != StatusLote.RESERVADO) { // BR-08.2
+            throw new ConflictException("O lote desta reserva não está reservado.");
+        }
+        r.setStatus(StatusReserva.RETIRADA);
+        r.setDataRetirada(now().withNano(0));
+        lote.setStatus(StatusLote.RETIRADO);
+        loteDAO.save(lote);
+        return ReservaDTO.Response.from(dao.save(r));
+    }
+
     /** BR-07.13: only CANCELADA reservas can be deleted. */
     @Transactional
     public void excluir(Long id) {
