@@ -25,7 +25,11 @@ public class HealthController {
 
     @GetMapping
     public Map<String, String> health() {
+        // With no SPRING_PROFILES_ACTIVE, Spring uses spring.profiles.default (= oracle, D-16): report that one.
         String[] profiles = environment.getActiveProfiles();
+        if (profiles.length == 0) {
+            profiles = environment.getDefaultProfiles();
+        }
         Map<String, String> body = new LinkedHashMap<>();
         body.put("status", "UP");
         body.put("app", "Rede de Prato");

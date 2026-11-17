@@ -88,3 +88,9 @@ Smaller calls:
 **Why:** The task says to re-create the look while keeping every API call and all behaviour; on conflict, keep the behaviour and record it.
 
 **Alternatives considered:** copying the design markup page by page, which would have dropped API wiring and behaviours the design only mocks.
+
+## D-16 · 2026-11-17 · feature 21 (decided by Thomas)
+**Decision:** The app connects to Oracle by default. `application.properties` keeps only common settings plus `spring.profiles.default=oracle`, and `application-oracle.properties` is unchanged (`ORACLE_*` env vars, `validate`, no seed). The H2 block moved to a new `dev` profile (`application-dev.properties`). A test-only `src/test/resources/config/application.properties` sets `spring.profiles.active=dev`, so `./mvnw test` always runs on H2; `ProfilesConfigTest` checks both.
+**Why:** Thomas: "H2 was only for test and development". Mariana's scripts are now on the FIAP schema, and a plain `./mvnw spring-boot:run` had silently started on H2 instead.
+**Consequence:** Without the `ORACLE_*` variables the app no longer starts, which includes Render. Render needs them, or `SPRING_PROFILES_ACTIVE=dev` for an H2-only demo. `SPRING_PROFILES_ACTIVE=oracle` still works.
+**Alternatives considered:** keep H2 as the default and always set `SPRING_PROFILES_ACTIVE=oracle`, which was the setup that failed in practice.
