@@ -71,3 +71,20 @@ Append-only log of decisions taken while implementing `docs/PLAN.md` (final proj
 **Decision:** Packages follow the teacher's pattern: `dao` → `repository` (`XxxDAO` → `XxxRepository`) and `bo` → `service` (`XxxBO` → `XxxService`, tests `XxxServiceTest`). Every repository's Javadoc says "DAO layer" and every service's says "BO layer (business rules)"; README, CLAUDE.md, PLAN §3.1 and `docs/class-diagram.md` map repository = DAO layer and service = BO layer. Source documents (`docs/decisoes.md`, `docs/classes.md`, `docs/gs-ficha.md`) and the historical specs `specs/01…18` are not rewritten: "BO"/"DAO" there names the rubric layer, now implemented by `service`/`repository`.
 **Why:** Thomas's decision (teacher's reference project uses `repository`/`service`). The rubric layers stay identifiable through the Javadoc and the README layer table, which was D-1's concern.
 **Alternatives considered:** keep `dao`/`bo` (D-1).
+
+## D-15 · 2026-11-17 · feature 20 (redesign approved by Thomas)
+**Decision:** The approved redesign (`docs/redesign/`) is applied to the existing static pages; the `.dc.html` canvas markup and its runtime are not copied. Where the design differs from current behaviour, behaviour wins:
+- Registrar keeps its inline success message and form reset, instead of replacing the form with a "sent" card.
+- Painel keeps its stat icons, the "Impacto da rede" section and its flat hero illustration. The illustration is hidden below 640px, so it doesn't overflow at 320px.
+- Lotes keeps its category chips from `/api/categorias`, the confirm button that stays disabled until a place is picked, and the sacola dialog.
+- All pages keep the live "Você é:" selector, not the design's fixed option list.
+
+Smaller calls:
+- **Headings:** lote card titles are `h2` (as in the design), so lotes goes h1 → h2 without a skip.
+- **Header:** app pages use `logo_light.png` on the dark header.
+- **Marquee:** it is now static 3D markup (two copies, `aria-hidden`) instead of being built from `RP.illustrationFor`. The "Pausar animação" button stays visible under `prefers-reduced-motion`, where the strip is already still.
+- **Extra accessible names:** "Já buscou", "Mudar", "Cancelar" and "Mandar para adubo" got unique `aria-label`s, as in the design.
+
+**Why:** The task says to re-create the look while keeping every API call and all behaviour; on conflict, keep the behaviour and record it.
+
+**Alternatives considered:** copying the design markup page by page, which would have dropped API wiring and behaviours the design only mocks.
